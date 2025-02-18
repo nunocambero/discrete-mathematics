@@ -1089,7 +1089,134 @@ a_n = a_n^{(h)} + a_n^{(p)}
 
 Where $a_n^{(h)}$ is the general solution of the homogeneous case, with $F(n) = 0$, and $a_n^{(p)}$ is a particular solution of the nonhomogeneous case.
 
+\subsection*{Example:}
+\[
+a_n = 3 a_{n-1} + 2 a_{n-2} + 2^n, \quad a_1 = 3
+\]
+\[
+\text{Homogeneous: } \quad r - 3 = 0 \quad \rightarrow r = 3
+\]
+\[
+\text{General solution: } \quad a_n^{(h)} = \beta 3^n
+\]
 
+\[
+\text{Particular solution: assume } p_n = cn + d
+\]
+\[
+cn + d = 3(c(n-1) + d) + 2n
+\]
+\[
+cn + d = 3cn - 3c + 3d + 2n
+\]
+\[
+c = 3c + 2 \implies c = -1
+\]
+\[
+d = 3c + 3d \implies d = \frac{-3}{2}
+\]
+
+\[
+\text{Particular solution: } \quad p_n = -n - \frac{3}{2}
+\]
+\[
+\text{General solution: } \quad a_n = \beta 3^n - n - \frac{3}{2}
+\]
+
+\[
+a_1 = 3 = \beta 3 - 1 - \frac{3}{2} 
+\]
+\[
+3 \beta = \frac{11}{2} \implies \beta = \frac{11}{6}
+\]
+
+\[
+a_n = \frac{11}{6} 3^n - n - \frac{3}{2}
+\]
+
+\subsection*{Example:}
+\[
+a_n = 5 a_{n-1} - 6 a_{n-2} + 7^n
+\]
+\[
+r^2 - 5r + 6 = 0 \quad \rightarrow r = 2, 3
+\]
+
+\[
+a_n^{(h)} = \beta_1 3^n + \beta_2 2^n
+\]
+
+\[
+p_n = c 7^n = 5(c 7^{n-1}) - 6(c 7^{n-2}) + 7^n
+\]
+\[
+49c = 35c - 6c + 49 \quad \rightarrow 20c = 49 \quad \rightarrow c = \frac{49}{20}
+\]
+
+\[
+a_n = \beta_1 3^n + \beta_2 2^n + \frac{49}{20} 7^n
+\]
+\[
+a_0 = 1, \quad a_1 = 2
+\]
+
+\[
+1 = \beta_1 + \beta_2 + \frac{49}{20} \quad \rightarrow \beta_1 + \beta_2 = -\frac{29}{20}
+\]
+\[
+2 = 3 \beta_1 + 2 \beta_2 + \frac{49}{20} \quad \rightarrow 3 \beta_1 + 2 \beta_2 = -\frac{11}{20}
+\]
+\[
+\beta_1 = -\frac{9}{20}, \quad \beta_2 = -\frac{1}{4}
+\]
+
+\[
+a_n = -\frac{9}{20} 3^n - \frac{1}{4} 2^n + \frac{49}{20} 7^n
+\]
+
+\subsection{Theorem: Particular solutions}
+Let $a_n = c_1 a_{n-1} + c_2 a_{n-2} + \dots + c_k a_{n-k} + F(n)$ be a linear recurrence relation with constant coefficients and $F(n) = (b_t n^t + b_{t-1} n^{t-1} + \dots + b_1 n + b_0) s^n$.
+Then, a particular solution is:
+\[
+p_n = (d_t n^t + d_{t-1} n^{t-1} + \dots + d_1 n + d_0) s^n
+\]
+
+If $s$ is a root of the characteristic equation with multiplicity $m$, then the particular solution is:
+\[
+p_n = (d_t n^t + d_{t-1} n^{t-1} + \dots + d_1 n + d_0) s^n n^m
+\]
+
+\subsection*{Example:}
+\[
+a_n = 6 a_{n-1} - 9 a_{n-2} + F(n)
+\]
+\[
+F(n) = 3^n, \quad F(n) = n 3^n, \quad F(n) = n^2 2^n, \quad F(n) = (1 + n) 2^n
+\]
+
+\[
+r^2 - 6r + 9 = 0 \quad \rightarrow r = 3 \text{ with multiplicity } 2
+\]
+
+For $F(n) = 3^n$:
+\[
+p_n = d n^2 3^n
+\]
+
+For $F(n) = n 3^n$:
+\[
+p_n = n^2 (d_1 n + d_0) \cdot 3^n
+\]
+
+For $F(n) = n^2 2^n$:
+\[
+p_n = (d_2 n^2 + d_1 n + d_0) 2^n
+\]
+
+For $F(n) = (1 + n) 2^n$:
+\[
+p_n = n^2 (d_2 n^2 d_1 n + d_0) 3^n
+\]
 
 
 \end{document} 
