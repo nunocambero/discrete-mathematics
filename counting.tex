@@ -629,15 +629,15 @@ a_1, a_2, a_3, \dots, a_n
 \section*{Ways to Distribute Balls into Labeled Boxes}
 
 \begin{center}
-    \begin{tabular}{|c|c|c|c|}
+    \begin{tabular}{|>{\centering\arraybackslash}m{2.5cm}|>{\centering\arraybackslash}m{3.5cm}|>{\centering\arraybackslash}m{3.5cm}|>{\centering\arraybackslash}m{3.5cm}|}
     \hline
      & \textbf{At most 1 per box} & \textbf{Any numbers per box} & \textbf{Exactly one per box} \\
     \hline
-    \textbf{k labeled balls} & $k \leq n, V_n^k \text{ or } P(n,k)$ & $\displaystyle\frac{k!}{k_1! k_2! \dots k_n!}$ & \diagonalNA \\  
+    \textbf{k labeled balls} & $k \leq n, V_n^k \text{ or } P(n,k)$ & $\displaystyle\frac{k!}{k_1! k_2! \dots k_n!}$ & \cellcolor{gray!50} N/A \\  
     \hline
-    \textbf{k unlabeled} & $k \leq n, \displaystyle\binom{n}{k} = \frac{n!}{(n-k)!k!}$ & $\displaystyle CR_n^k$ & \diagonalNA \\  
+    \textbf{k unlabeled} & $\displaystyle\binom{n}{k} = \frac{n!}{(n-k)!k!}$ & $\displaystyle CR_n^k$ & \cellcolor{gray!50} N/A \\  
     \hline
-    \textbf{Unlimited balls} & \diagonalNA & \diagonalNA & $\displaystyle k^n$ \\  
+    \textbf{Unlimited balls} & \cellcolor{gray!50} N/A & \cellcolor{gray!50} N/A & $\displaystyle k^n$ \\  
     \hline
     \end{tabular}
 \end{center}
@@ -674,17 +674,20 @@ Then:
 \paragraph{Proof:}
 \begin{align*}
     &\text{Let } x \in U \text{ be an element of the universe, such that } P_i(x) \text{ is false } \forall i. \\
-    &\text{Then } x \in S_i^c \forall i \implies x \in \bigcap_{i=1}^{n} S_i^C. \quad \implies \text{Counts 1 in the left-hand side.}
+    &\text{Then } x \in S_i^c \forall i \implies x \in \bigcap_{i=1}^{n} S_i^C. \quad \implies \text{Counts 1 in the left-hand side.} \\
     &\text{In the right-hand side, } \left| U \right| \text{ is counted once, and 0 in all other terms.} \\
     &\text{x is part of } r S_i \text{ sets, } 0 \leq r \leq n. \quad \implies \text{Counts 0 in the left-hand side.} \\
     &\text{In the right-hand side, } \left| U \right| \text{ is counted once, and 1 for every intersection } S_{i_1} \cap S_{i_2} \cap \dots \cap S_{i_k} \\
     &\text{as long as all the indices } i_1, i_2, \dots, i_k \text{ match some of the } r \text{ sets to which } x \text{ belongs.} \\
-    &\binom{r}{0} - \binom{r}{1} + \binom{r}{2} - \dots + (-1)^r \binom{r}{r} = 0. \quad \text{Binomial theorem: } (1 + (-1))^r = \sum_{k=0}^{r} \binom{r}{k} \cdot 1^{r-k} \cdot (-1)^k 
 \end{align*}
+
+\[
+\binom{r}{0} - \binom{r}{1} + \binom{r}{2} - \dots + (-1)^r \binom{r}{r} = 0. \quad \text{Binomial theorem: } (1 + (-1))^r = \sum_{k=0}^{r} \binom{r}{k} \cdot 1^{r-k} \cdot (-1)^k 
+\]
 
 \subsection*{Corollary:}
 \[
-\text{Note that: } \left| \bigcup_{i=1}^{n} S_i \right| = \sum_{i=1}^{n} \left| S_i \right| - \sum_{i < j} \left| S_i \cap S_j \right| + \sum_{i < j < k} \left| S_i \cap S_j \cap S_k \right| - \dots + (-1)^{n-1} \left| S_1 \cap S_2 \cap \dots \cap S_n \right|
+\left| \bigcup_{i=1}^{n} S_i \right| = \sum_{i=1}^{n} \left| S_i \right| - \sum_{i < j} \left| S_i \cap S_j \right| + \sum_{i < j < k} \left| S_i \cap S_j \cap S_k \right| - \dots + (-1)^{n-1} \left| S_1 \cap S_2 \cap \dots \cap S_n \right|
 \]
 
 \subsection*{Example:}
@@ -876,6 +879,215 @@ Consider $n \geq 3$. Build the string from strings of length $n-1$.
 \[
 d(n) = d(n-1) + d(n-2) \quad \text{which is the Fibonacci sequence again!}
 \]
+
+\section{Linear Recurrence Relations}
+\[
+a_n = c_1 a_{n-1} + c_2 a_{n-2} + \dots + c_k a_{n-k} = \left\{a_n\right\}_{n=1}^{\infty}
+\]
+\[
+\text{With } c_i \in \mathbb{R}, \quad c_k \neq 0 \quad \text{and} \quad k \geq 1 = \text{order of the recurrence relation}
+\]
+
+\[
+1. \quad a_n = r^n, \quad r \in \mathbb{R}, \quad r \neq 0
+\]
+\[
+r^n = c_1 r^{n-1} + c_2 r^{n-2} + \dots + c_k r^{n-k}
+\]
+\[
+r^k - c_1 r^{k-1} - c_2 r^{k-2} - \dots - c_k = 0 \quad \rightarrow \text{Characteristic equation}
+\]
+
+\[
+2. \quad \text{Superposition principle: the sum of solutions is also a solution} 
+\]
+\[
+\{s_n\}, \{t_n\} \text{ are solutions } \rightarrow \{s_n + t_n\} \text{ is also a solution}
+\]
+
+\[
+s_n = c_1 s_{n-1} + c_2 s_{n-2} + \dots + c_k s_{n-k}
+\]
+\[
+t_n = c_1 t_{n-1} + c_2 t_{n-2} + \dots + c_k t_{n-k}
+\]
+\[
+s_n + t_n = c_1 (s_{n-1} + t_{n-1}) + c_2 (s_{n-2} + t_{n-2}) + \dots + c_k (s_{n-k} + t_{n-k})
+\]
+
+\subsection{The $k = 2$ case}
+\[
+a_n = c_1 a_{n-1} + c_2 a_{n-2}, \quad c_2 \neq 0
+\]
+\[
+a_0 = \alpha_0, \quad a_1 = \alpha_1, \quad \text{initial conditions}
+\]
+
+\[
+\text{Then, } \quad r^2 - c_1 r - c_2 = 0
+\implies \text{solutions } r_1 \neq r_2
+\]
+
+General solution:
+\[
+a_n = \beta_1 r_1^n + \beta_2 r_2^n
+\]
+
+Use the initial conditions to find $\beta_1$ and $\beta_2$.
+\[
+a_0 = \beta_1 + \beta_2 = \alpha_0 \quad \rightarrow \beta_2 = \alpha_0 - \beta_1
+\]
+\[
+a_1 = \beta_1 r_1 + \beta_2 r_2 = \alpha_1 \quad \rightarrow \alpha_1 = \beta_1 r_1 + (\alpha_0 - \beta_1) r_2
+\]
+
+\[
+\alpha_1 - \alpha_0 r_2 = \beta_1 (r_1 - r_2) \quad \rightarrow \beta_1 = \frac{\alpha_1 - \alpha_0 r_2}{r_1 - r_2}
+\]
+
+\[
+\text{Then, } \quad \beta_2 = \alpha_0 - \frac{\alpha_1 - \alpha_0 r_2}{r_1 - r_2} = \frac{\alpha_0 r_1 - \alpha_1}{r_1 - r_2}
+\]
+
+\subsection*{Example:}
+\[
+a_n = a_{n-1} + 2a_{n-2}, \quad a_0 = 2, \quad a_1 = 7
+\]
+\[
+r^2 - r - 2 = 0 \quad \rightarrow r_1 = 2, \quad r_2 = -1
+\]
+\[
+a_n = \beta_1 2^n + \beta_2 (-1)^n
+\]
+
+\[
+2 = \beta_1 + \beta_2 \quad \rightarrow \beta_2 = 2 - \beta_1
+\]
+\[
+7 = 2 \beta_1 - \beta_2 \quad \rightarrow 7 = 2 \beta_1 - (2 - \beta_1) \quad \rightarrow \beta_1 = 3
+\]
+\[
+\text{Then, } \quad \beta_2 = 2 - 3 = -1
+\]
+
+\[
+a_n = 3 \cdot 2^n - (-1)^n
+\]
+
+\subsection*{Example: Fibonacci sequence}
+\[
+F_n = F_{n-1} + F_{n-2}, \quad F_0 = 0, \quad F_1 = 1
+\]
+\[
+r^2 - r - 1 = 0 \quad \rightarrow r_1 = \frac{1 + \sqrt{5}}{2}, \quad r_2 = \frac{1 - \sqrt{5}}{2}
+\]
+
+\[
+0 = \beta_1 + \beta_2 \quad \rightarrow \beta_2 = -\beta_1
+\]
+\[
+1 = \beta_1 \frac{1 + \sqrt{5}}{2} - \beta_1 \frac{1 - \sqrt{5}}{2} \quad \rightarrow \beta_1 = \frac{1}{\sqrt{5}}
+\]
+
+\[
+F_n = \frac{1}{\sqrt{5}} \left( \left( \frac{1 + \sqrt{5}}{2} \right)^n - \left( \frac{1 - \sqrt{5}}{2} \right)^n \right)
+\]
+
+\subsection*{Special case: $r_1 = r_2$}
+\[
+r^2 - c_1 r - c_2 = 0 \quad \rightarrow \text{With } r_1 = r_2 = r
+\]
+\[
+\text{Then, the general solution is } a_n = \beta_1 r^n + \beta_2 n r^n
+\]
+
+\[
+a_0 = \beta_1 = \alpha_0 \quad \rightarrow \beta_1 = \alpha_0
+\]
+\[
+a_1 = \beta_1 r + \beta_2 r = \alpha_1 \quad \rightarrow \beta_2 = \frac{\alpha_1 - \alpha_0 r}{r}
+\]
+
+\subsection*{Example:}
+\[
+a_n = 6 a_{n-1} - 9 a_{n-2}, \quad a_0 = 1, \quad a_1 = 6
+\]
+\[
+r^2 - 6r + 9 = 0 \quad \rightarrow r = 3
+\]
+
+\[
+a_n = \beta_1 3^n + \beta_2 n 3^n
+\]
+\[
+1 = \beta_1 \quad \rightarrow \beta_1 = 1
+\]
+\[
+6 = 3 \beta_1 + 3 \beta_2 \quad \rightarrow 6 = 3 + 3 \beta_2 \quad \rightarrow \beta_2 = 1
+\]
+
+\[
+a_n = 3^n + n 3^n
+\]
+
+\subsection{Theorem: Solution of degree $k$ recurrence relations with constant coefficients}
+Let $a_n = c_1 a_{n-1} + c_2 a_{n-2} + \dots + c_k a_{n-k}, \quad c_i \in \mathbb{R}, \quad c_k \neq 0$ be a linear recurrence relation with constant coefficients.
+Consider the characteristic equation:
+\[
+r^k - c_1 r^{k-1} - c_2 r^{k-2} - \dots - c_k = 0
+\]
+Assume it has different roots $r_1, r_2, \dots, r_t$, with multiplicities $m_1, m_2, \dots, m_t$, with $m_1 + m_2 + \dots + m_t = k$.
+Then, the general solution is:
+
+\[
+a_n = (\beta_{10} + \beta_{11} n + \beta_{12} n^2 + \dots + \beta_{1m_1} n^{m_1-1}) r_1^n + \dots + (\beta_{t0} + \beta_{t1} n + \beta_{t2} n^2 + \dots + \beta_{tm_t} n^{m_t-1}) r_t^n
+\]
+\[
+a_n = \sum_{i=1}^{t} \sum_{j=1}^{m_i} \beta_{ij} n^{j-1} r_i^n
+\]
+
+Given $k$ initial conditions $a_0 = \alpha_0, a_1 = \alpha_1, \dots, a_{k-1} = \alpha_{k-1}$, the coefficients $\beta_{ij}$ can be found by solving the system of linear equations.
+
+\subsection*{Example:}
+\[
+a_n = -3 a_{n-1} - 3 a_{n-2} - a_{n-3}, \quad a_0 = 1, \quad a_1 = -2, \quad a_2 = -1
+\]
+\[
+r^3 + 3r^2 + 3r + 1 = 0 \quad \rightarrow r = -1, \text{ with multiplicity } 3
+\]
+
+\[
+a_n = (\beta_1 + \beta_2 n + \beta_3 n^2) (-1)^n
+\]
+\[
+1 = \beta_1 \quad \rightarrow \beta_1 = 1
+\]
+\[
+-2 = (1 + 2 \beta_2 + \beta_3) (-1) \quad \rightarrow 1 = \beta_2 + \beta_3 \quad \rightarrow \beta_2 = 3
+\]
+\[
+-1 = (1 + 2 \beta_2 + 4 \beta_3) \quad \rightarrow -1 = 1 + 2 \beta_2 + 4 \beta_3 \quad \rightarrow \beta_3 = -2
+\]
+
+\[
+a_n = 1 + 3n - 2n^2 (-1)^n
+\]
+
+\subsection{Nonhomogeneous Recurrence Relations}
+\[
+a_n = c_1 a_{n-1} + c_2 a_{n-2} + \dots + c_k a_{n-k} + F(n)
+\]
+\[
+\text{With } F(n) \text{ a function of } n
+\]
+
+\paragraph{Theorem:}
+The general solution of the nonhomogeneous case is:
+\[
+a_n = a_n^{(h)} + a_n^{(p)}
+\]
+
+Where $a_n^{(h)}$ is the general solution of the homogeneous case, with $F(n) = 0$, and $a_n^{(p)}$ is a particular solution of the nonhomogeneous case.
 
 
 
