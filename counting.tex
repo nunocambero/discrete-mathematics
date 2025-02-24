@@ -778,7 +778,7 @@ x_n = a_1(n) x_{n-1} + a_2(n) x_{n-2} + \dots + a_r(n) x_{n-r} + g(n)
 \subsection*{Example: Fibonacci sequence}
 A young pair of rabbits. They don't die and don't reproduce in the first month, but in the second month they have a new pair. From the third month on, they reproduce every month. Find a recurrence relation for the number of rabbits at every month.
 
-\begin{table}[!h]
+\begin{table}[!ht]
 \begin{tabular}{|c|c|c|c|p{5cm}|}
 \hline
 \textbf{Month} & \textbf{Young} & \textbf{Can Reproduce} & \textbf{Total Pairs} $f(n)$ & \textbf{Explanation} \\
@@ -1176,7 +1176,7 @@ a_n = -\frac{9}{20} 3^n - \frac{1}{4} 2^n + \frac{49}{20} 7^n
 
 \subsection{Theorem: Particular solutions}
 Let $a_n = c_1 a_{n-1} + c_2 a_{n-2} + \dots + c_k a_{n-k} + F(n)$ be a linear recurrence relation with constant coefficients and $F(n) = (b_t n^t + b_{t-1} n^{t-1} + \dots + b_1 n + b_0) s^n$.
-Then, a particular solution is:
+Then, a particular solution if $s$ is not a root is:
 \[
 p_n = (d_t n^t + d_{t-1} n^{t-1} + \dots + d_1 n + d_0) s^n
 \]
@@ -1218,5 +1218,157 @@ For $F(n) = (1 + n) 2^n$:
 p_n = n^2 (d_2 n^2 d_1 n + d_0) 3^n
 \]
 
+\subsection{The $r = 1$ case}
+\[
+F(n) = (b_t n^t + b_{t-1} n^{t-1} + \dots + b_1 n + b_0) \cdot 1^n, \quad \text{with } r = 1 \text{ a root}
+\]
 
-\end{document} 
+\subsection*{Example:}
+\[
+a_n = \sum_{k = 1}^{n} k
+\]
+\[
+a_n = a_{n-1} + n, \quad a_1 = 1
+\]
+\[
+r - 1 = 0 \quad \rightarrow r = 1, \quad x_h = c 1^n = c
+\]
+\[
+x_p = (p_1 n + p_0) \cdot n = p_1 n^2 + p_0 n
+\]
+
+\[
+p_1 n^2 + p_0 n = p_1 (n-1)^2 + p_0 (n-1) + n
+\]
+\[
+p_1 n^2 + p_0 n = p_1 n^2 - 2 p_1 n + p_1 + p_0 n - p_0 + n
+\]
+\[
+0n + 0 = (1 - 2p_1) n + (p_1 - p_0)
+\]
+
+\[
+p_1 = \frac{1}{2}, \quad p_0 = \frac{1}{2}
+\]
+\[
+\implies a_n = c + \frac{n^2}{2} + \frac{n}{2}, \quad a_1 = 1 \implies c = 0
+\]
+\[
+a_n = \frac{n^2 + n}{2} = \frac{n(n+1)}{2}
+\]
+
+\section{Generating Functions}
+The generating function for a sequence $\{a_0, a_1, a_2, \dots\}$ of real numbers is the infinite formal series:
+\[
+G(x) = a_0 + a_1 x + a_2 x^2 + \dots a_k x^k = \sum_{k=0}^{\infty} a_k x^k
+\]
+
+\subsection*{Example:}
+\[
+a_k = k + 1 \quad \rightarrow \quad G(x) = 1 + 2x + 3x^2 + 4x^3 + \dots = \sum_{k=0}^{\infty} (k+1) x^k
+\]
+
+\[
+a_k = 2^k \quad \rightarrow \quad G(x) = 1 + 2x + 4x^2 + 8x^3 + \dots = \sum_{k=0}^{\infty} 2^k x^k
+\]
+
+\subsection{Finite sequence}
+\[
+\{a_0, a_1, a_2, \dots, a_k\} \quad \rightarrow \quad G(x) = a_0 + a_1 x + a_2 x^2 + \dots + a_k x^k
+\]
+
+Which is like $a_i = 0$ for $i \geq k + 1$.
+
+\subsection*{Example:}
+\[
+\{1, 1, 1, 1, 1, 1\} \quad \rightarrow \quad G(x) = 1 + x + x^2 + x^3 + x^4 + x^5 = \frac{x^6 - 1}{x - 1}
+\]
+
+\subsection*{Example:}
+\[
+a_k = \binom{n}{k} \quad \rightarrow \quad G(x) = (1 + x)^n = \sum_{k=0}^{n} \binom{n}{k} x^k
+\]
+
+\subsection{Frequent and important generating functions}
+
+\begin{enumerate}
+    \item $$\frac{1}{1 - x} = 1 + x + x^2 + x^3 + \dots = \sum_{k=0}^{\infty} x^k, \text{converges for } |x| < 1$$
+          $$\frac{1}{1 - ax} = 1 + ax + a^2 x^2 + a^3 x^3 + \dots = \sum_{k=0}^{\infty} a^k x^k, \text{converges for } |x| < \frac{1}{|a|}$$
+    \item $$\begin{cases}
+                G_1(x) = \sum_{k = 0}^{\infty} a_kx^k \\
+                G_2(x) = \sum_{k = 0}^{\infty} b_kx^k
+            \end{cases} \implies 
+            \begin{cases}
+                G_1(x) + G_2(x) = \sum_{k = 0}^{\infty} (a_k + b_k)x^k \\
+                G_1(x) \cdot G_2(x) = \sum_{k = 0}^{\infty} \left( \sum_{i = 0}^{k} a_i b_{k-i} \right)x^k
+            \end{cases}$$
+    \item $$\frac{1}{(1 - x)^2} = 1 + 2x + 3x^2 + 4x^3 + \dots = \frac{1}{1 - x} \cdot \frac{1}{1 - x} = \sum_{k = 0}^{\infty} x^k \cdot \sum_{j = 0}^{\infty} x^j = \sum_{k = 0}^{\infty} (k + 1)x^k$$
+    \item $$\frac{1}{(1 - x)^2} = \frac{d}{dx} \left( \frac{1}{1 - x} \right) = \frac{d}{dx} \left( \sum_{k = 0}^{\infty} x^k \right) = \sum_{k = 0}^{\infty} kx^{k-1} = \sum_{k = 0}^{\infty} (k + 1)x^k$$
+    \item $$\textbf{Definition:} \quad \binom{u}{k} = 
+            \begin{cases}
+                \dfrac{u(u-1)\dots(u-k+1)}{k!} & \text{if } k > 0 \\
+                1 & \text{if } k = 0
+            \end{cases}
+            \quad \text{for } u \in \mathbb{R} \text{ and } k \in \mathbb{N}$$
+            $$\text{If } u = -3 \text{ and } k = 2 \text{ then } \binom{-3}{2} = \frac{-3 \cdot -4}{2} = 6$$
+            $$\text{If } u = \frac{1}{2} \text{ and } k = 3 \text{ then } \binom{\frac{1}{2}}{3} = \dfrac{\dfrac{1}{2} \cdot \dfrac{-1}{2} \cdot \dfrac{-3}{2}}{6} = \frac{1}{16}$$
+            
+            $$\textbf{Special case: } u \text{ is a negative integer } u = - n, \quad n \in \mathbb{N}$$
+            $$\binom{-n}{r} = \frac{(-n)(-n-1)\dots(-n-r+1)}{r!} = \frac{(-1)^r n(n+1)\dots(n+r-1)}{r!} = $$
+            $$= (-1)^r \binom{n+k-1}{k} = (-1)^r CR_n^r$$
+            
+            $$\textbf{Extended Binomial Theorem:} \quad (1 + x)^u = \sum_{k = 0}^{\infty} \binom{u}{k} x^k$$
+
+            $$\textbf{Special case: } u = -n \text{ and } n \in \mathbb{N} $$
+            $$(1 + x)^{-n} = \sum_{k = 0}^{\infty} \binom{-n}{k} x^k = \sum_{k = 0}^{\infty} (-1)^k \binom{n + k - 1}{k} x^k$$
+            $$(1 - x)^{-n} = \sum_{k = 0}^{\infty} \binom{n + k - 1}{k} x^k$$ 
+\end{enumerate}
+
+\subsection{Applications of generating functions}
+\subsection*{Example:}
+Find the number of integer solutions of $x_1 + x_2 + x_3 = 17$ when $2 \leq x_1 \leq 5$, $3 \leq x_2 \leq 6$, and $3 \leq x_4 \leq 7$.
+\[
+G(x) = (x^2 + x^3 + x^4 + x^5)(x^3 + x^4 + x^5 + x^6)(x^4 + x^5 + x^6 + x^7) =
+\]
+We look for the coefficient of $x^{17}$ in $G(x)$.
+\[
+x^5 \cdot x^5 \cdot x^7 + x^5 \cdot x^6 \cdot x^6 + x^4 \cdot x^6 \cdot x^7 \rightarrow 3 \text{ solutions}
+\]
+
+\subsection*{Example:}
+In how many ways can we distribute 8 identical cookies among 3 children so that each child recieves at least 2 and and no more than 4 cookies?
+\[
+G(x) = (x^2 + x^3 + x^4)^3 = x^6 (1 + x + x^2)^3 = x^6 (1 + 3x + 3x^2 + x^3) = x^6 + 3x^7 + 3x^8 + x^9
+\]
+\[
+\text{Coefficient of } x^8 = 3 \text{ ways}
+\]
+
+\subsection*{Example:}
+In how many ways can we gather $r$ euros using coins of 1 and 2 and notes of 5?
+\[
+G(x) = (1 + x + x^2 + \dots)(1 + x^2 + x^4 + \dots)(1 + x^5 + x^{10} + \dots) 
+\]
+For $r = 7$:
+\[
+(1 + x + x^2 + x^3 + x^4 + x^5 + x^6 + x^7)(1 + x^2 + x^4 + x^6)(1 + x^5) =
+\]
+\[
+x^7 \cdot 1 \cdot 1 + x \cdot x^6 \cdot 1 + x^5 \cdot x^2 \cdot 1 + x^3 \cdot x^4 \cdot 1 + x^2 \cdot x^5 \cdot 1 + x^4 \cdot x^3 \cdot 1 + x^6 \cdot x^2 \cdot 1 = 6 \text{ ways}
+\]
+
+Same, but now order matters:
+
+To insert $n$ coins or notes adding up to $r$ euros:
+\[
+(x + x^2 + x^5)^n, \quad \text{coefficient of } x^r
+\]
+\[
+G(x) = 1 + (x + x^2 + x^5) + (x + x^2 + x^5)^2 + \dots = \frac{1}{1 - (x + x^2 + x^5)}
+\]
+
+
+
+
+
+\end{document}
