@@ -1571,5 +1571,138 @@ G(x) = \frac{2}{1 - 3x} + \frac{1}{1 - x} = 2 \sum_{n = 0}^{\infty} 3^n x^n + \s
 a_n = 2 \cdot 3^n + 1
 \]
 
+\subsection*{Example:}
+A person has 6 friends: $\{A, B, C, D, E, F\}$. He wants to invite 4 of them home, but A and B cannot come together, and neihter can E and F, because of personal conflicts. If the invitation is made at random, what is the possibiliy that the dinner goes well?
+\[
+P = \frac{\text{number of good outcomes}}{\text{total number of groups of 4 friends}}
+\]
+
+\[
+\text{Total number of groups of 4 friends: } \binom{6}{4} = 15
+\]
+
+\[
+S_{AB} = \text{number of groups with A and B together} = \binom{4}{2} = 6
+\]
+\[
+S_{EF} = \text{number of groups with E and F together} = \binom{4}{2} = 6
+\]
+\[
+S_{ABEF} = \text{number of groups with A and B and E and F together} = \binom{2}{2} = 1
+\]
+
+\[
+\text{Number of good outcomes: } 15 - 6 - 6 + 1 = 4
+\]
+\[
+P = \frac{4}{15}
+\]
+
+\subsection*{Example:}
+In how many ways can we order the letters A, E, M, O, Y, U in 6-letter strings without letter repetition that do not contain the word "ME" or "YOU"?
+\[
+\text{Total number of strings: } 6! = 720
+\]
+
+\[
+S_{ME} = \text{number of strings with "ME"} = 5! = 120
+\]
+\[
+S_{YOU} = \text{number of strings with "YOU"} = 4! = 24
+\]
+\[
+S_{MEYOU} = \text{number of strings with "ME" and "YOU"} = 3! = 6
+\]
+
+\[
+\text{Number of good strings: } 720 - 120 - 24 + 6 = 582
+\]
+
+\subsection*{Example:}
+A message is made of 12 symbols in a specified order. To transmit it, you have to send 45 blanks along with the symbols, and every two symbols must be searated by at least 3 blank. How many different messages can be sent?
+\[
+CR_{11}^{12} = \binom{11 + 12 - 1}{12} = \binom{22}{12} = 646646
+\]
+
+\subsection*{Example:}
+How many subsets of 4 elements can be formed from elements of $\{1, 2, 3, \dots, 13, 14, 15\}$ such that no subset contains two consecutive numbers?
+\[
+\text{Subsets look like: } \{n_1, n_2, n_3, n_4\} \quad 1 \leq n_i \leq 15
+\]
+\[
+\text{For non-consecutive numbers: } \{n_1, n_2, n_3, n_4\} \quad n_2 - n_1 \geq 2, \quad n_3 - n_2 \geq 2, \quad n_4 - n_3 \geq 2
+\]
+\[
+\begin{cases}
+    x_1 = n_1 \geq 1 \\
+    x_2 = n_2 - n_1 \geq 2 \\
+    x_3 = n_3 - n_2 \geq 2 \\
+    x_4 = n_4 - n_3 \geq 2 \\
+\end{cases} \implies 
+n_4 = x_4 + x_3 + x_2 + x_1 \leq 15
+\]
+\[
+\begin{cases}
+    y_1 = x_1 - 1 \geq 0 \\
+    y_2 = x_2 - 2 \geq 0 \\
+    y_3 = x_3 - 2 \geq 0 \\
+    y_4 = x_4 - 2 \geq 0 \\
+\end{cases} \implies
+y_4 + y_3 + y_2 + y_1 \leq 8
+\]
+\[
+y_1 + y_2 + y_3 + y_4 + y_5 = 8
+\]
+
+\[
+CR_5^8 = \binom{8 + 5 - 1}{8} = \binom{12}{8} = 495
+\]
+
+\subsection*{Example:}
+How many ways are there to choose 25 objects from 7 categories so that there are no more than 6 and no fewer than 2 objects in each category?
+\[
+G(x) = (x^2 + x^3 + x^4 + x^5 + x^6)^7 = x^{14} (1 + x + x^2 + x^3 + x^4)^7 = x^{14} \left( \frac{1 - x^5}{1 - x} \right)^7
+\]
+We need the coefficient of $x^{11}$:
+\[
+(1 - x^5)^7 = 1 - 7x^5 + 21x^{10} - \dots
+\]
+\[
+\frac{1}{1 - x}^7 = \sum_{n = 0}^{\infty} \binom{n + 6}{n} x^n = \binom{6}{0} + \binom{7}{1}x + \dots + \binom{12}{6}x^6 + \dots + \binom{17}{11}x^{11} + \dots
+\]
+So the coefficient of $x^{11}$ is:
+\[
+\binom{17}{11} - 7 \binom{12}{6} + 21 \binom{7}{1} = 6055
+\]
+
+\subsection*{Example:}
+\[
+a_{n + 2} - 2a_{n + 1} + a_n = 2^n, \quad a_0 = 1, \quad a_1 = 2
+\]
+\[
+\text{Homogeneous: } r^2 - 2r + 1 = 0 \rightarrow r = 1 \rightarrow a_n^h = c_1 + c_2 n
+\]
+\[
+a_n = c_1 + c_2 n + a_n^p
+\]
+\[
+\text{Particular: } a_{n + 2} - 2a_{n + 1} + a_n = 2^n \rightarrow a_n^p = 2^n
+\]
+\[
+a_n = c_1 + c_2 n + 2^n
+\]
+\[
+a_0 = 1 = c_1 + 2^0 \rightarrow c_1 = 0
+\]
+\[
+a_1 = 2 = c_2 + 2^1 \rightarrow c_2 = 0
+\]
+\[
+a_n = 2^n
+\]
+
+
+
+
 
 \end{document}
