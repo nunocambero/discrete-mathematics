@@ -22,7 +22,7 @@
     \end{tikzpicture}
 }
 
-\title{\textbf{Counting: Basic Techniques}}
+\title{\textbf{Discrete Mathematics}}
 \author{}
 \date{}
 
@@ -1700,6 +1700,311 @@ a_1 = 2 = c_2 + 2^1 \rightarrow c_2 = 0
 \[
 a_n = 2^n
 \]
+
+\section{Correspondences}
+Correspondences are relationships between elements of two sets $A$ and $B$.
+
+For example, let:
+\[
+A := \{\text{cities of the world}\}, \quad B := \{\text{countries of the world}\}
+\]
+\[
+x \in A, \quad y \in B, \quad xRy \Longleftrightarrow x \text{ is the capital of } y
+\]
+
+$H(x,y)$ means that $x$ is something with respect to $y$.
+\[
+\textbf{Defining set: } \quad \{x \in U \mid H(x,y)\}
+\]
+
+\subsection{Definition}
+Given two sets $A$ and $B$, a correspondence of relation between $A$ and $B$ is a subset $R$ of $A \times B$, defined as:
+\[
+R := \{(a,b) \in A \times B \mid H(a,b)\}
+\]
+
+\subsection*{Example:}
+\[
+A := \{1, 2, 3, 4, 5, 6\}, \quad R := \{(m,n) \in A \times A \mid m \text{ divides } n\}
+\]
+\[
+(1,3) \in R, \quad (2,4) \in R, \quad (3,5) \notin R
+\]
+
+\subsection*{Example:}
+\[
+f(x) : \mathbb{R} \rightarrow \mathbb{R}^+, \quad x \rightarrow x^2
+\]
+\[
+f := \{(x,y) \in \mathbb{R} \times \mathbb{R}^+ \mid y = x^2\}
+\]
+
+\subsection{Representation of correspondences}
+\begin{enumerate}
+    \item \textbf{Arrow diagram:} $R$ is represented by arrows from elements of $A$ to elements of $B$.
+        \begin{figure}[h]
+            \centering
+            \begin{tikzpicture}
+                \node (A1) at (0, 0) {1};
+                \node (A2) at (0, -1) {2};
+                \node (A3) at (0, -2) {3};
+                \node (A4) at (0, -3) {4};
+                \node (A5) at (0, -4) {5};
+                \node (A6) at (0, -5) {6};
+
+                \node (B1) at (4, 0) {1};
+                \node (B2) at (4, -1) {2};
+                \node (B3) at (4, -2) {3};
+                \node (B4) at (4, -3) {4};
+                \node (B5) at (4, -4) {5};
+                \node (B6) at (4, -5) {6};
+
+                \draw[->] (A1) -- (B1);
+                \draw[->] (A1) -- (B2);
+                \draw[->] (A1) -- (B3);
+                \draw[->] (A1) -- (B4);
+                \draw[->] (A1) -- (B5);
+                \draw[->] (A1) -- (B6);
+
+                \draw[->] (A2) -- (B2);
+                \draw[->] (A2) -- (B4);
+                \draw[->] (A2) -- (B6);
+
+                \draw[->] (A3) -- (B3);
+                \draw[->] (A3) -- (B6);
+
+                \draw[->] (A4) -- (B4);
+
+                \draw[->] (A5) -- (B5);
+
+                \draw[->] (A6) -- (B6);
+            \end{tikzpicture}
+            \caption{Arrow diagram for the relation $R$ where $m$ divides $n$.}
+            \label{fig:relation}
+        \end{figure}
+     \item \textbf{Binary matrix: } $R$ is represented by a matrix $M$ of dimensions $n \times n$ where $n = |A| = |B|$.
+        \begin{figure}[h]
+            \centering
+            \begin{tabular}{c|cccccc}
+            & 1 & 2 & 3 & 4 & 5 & 6 \\
+            \hline
+            1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+            2 & 0 & 1 & 0 & 1 & 0 & 1 \\
+            3 & 0 & 0 & 1 & 0 & 0 & 1 \\
+            4 & 0 & 0 & 0 & 1 & 0 & 1 \\
+            5 & 0 & 0 & 0 & 0 & 1 & 0 \\
+            6 & 0 & 0 & 0 & 0 & 0 & 1 \\
+            \end{tabular}
+            \caption{Binary matrix representation of the relation $R$ where $m$ divides $n$.}
+            \label{fig:matrix}
+        \end{figure}
+    \item \textbf{Directed multigraph: } $R$ is represented by a directed multigraph where the vertices are elements of $A$ and $B$.
+        \begin{figure}[h]
+            \centering
+            \begin{tikzpicture}
+            % Nodes
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (A1) at (-1, 1.73) {1};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (A2) at (1, 1.73) {2};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (A3) at (2, 0) {3};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (A4) at (1, -1.73) {4};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (A5) at (-1, -1.73) {5};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (A6) at (-2, 0) {6};
+
+            % Arrows
+            \draw[->, out=60, in=150, looseness=8] (A1) to (A1);
+            \draw[->] (A1) -- (A2);
+            \draw[->] (A1) -- (A3);
+            \draw[->] (A1) -- (A4);
+            \draw[->] (A1) -- (A5);
+            \draw[->] (A1) -- (A6);
+
+            \draw[->] (A2) -- (A4);
+            \draw[->] (A2) -- (A6);
+
+            \draw[->] (A3) -- (A6);
+
+            \draw[->] (A4) -- (A6);
+            \end{tikzpicture}
+            \caption{Directed multigraph for the relation $R$ where $m$ divides $n$.}
+            \label{fig:multigraph}
+        \end{figure}
+\end{enumerate}
+
+\subsection{Domain and range of correspondences}
+Let $R$ be a correspondence between $A$ and $B$, then:
+\begin{enumerate}
+    \item The \textbf{domain} of $R$ is the set of all elements of $A$ that are related to some element of $B$.
+        \[ dom(R) = \{a \in A \mid (a,b) \in R \text{ for some } b \in B\} \subseteq A\]
+    \item The \textbf{range} of $R$ is the set of all elements of $B$ that are related to some element of $A$.
+        \[ ran(R) = \{b \in B \mid (a,b) \in R \text{ for some } a \in A\} \subseteq B\]
+\end{enumerate}
+
+\subsection*{Example:}
+\[
+A := \{1, 2, 3, 4, 5, 6\}, \quad mRn \Longleftrightarrow 2 \text{ divides } (m - n) 
+\]
+\[
+m - n = 2k, \quad k \in \mathbb{Z} \rightarrow m = n (mod 2)
+\]
+
+\[
+(1,1), (1,3), (1,5), (2,2), (2,4), (2,6), (3,1), (3,3), (3,5), 
+\]
+\[
+(4,2), (4,4), (4,6), (5,1), (5,3), (5,5), (6,2), (6,4), (6,6)
+\]
+
+\subsection{Special relations}
+\begin{enumerate}
+    \item \textbf{Identity relation:} $I \subseteq A \times A$
+        \[
+        x,y \in A, \quad xIy \Longleftrightarrow x = y
+        \]
+    \item \textbf{Universal correspondence:} $U = A \times B$
+    \item \textbf{Inverse correspondence:} If there exists $R \subseteq A \times B$, then: $R^{-1} \subseteq B \times A$
+        \[
+        R := \{(b,a) \in B \times A \mid (a,b) \in R\}
+        \]
+\end{enumerate}
+
+\subsection{Properties of correspondences}
+\begin{enumerate}
+    \item \textbf{Reflexivity:} $R \subseteq A \times A$ is reflexive if and only if $(a,a) \in R$ for all $a \in A$.
+    \item \textbf{Symmetry:} $R \subseteq A \times A$ is symmetric if and only if $(a,b) \in R \Leftrightarrow (b,a) \in R$.
+    \item \textbf{Antisymmetry:} $R \subseteq A \times A$ is antisymmetric if and only if whenever \\ 
+    $(a,b) \in R$ and $(b,a) \in R \implies a = b$.
+    \item \textbf{Transitivity:} $R \subseteq A \times A$ is transitive if and only if whenever \\
+    $(a,b) \in R$ and $(b,c) \in R \implies (a,c) \in R$.
+\end{enumerate}
+
+\subsection*{Example:}
+\[
+A := \{a, b, c, d\}, \quad R := \{(a,a), (a,b), (a,c), (b,a), (b,b), (b,c), (b,d), (d,d)\}
+\]
+\begin{enumerate}
+    \item Reflexive: $(c,c) \notin R \implies R$ is not reflexive.
+    \item Symmetric: $(a,c) \in R$, but $(c,a) \notin R \implies R$ is not symmetric.
+    \item Antisymmetric: $(a,b) \in R, (b,a) \in R$, but $a \neq b \implies R$ is not antisymmetric.
+    \item Transitive: $(a,b) \in R, (b,d) \in R$, but $(a,d) \notin R \implies R$ is not transitive.
+\end{enumerate}
+
+\subsection*{Example:}
+\[
+A := \{1, 2, 3, 4, 5, 6\}, \quad R := \{(m,n) \mid m \text{ divides } n\}
+\]
+\begin{enumerate}
+    \item Reflexive: $\forall m \in A \implies m \text{ divides } m \implies R$ is reflexive.
+    \item Symmetric: $m \text{ divides } n \implies n \text{ does not divide } m \implies R$ is not symmetric.
+    \item Antisymmetric: $m \text{ divides } n, n \text{ divides } m \implies m = n \implies R$ is antisymmetric.
+    \item Transitive: $m \text{ divides } n, n \text{ divides } p \implies m \text{ divides } p \implies R$ is transitive.
+\end{enumerate}
+
+\subsection*{Example:}
+\[
+A = \mathbb{N} \times \mathbb{N} = \{(a,b) \mid a,b \in \mathbb{N}\}, \quad R = \{\left((a,b), (c,d)\right) \mid a + d = b + c\}
+\]
+\begin{enumerate}
+    \item Reflexive: $(a,b) + (b,a) = 2b = 2a \implies R$ is reflexive.
+    \item Symmetric: $(a,b) + (c,d) = (c,d) + (a,b) \implies R$ is symmetric.
+    \item Antisymmetric: $(a,b) + (c,d) = (c,d) + (a,b) \nRightarrow (a,b) = (c,d) \implies R$ is not antisymmetric.
+    \item Transitive: $(a,b) + (c,d) = (c,d) + (e,f) \implies R$ is transitive.
+\end{enumerate}
+
+\subsection{Operations with correspondences}
+\begin{enumerate}
+    \item \textbf{Union:} $R \cup S = \{(a,b) \in A \times A \mid (a,b) \in R \text{ or } (a,b) \in S\}$
+    \item \textbf{Intersection:} $R \cap S = \{(a,b) \in A \times A \mid (a,b) \in R \text{ and } (a,b) \in S\}$
+\end{enumerate}
+
+Both Union and Intersection preserve reflexivity and symmetry:
+\begin{enumerate}
+    \item If $R$ and $S$ are reflexive, then 
+    \[
+    \forall a \in A \quad (a,a) \in R \text{ and } (a,a) \in S \implies (a,a) \in R \cup S \text{ and } (a,a) \in R \cap S
+    \]
+    \item $R$ and $S$ are symmetric
+    \[
+    \text{If } (a,b) \in R \implies (b,a) \in R \text{ and } (c,d) \in S \implies (d,c) \in S 
+    \]
+\end{enumerate}
+
+However, only Intersection preserves antisymmetry and transitivity.
+
+\subsubsection{Counterexamples for the union}
+\begin{enumerate}
+    \item \textbf{Antisymmetry:} $R = \{(a,b)\}$ and $S = \{(b,a)\} \implies \text{antisymmetric, but }\\
+    R \cup S = \{(a,b), (b,a)\} \text{ is not antisymmetric}$
+    \item \textbf{Transitivity:} $R = \{(a,b)\}$ and $S = \{(b,c)\} \implies \text{transitive, but }\\
+    R \cup S = \{(a,b), (b,c)\} \text{ is not transitive}$
+\end{enumerate}
+
+\subsection{Types of relations}
+\begin{enumerate}
+    \item \textbf{Equivalence relation:} A set $R \subseteq A \times A$ is an equivalence relation if and only if it is reflexive, symmetric, and transitive.
+    \item \textbf{Order relation:} A set $R \subseteq A \times A$ is an order relation if and only if it is reflexive, antisymmetric, and transitive.
+\end{enumerate}
+
+\subsubsection{Equivalence relations}
+\subsection*{Example:}
+\[
+A := \{\text{people living in Spain}\}, \quad R := \{(x,y) \mid x \text{ and } y \text{ live in the same municipality}\}
+\]
+\begin{enumerate}
+    \item Reflexive: $x$ lives in the same municipality as $x$.
+    \item Symmetric: If $x$ lives in the same municipality as $y$, then $y$ lives in the same municipality
+    \item Transitive: If $x$ lives in the same municipality as $y$ and $y$ lives in the same municipality as $z$, then $x$ lives in the same municipality as $z$.
+\end{enumerate}
+
+\subsection*{Example:}
+\[
+A := \mathbb{R}^2 - \{(0,0)\}, \quad R := \{(x,y) \mid x \text{ and } y \text{ are on the same line through the origin}\}
+\]
+\begin{enumerate}
+    \item Reflexive: $(0,0)$ is on the same line through the origin as $(0,0)$.
+    \item Symmetric: If $x$ is on the same line through the origin as $y$, then $y$ is on the same line through the origin as $x$.
+    \item Transitive: If $x$ is on the same line through the origin as $y$ and $y$ is on the same line through the origin as $z$, then $x$ is on the same line through the origin as $z$.
+\end{enumerate}
+
+\subsubsection{Equivalence class}
+Let $A, \quad R \subset A \times A$ be an equivalence relation, then the class of equivalence of $x \in A$ is defined as 
+\[
+[x] = \{y \in A \mid (x,y) \in R\}
+\]
+
+The set of classes of equivalence of $R$ is a covering of $A$
+\[
+A = \bigcup_{x \in A}[x], \quad \text{remember } x \in [x] \text{ because of reflexivity and also } xRx \quad \forall x \in A
+\]
+
+Furthermore, $\bigcup_{x \in A}[x]$ is a partition of $A$
+
+\paragraph{Theorem:} Let $A$ be a set, $R$ an equivalence,
+\[
+xRy \Longleftrightarrow [x] = [y]
+\]
+
+\paragraph{Proof:} $[x] = [y]$
+\[
+z \in x \Longleftrightarrow xRz \text{ and } yRx \implies yRz \implies z \in [y]
+\]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
