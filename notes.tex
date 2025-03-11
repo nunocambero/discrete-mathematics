@@ -1701,6 +1701,191 @@ a_1 = 2 = c_2 + 2^1 \rightarrow c_2 = 0
 a_n = 2^n
 \]
 
+\subsection*{Example:}
+Given the recurrence relation:
+\[
+a_{n+2} = 2a_{n+1} + a_n = 2^n, \quad a_0 = 1, \quad a_1 = 2
+\]
+
+Multiplying both sides by \( x^n \) and summing over all \( n \):
+\[
+\sum_{n=0}^{\infty} a_{n+2} x^n = 2 \sum_{n=0}^{\infty} a_{n+1} x^n + \sum_{n=0}^{\infty} a_n x^n + \sum_{n=0}^{\infty} 2^n x^n
+\]
+
+Defining the generating function:
+\[
+G(x) = \sum_{n=0}^{\infty} a_n x^n
+\]
+
+We rewrite the summations:
+\[
+\sum_{n=0}^{\infty} a_{n+2} x^n = G(x) - a_0 - a_1 x
+\]
+\[
+\sum_{n=0}^{\infty} a_{n+1} x^n = x \sum_{n=1}^{\infty} a_n x^{n-1} = x(G(x) - a_0)
+\]
+
+Using these, we derive:
+\[
+G(x) - 1 - 2x - 2x(G(x) - 1) + x^2 G(x) = x^2 \sum_{n=0}^{\infty} 2^n x^n = \frac{x^2}{1-2x}
+\]
+\[
+G(x) \left[1 - 2x + x^2 \right] - 1 = \frac{x^2}{1-2x}
+\]
+\[
+G(x) = \frac{1}{(1-x)^2} + \frac{x^2}{(1-2x)(1-x)^2} = \frac{1}{1-2x}
+\]
+
+Since:
+\[
+\frac{1}{1-2x} = \sum_{n=0}^{\infty} (2x)^n
+\]
+
+we conclude:
+\[
+a_n = 2^n
+\]
+
+\subsection*{Example:}
+\begin{enumerate}
+    \item How many words can be formed with at most 5 letters of WATER?
+    \item How many of them do not contain W?
+    \item How many of them contain neither W nor E?
+    \item How many of them contain both W and E?
+\end{enumerate}
+
+For (i)
+\[
+P_5 + V(5,1) + V(5,3) + V(5,2) + V(5,1)
+\]
+\[
+\frac{5!}{0!} + \frac{5!}{4!} + \frac{5!}{2!} + \frac{5!}{3!} + \frac{5!}{4!}
+\]
+
+For (ii):
+\[
+V(4,1) + V(4,2) + V(4,3) + P_4
+\]
+
+For (iii):
+\[
+V_3^1 + V_3^2 + P_3
+\]
+
+For (iv):
+\[
+P_2 + 3 P_3 + \binom{3}{2} P_4 + P_5
+\]
+
+\subsection*{Example:}
+A soccer team has 3 Goalkeepers, 8 Defenders, 6 Midfielders, and 4 Forwards. The coach wants to pick up a team with 1 Goalkeeper, 5 Defenders, 3 Midfielders, and 2 Forwards. However, he does not want players M and A to play together. 
+
+\vspace{0.5cm}
+Total Teams:
+\[
+\binom{3}{1} \binom{8}{5} \binom{6}{3} \binom{4}{2}
+\]
+
+Forbidden Teams:
+\[
+\binom{3}{1} \binom{8}{5} \binom{5}{2} \binom{3}{1}
+\]
+
+Also Consider:
+\[
+\binom{5}{2} \binom{3}{2} \quad \text{(with A, not B)}
+\]
+\[
+\binom{5}{3} \binom{3}{1} \quad \text{(with B, not A)}
+\]
+\[
+\binom{5}{3} \binom{3}{2} \quad \text{(neither)}
+\]
+
+\subsection*{Example:}
+
+Show that in any set of 9 natural numbers, none of which has a prime factor larger than 5, there must be two whose product is a perfect square.
+
+We express a number \( n \) in terms of its prime factorization:
+\[
+n = 2^x 3^y 5^z
+\]
+
+Thus, allowed numbers can be characterized by the tuple \( (x, y, z) \mod 2 \).
+
+If we have two numbers:
+\[
+n = 2^{x_1} 3^{y_1} 5^{z_1}, \quad m = 2^{x_2} 3^{y_2} 5^{z_2}
+\]
+
+Then their product:
+\[
+n \cdot m = 2^{x_1 + x_2} 3^{y_1 + y_2} 5^{z_1 + z_2}
+\]
+
+must be a perfect square, meaning \( x_1 + x_2 \), \( y_1 + y_2 \), and \( z_1 + z_2 \) must be even.
+\[
+\begin{cases}
+x_1 + x_2 \equiv 0 \mod 2 \\
+y_1 + y_2 \equiv 0 \mod 2 \\
+z_1 + z_2 \equiv 0 \mod 2
+\end{cases}
+\]
+
+Since \( x, y, z \) can each take values in \( \{0,1\} \), there are \( 2^3 = 8 \) possible different tuples \( (x, y, z) \mod 2 \). By the pigeonhole principle, in any set of 9 numbers, at least two must share the same tuple, ensuring their product is a perfect square.
+
+\subsection*{Example:}
+We want to make perfumes and we have 5 ingredients: 
+
+\textit{Vanilla, Lavender, Orange, Wood, Grass}.
+
+\begin{enumerate}
+    \item How many of them do not contain Vanilla?
+    \item How many do not contain Vanilla or Wood?
+    \item How many of them contain both Vanilla and Wood?
+    \item How many perfumes can we make with up to 5 essences?
+\end{enumerate}
+
+The number of perfumes with up to 5 ingredients is given by 1 less than the solutions of 
+\[
+n_v + n_l + n_o + n_w + n_g + v \leq 5
+\]
+\[
+n_v + n_l + n_o + n_w + n_g + v = 5
+\]
+\[
+CR(6, 5) - 1 = 251
+\]
+
+(i)
+\[
+1 \leq n_l + n_o + n_w + n_g \leq 5
+\]
+\[
+CR(5, 5) - 1 = 125
+\]
+
+(ii)
+\[
+1 \leq n_l + n_o + n_g \leq 5
+\]
+\[
+CR(4, 5) - 1 = 55
+\]
+
+(iii)
+\[
+251 - 125 - 125 + 55 = 56
+\]
+
+\subsection*{Example:}
+How many ways are there to order \( w \) white balls and \( b \) black balls in a row such that there are exactly \( k+1 \) groups of black balls?
+
+Using combinatorial grouping:
+\[ CR_{k+1}^{b-(k+1)} = \binom{b-1}{b-k-1} \]
+White balls separate groups, so:
+\[ \binom{w+1}{w-k} \]
+
 \section{Correspondences}
 Correspondences are relationships between elements of two sets $A$ and $B$.
 
