@@ -2168,29 +2168,265 @@ Furthermore, $\bigcup_{x \in A}[x]$ is a partition of $A$
 xRy \Longleftrightarrow [x] = [y]
 \]
 
-\paragraph{Proof:} $[x] = [y]$
+\paragraph{Proof:} $[x] = [y]$ \\
+We need to prove:
 \[
-z \in x \Longleftrightarrow xRz \text{ and } yRx \implies yRz \implies z \in [y]
+\begin{cases}
+    [x] \subseteq [y] \\
+    [y] \subseteq [x]
+\end{cases}
+\]
+\[
+\text{where } [x] = \{z \in A \mid xRz\}, \quad [y] = \{z \in A \mid yRz\}
 \]
 
+$[x] \subseteq [y]$: \\
+Let $z \in [x]$, then $xRz \implies xRy \implies yRz \implies z \in [y]$.
 
+Let $z \in [y]$, then $yRz \implies yRx \implies xRz \implies z \in [x]$.
 
+The classes of equivalence form a partition of $A$.
+\[
+\forall x \in A, \quad x \in [x]
+\]
 
+If $[x]$ and $[y]$ have a common element, $z \in [x] \cap [y]$, then $[x] = [y]$.
 
+\subsection{Quotient set}
+Let $A$ be a set, $R$ an equivalence relation on $A$, then the quotient set of $A$ by $R$ is defined as:
+\[
+A/R = \{[x] \mid x \in A\}
+\]
 
+which means that $A/R$ is the set of all classes of equivalence of $A$ with respect to $R$.
 
+\subsection*{Example:}
+\[
+A = \{a, b, c, d, e \}
+\]
+\[
+R = \{(a,a), (b,b), (c,c), (d,d), (e,e), (a,b), (b,a), (a,c), (c,a), (b,c), (c,b)\}
+\]
 
+\[
+A/R = \{\{a,b,c\}, \{d\}, \{e\} \}, \quad \text{where } [a] = [b] = [c]
+\]
 
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (A) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (B) at (2, 0) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (C) at (0, -2) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (D) at (2, -2) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (E) at (4, -2) {e};
 
+        % Arrows
+        \draw[->, in = 160, out = 100, looseness = 8] (A) to (A);
+        \draw[->, in = 90, out = 30, looseness = 7] (B) to (B);
+        \draw[->, in = 200, out = 260, looseness = 8] (C) to (C);
+        \draw[->, in = 240, out = 300, looseness = 7] (D) to (D);
+        \draw[->, in = 240, out = 300, looseness = 8] (E) to (E);
+        \draw[->] (A) -- (B);
+        \draw[->] (A) -- (C);
+        \draw[->] (B) -- (C);
+        \draw[->] (C) -- (B);
+        \draw[->] (B) -- (A);
+        \draw[->] (C) -- (A);
 
+    \end{tikzpicture}
+    \caption{Directed multigraph for the relation $R$ where $a$, $b$, and $c$ are related to each other, and $d$, and $e$ are related to themselves.}
+    \label{fig:multigraph2}
+\end{figure}
 
+\subsubsection{Example: Modular arithmetic}
+\[
+a, b \in \mathbb{Z}, \quad a \equiv b \mod n \Longleftrightarrow a - b = kn, \quad k \in \mathbb{Z}, \quad n \in \mathbb{N}
+\]
 
+\[
+aRb \Longleftrightarrow a \equiv b \mod n \text{ is an equivalence relation}
+\]
 
+\[
+\textbf{Reflexive: } a = a + 0n \implies a \equiv a \mod n \implies aRa
+\]
 
+\[
+\textbf{Symmetric: } a \equiv b \mod n \implies a - b = kn 
+\]
+\[
+\implies b - a = (-k)n \implies b \equiv a \mod n \implies aRb \implies bRa
+\]
 
+\[
+\textbf{Transitive: } \begin{cases}
+    a - b = kn \\
+    b - c = ln
+\end{cases} \implies a - c = (k + l)n \implies a \equiv c \mod n \implies aRc
+\]
 
+ \subsubsection{Equivalence classes: quotient set of $\mathbb{Z}$ by $n\mathbb{Z}$}
+\[
+[0] = \{x \in \mathbb{Z} \mid 0 - x = kn, \quad k \in \mathbb{Z}\} = \{x \in \mathbb{Z} \mid x = kn, \quad k \in \mathbb{Z}\}
+\]
 
+For $n \geq 2$:
+\[
+[1] = \{x \in \mathbb{Z} \mid 1 - x = kn, \quad k \in \mathbb{Z}\} = \{x \in \mathbb{Z} \mid 1 - x = kn, \quad k \in \mathbb{Z}\}
+\]
+\[ \vdots \]
+\[
+[n] = \{x \in \mathbb{Z} \mid n - x = kn, \quad k \in \mathbb{Z}\} = \{x \in \mathbb{Z} \mid x = kn, \quad k \in \mathbb{Z}\}
+\]
 
+\[
+\mathbb{Z}/n\mathbb{Z} = \{[0], [1], \ldots, [n-1]\}
+\]
+\[
+xy = (a + kn)(b + ln) = ab + (al + bk + kln)n
+\]
+
+In modular arithmetic: 
+\[
+[a] + [b] = [a + b], \quad [a] \cdot [b] = [a \cdot b]
+\]
+
+\[
+x \in [a], \quad y \in [b] \implies x = a + kn, \quad y = b + ln
+\]
+\[
+x + y = a + b + (k + l)n \implies x + y \in [a + b]
+\]
+
+\subsection{Order relations}
+Let $A$ be a set, $R \subseteq A \times A$ an order relation. If $R$ is reflexive, antisymmetric, and transitive, then $R$ is an order relation.
+
+\subsection*{Example:}
+\[
+R, \quad xRy \Longleftrightarrow x \leq y
+\]
+
+\begin{enumerate}
+    \item Reflexive: $x \leq x$
+    \item Antisymmetric: $x \leq y, y \leq x \implies x = y$
+    \item Transitive: $x \leq y, y \leq z \implies x \leq z$
+\end{enumerate}
+
+\subsection*{Example:}
+Let $A$ be a set, $P(A)$ the set of all subsets of $A$.
+\[
+B, C \in P(A), \quad B \subseteq C \Longleftrightarrow B \leq C
+\]
+
+\begin{enumerate}
+    \item Reflexive: $B \subseteq B$
+    \item Antisymmetric: $B \subseteq C, C \subseteq B \implies B = C$
+    \item Transitive: $B \subseteq C, C \subseteq D \implies B \subseteq D$
+\end{enumerate}
+
+\subsection*{Example:}
+\[
+A = \{a,b,c\}, \quad P(A) = \{\emptyset, \{a\}, \{b\}, \{c\}, \{a,b\}, \{a,c\}, \{b,c\}, \{a,b,c\}\}
+\]
+\[
+B, C \in P(A), \quad B \subseteq C \Longleftrightarrow B \leq C
+\]
+\[
+\{a\} \leq \{a,b\}, \quad \text{but } \{a\} \nleq \{b,c\}
+\]
+
+\subsection{Theorem:}
+Let $A$ be a set, with $\leq$ an order relation on $A$. Then:
+\[
+B \subseteq A \implies B \text{ is also an ordered set }
+\]
+
+\begin{enumerate}
+    \item \textbf{Reflexive:} $x \in B \implies x \leq x$
+    \item \textbf{Antisymmetric:} $x \leq y, y \leq x \implies x = y$
+\end{enumerate}
+
+\subsection{Notable elements in an order}
+Let $A$ be a set, $\leq$ an order relation on $A$ and $B \subseteq A$. Then:
+\begin{enumerate}
+    \item $x \in A$ is an \textbf{upper bound} of $B$ if:
+    \[
+    \forall y \in B \implies y \leq x, \quad \text{(B is bounded from above)}
+    \]
+    \item $x \in A$ is a \textbf{lower bound} of $B$ if:
+    \[
+    \forall y \in B \implies x \leq y, \quad \text{(B is bounded from below)}
+    \]
+    Note: if $B$ is bounded from above and below, then $B$ is bounded.
+    \item $x \in A$ is the \textbf{supremum} of $B$ if:
+    \[
+    x \leq y, \quad \forall y \in B, \quad \text{where } y \text{ is any upper bound of } B
+    \]
+    In case $x \in B$, then $x$ is the maximum of $B$.
+    \item $x \in A$ is the \textbf{infimum} of $B$ if:
+    \[
+    y \leq x, \quad \forall y \in B, \quad \text{where } y \text{ is any lower bound of } B
+    \]
+    In case $x \in B$, then $x$ is the minimum of $B$.
+    \item $y \in B$ is a \textbf{maximal element} of $B$ if:
+    \[
+    \nexists x \in B \text{ such that } y \leq x
+    \]
+    \item $y \in B$ is a \textbf{minimal element} of $B$ if:
+    \[
+    \nexists x \in B \text{ such that } y \geq x
+    \]
+\end{enumerate}
+
+\paragraph{Theorem: } The supremum and infimum of a set are unique.
+Let $\gamma, \gamma'$ be suprema of $B$, then:
+\[
+\gamma \leq \gamma' \text{ and } \gamma' \leq \gamma \implies \gamma = \gamma'
+\]
+
+\subsection*{Example:}
+\[
+A = \{a,b,c\}, \quad W = P(A) - A = \{\emptyset, \{a\}, \{b\}, \{c\}, \{a,b\}, \{a,c\}, \{b,c\}\}
+\]
+\[
+W \subseteq P(A), \quad \emptyset \subset w \in W \implies \emptyset \leq w \quad \forall w \in W
+\]
+\[
+\implies \emptyset \text{ is a lower bound of } W, \quad \emptyset \text{ is the infimum of } W, \quad \emptyset \text{ is the minimum of } W
+\]
+
+Also, $A$ is an upper bound of $W$, $A$ is the supremum of $W$, but $A$ is not the maximum of $W$.
+
+The empty set is also a minimal element of $W$. However, there are three maximal elements in $W$: $\{a,b\}, \{a,c\}, \{b,c\}$. (Note that $A$ contains the but $A \notin W$).
+
+\subsection*{Example:}
+\[
+A = \mathbb{N}, m \leq n \text{ if } m \text{ divides } n, \quad B = \{2,3,4,5,6,7,8\}
+\]
+\[
+\text{The minimals of $B$ are } 2, 3, 5, 7, \text{ and the maximals are } 5,6,7,8
+\]
+
+Observe that 5 and 7 are both maximal and minimal elements of $B$.
+\[
+\text{The supremum of $B$ is the m.c.m. of all elements of $B$} = 2^3 \cdot 3 \cdot 5 \cdot 7 = 840, 
+\]
+\[
+\text{and the infimum is the l.c.d. of all elements of $B$} = 1
+\]
+
+\subsection{Total order}
+Let $A$ be a set, $\leq$ an order relation on $A$. $\leq$ is a total order if and only if:
+\[
+\forall x, y \in A \quad x \leq y \text{ or } y \leq x
+\]
+
+\subsection*{Examples:}
+The usual order of $\mathbb{N}$ is a total order.
+
+The alphabetical order of words is a total order.
 
 
 
