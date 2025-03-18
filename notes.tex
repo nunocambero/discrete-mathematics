@@ -345,7 +345,7 @@ MI_1S_1S_2I_2S_3S_4I_3P_1P_2I_4
 \]
 
 \[
-\text{Then, } \quad P_n = \frac{10!}{4! \cdot 4! \cdot 2!} = 34650
+\text{Then, } \quad P_n = \frac{11!}{4! \cdot 4! \cdot 2!} = 34650
 \]
 
 \subsection{Multinomial Coefficients}
@@ -356,20 +356,20 @@ The number of ways to partition a set of $n$ elements into $k$ disjoint subsets 
 \]
 
 \subsection*{Example: Multinomial Coefficients}
-Suppose $n, k \in \mathbb{N}$ and $n = 2k$. Prove that $\frac{n!}{2k} \in \mathbb{N}$.
+Suppose $n, k \in \mathbb{N}$ and $n = 2^k$. Prove that $\frac{n!}{2^k} \in \mathbb{N}$.
 
 \[
 \text{Let } A = \{x_1, x_1, x_2, x_2, \dots, x_k, x_k\} \\
 \]
 \[
-\text{where } |A| = n = 2k 
+\text{where } |A| = n = 2^k 
 \]
 \[
-\text{Number of ways to arrange the elements of } A = \frac{n!}{2k}
+\text{Number of ways to arrange the elements of } A = \frac{n!}{2^k}
 \]
 
 \[
-\frac{n!}{2k} = \frac{2k!}{2k} = (2k - 1) \cdot (2k - 2) \cdots 1 \in \mathbb{N}
+\frac{n!}{2^k} = \frac{2k!}{2^k} = (2^k - 1) \cdot (2^k - 2) \cdots 1 \in \mathbb{N}
 \]
 
 \subsection{Variations}
@@ -444,7 +444,7 @@ C_{54}^5 = \frac{54!}{5! \cdot 49!} = 25827165
 \]
 
 \[
-C_{4}^3 \cdot C_{50}^2 = 4 \cdot \frac{50!}{2! \cdot 48!} = 19600
+C_{4}^3 \cdot C_{48}^2 = 4 \cdot \frac{48!}{2! \cdot 46!} = 6912
 \]
 
 \[
@@ -462,14 +462,14 @@ C_{4}^3 = 4
 C_7^3 = \frac{7!}{3! \cdot 4!} = 35
 \]
 \[
-C_4^2 \cdot C_3^1 = 6 \cdot 3 = 18
+C_3^2 \cdot C_4^1 = 3 \cdot 4 = 12
 \]
 \[
 C_3^3 = 1
 \]
 
 \[
-\text{Total: } 18 + 1 = 19
+\text{Total: } 12 + 1 = 13
 \]
 
 \paragraph{Proof: combinatorial}
@@ -1091,7 +1091,7 @@ Where $a_n^{(h)}$ is the general solution of the homogeneous case, with $F(n) = 
 
 \subsection*{Example:}
 \[
-a_n = 3 a_{n-1} + 2 a_{n-2} + 2^n, \quad a_1 = 3
+a_n = 3 a_{n-1} + 2 a_{n-2} + 2n, \quad a_1 = 3
 \]
 \[
 \text{Homogeneous: } \quad r - 3 = 0 \quad \rightarrow r = 3
@@ -1338,10 +1338,10 @@ x^5 \cdot x^5 \cdot x^7 + x^5 \cdot x^6 \cdot x^6 + x^4 \cdot x^6 \cdot x^7 \rig
 \subsection*{Example:}
 In how many ways can we distribute 8 identical cookies among 3 children so that each child recieves at least 2 and and no more than 4 cookies?
 \[
-G(x) = (x^2 + x^3 + x^4)^3 = x^6 (1 + x + x^2)^3 = x^6 (1 + 3x + 3x^2 + x^3) = x^6 + 3x^7 + 3x^8 + x^9
+G(x) = (x^2 + x^3 + x^4)^3 = x^6 (1 + x + x^2)^3 = x^6 (1 + 3x + 6x^2 + 7x^3 + 6x^4 + 3x^5 + x^6)
 \]
 \[
-\text{Coefficient of } x^8 = 3 \text{ ways}
+\text{Coefficient of } x^8 = 6 \text{ ways}
 \]
 
 \subsection*{Example:}
@@ -2427,6 +2427,259 @@ Let $A$ be a set, $\leq$ an order relation on $A$. $\leq$ is a total order if an
 The usual order of $\mathbb{N}$ is a total order.
 
 The alphabetical order of words is a total order.
+
+\subsection{Types of order relations}
+\begin{enumerate}
+    \item \textbf{Well order:} A set is well oredered if $\forall a, b \in A$, $a \leq b$ or $b \leq a$.
+    \item \textbf{Good order:} A set $A$ is good ordered if every non-empty subset of $A$ has a minimum.
+\end{enumerate}
+
+$\mathbb{N}$ is well ordered with respect to the usual order $\leq$.
+$\mathbb{R}$ and $\mathbb{Q}$ are not well ordered.
+
+\[
+\text{Good order} \implies \text{Total order} \implies \text{Order}
+\]
+
+Let $A$ be a well ordered set, then every subset of $A$ has a minimum. In particular $\forall a, b \in A$, $\{a,b\} \subseteq A$ has a minimum which is the minimum of $a$ and $b$.
+
+\subsubsection{Theorem:}
+Let $A$ be an ordered set under $\mathcal{R}$, and $B$ an ordered set under $\mathcal{S}$. Then:
+\begin{enumerate}
+    \item $A$ is also an ordered set under $\mathcal{R}^{-1}$.
+    \item $(A \times B, \mathcal{R} \times \mathcal{S})$ is also an ordered set, where:
+    \[
+    (a,b) \mathcal{R} \times \mathcal{S} (c,d) \Longleftrightarrow \begin{cases}
+        a \mathcal{R} c \\
+        b \mathcal{S} d
+    \end{cases}
+    \]
+    \item $(A \times B, L)$, where $L$ is the lexicographic order, is also an ordered set.
+    \[
+    (a,b) L (c,d) \Longleftrightarrow \begin{cases}
+        a \mathcal{R} c & \text{ if } a = c\\
+        b \mathcal{S} d & \text{ otherwise}
+    \end{cases}
+    \]
+\end{enumerate}
+
+\subsubsection*{Examples:}
+\[
+\mathbb{N} \times \mathbb{N}, \quad \leq \text{ is the usual order}
+\]
+\[
+(1,1) \leq (1,2), \quad (2,1) / (1,2)
+\]
+
+\[
+\mathbb{N} \times \text{ dictionary}, \quad \leq \text{ is the alphabetical order}
+\]
+\[
+(1, \text{fish}) \leq (3, \text{whale}), \quad (2, \text{shark}) / (7, \text{bird})
+\]
+
+\begin{enumerate}
+    \item[3.] \textbf{Topological order: } \textbf{Theorem: } Let $A$ be a set, $\leq$ an order relation on $A$. Then there exists an order $\preceq$ that is total and is compatible with the order $\leq$.
+    \[
+    \forall a, b \in A, \quad a \leq b \implies a \preceq b 
+    \]
+    \textbf{Proof: } Let $a_1 \in A$, $a_1$ is a minimal element of $A$ with respect to $\leq$. Then, this will be the smallest element of $A$ with respect to $\preceq$ (it is the minimum of $A$). Now we look for a minimal element of $A - \{a_1\}$ with respect to $\leq$, $a_2$ such that $a_2 \preceq a_1$. We continue this process until we have a total order of $A$.
+    \[
+    a_1 \preceq a_2 \preceq a_3 \preceq \ldots \preceq a_n, \quad \text{where } n = |A|
+    \]
+\end{enumerate}
+
+\subsection{Lattices}
+Let $A$ be a set, $\leq$ an order relation on $A$. Then $(A, \leq)$ is a lattice if and only if both the supremum and infimum of any two elements of $A$ exist and belong to $A$.
+
+\subsection*{Examples:}
+Let $A = \{a,b,c\}$, under the usual order $\leq$ and consider $P(A)$ with an order given by inclusion $\subseteq$ (e.g. $\{a\} \subseteq \{a,b\}$). Then $(P(A), \subseteq)$ is a lattice.
+\[
+s_1, s_2 \in P(A), \quad inf \{s_1, s_2\} = s_1 \cap s_2 \in P(A), \quad sup \{s_1, s_2\} = s_1 \cup s_2 \in P(A)
+\]
+
+$\mathbb{N}$ with $n \leq m$ if $n$ divides $m$ is a lattice.
+\[
+inf \{n,m\} = gcd(n,m) \in \mathbb{N}, \quad sup \{n,m\} = lcm(n,m) \in \mathbb{N}
+\]
+
+\subsection{Hasse diagram}
+Let $A$ be a set, $\leq$ an order relation on $A$. For $a, b \in A$, if $a < b$, and $\nexists$ $c \in A$ such that $a < c < b$, then we say that $b$ covers $a$.
+
+\[
+\text{Meaning of } a < b \quad \begin{cases}
+    a \leq b \\
+    a \neq b
+\end{cases}
+\]
+
+In a Hasse diagram: 
+\begin{enumerate}
+    \item The elements of $A$ are represented by points.
+    \item If $a < b$, then $a$ lies in a line below the line of $b$.
+    \item If $b$ covers $a$, then there is a line connecting $a$ and $b$.
+\end{enumerate}
+
+\subsection*{Example:}
+\[
+A = \{1,2,3,4,5,6\}, \quad \text{division order}
+\]
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (2, -2) {1};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (0, 0) {2};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (4, 0) {3};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (2, 2) {4};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (6, -2) {5};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (6, 2) {6};
+
+        % Arrows
+        \draw[-] (1) -- (2);
+        \draw[-] (1) -- (3);
+        \draw[-] (1) -- (5);
+        \draw[-] (2) -- (4);
+        \draw[-] (2) -- (6);
+        \draw[-] (3) -- (6);
+    \end{tikzpicture}
+    \caption{Hasse diagram for the set $A = \{1,2,3,4,5,6\}$ with the division order.}
+    \label{fig:hasse}
+\end{figure}
+
+\subsection*{Example:}
+\[
+P(A), \quad \subseteq \text{ order}, \quad A = \{a,b,c\}
+\]
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (empty) at (4, 0, 4) {$\emptyset$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (a) at (0, 0, 4) {$\{a\}$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (b) at (4, 4, 4) {$\{b\}$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (c) at (4, 0, 0) {$\{c\}$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (ab) at (0, 4, 4) {$\{a,b\}$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (ac) at (0, 0, 0) {$\{a,c\}$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (bc) at (4, 4, 0) {$\{b,c\}$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (abc) at (0, 4, 0) {$\{a,b,c\}$};
+
+        % Lines
+        \draw[-] (empty) -- (a);
+        \draw[-] (empty) -- (b);
+        \draw[-] (empty) -- (c);
+        \draw[-] (a) -- (ab);
+        \draw[-] (a) -- (ac);
+        \draw[-] (b) -- (ab);
+        \draw[-] (b) -- (bc);
+        \draw[-] (c) -- (ac);
+        \draw[-] (c) -- (bc);
+        \draw[-] (ab) -- (abc);
+        \draw[-] (ac) -- (abc);
+        \draw[-] (bc) -- (abc);
+    \end{tikzpicture}
+    \caption{Hasse diagram for the set $P(A)$ with the inclusion order, where $A = \{a,b,c\}$.}
+    \label{fig:hasse_inclusion}
+\end{figure}
+
+\subsection{Isomorphism of relations}
+Let $A, B$ be sets, $R_A, R_B$ relations on $A$ and $B$, respectively. Then $A$ and $B$ are isomorphic if and only if there exists a bijective function $f: A \to B$ such that:
+\[
+\text{If } a, a' \in A, \quad aR_Aa' \Longleftrightarrow f(a)R_Bf(a')
+\]
+
+\subsection*{Example:}
+\[
+B = \{x_1x_2x_3 \mid x_i \in \{0,1\}\}
+\]
+\[
+x_1x_2x_3 \leq y_1y_2y_3 \Longleftrightarrow \begin{cases}
+    x_1 \leq y_1 \\
+    x_2 \leq y_2 \\
+    x_3 \leq y_3
+\end{cases}
+\]
+
+\[
+100 \leq 101, \quad \leq 110 / 101
+\]
+\[
+x_1 = 0 \text{ if } a \notin W \in P(A), \quad x_1 = 1 \text{ if } a \in W \in P(A)
+\]
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (000) at (0, 0, 0) {000};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (001) at (0, 0, 4) {001};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (010) at (0, 4, 0) {010};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (011) at (0, 4, 4) {011};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (100) at (4, 0, 0) {100};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (101) at (4, 0, 4) {101};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (110) at (4, 4, 0) {110};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (111) at (4, 4, 4) {111};
+
+        % Lines
+        \draw[-] (000) -- (001);
+        \draw[-] (000) -- (010);
+        \draw[-] (000) -- (100);
+        \draw[-] (001) -- (011);
+        \draw[-] (001) -- (101);
+        \draw[-] (010) -- (011);
+        \draw[-] (010) -- (110);
+        \draw[-] (011) -- (111);
+        \draw[-] (100) -- (101);
+        \draw[-] (100) -- (110);
+        \draw[-] (101) -- (111);
+        \draw[-] (110) -- (111);
+    \end{tikzpicture}
+    \caption{Hasse diagram for the set $B = \{x_1x_2x_3 \mid x_i \in \{0,1\}\}$ with the binary order.}
+    \label{fig:hasse_binary}
+\end{figure}
+
+\subsection{Domain and range of a relation}
+Obtain the domain and range of the correspondence in $\mathbb{N}$ defined by $xRy \Longleftrightarrow 2x + y = 16$.
+
+A correspondence or relation is a subset of $A \times B$. The domain of a relation $R \subseteq A \times B$ is the set of all elements of $A$ that are related to some element of $B$. The range of $R$ is the set of all elements of $B$ that are related to some element of $A$.
+
+\[
+2x + y = 16 \implies y = 16 - 2x
+\]
+\[
+x = 1 \implies y = 14 \implies (1,14) \in R, \quad 1R14
+\]
+\[
+x = 2 \implies y = 12 \implies (2,12) \in R, \quad 2R12
+\]
+\[
+x = 3 \implies y = 10 \implies (3,10) \in R, \quad 3R10
+\]
+\[
+x = 4 \implies y = 8 \implies (4,8) \in R, \quad 4R8
+\]
+\[
+x = 5 \implies y = 6 \implies (5,6) \in R, \quad 5R6
+\]
+\[
+x = 6 \implies y = 4 \implies (6,4) \in R, \quad 6R4
+\]
+\[
+x = 7 \implies y = 2 \implies (7,2) \in R, \quad 7R2
+\]
+
+The domain of $R$ is $\{1,2,3,4,5,6,7\}$ and the range is $\{2,4,6,8,10,12,14\}$.
+
+\subsection*{Example:}
+Let $A = \{a,b,c,d\}$ and $R = \{(a,a), (a,b), (a,c), (b,b), (b,c)\}$. Add elements to $R$ to make it:
+\begin{enumerate}
+    \item \textbf{Reflexive:} Add $(c,c), (d,d)$
+    \item \textbf{Symmetric:} Add $(b,a), (c,a), (c,b)$
+    \item \textbf{Antisymmetric:} No need to add anything, as it is already antisymmetric (no $x \neq y$ such that $xRy$ and $yRx$)
+    \item \textbf{Transitive:} $(a,b), (b,c) \implies (a,c)$, which is already in $R$
+\end{enumerate}
 
 
 
