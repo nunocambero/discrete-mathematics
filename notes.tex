@@ -578,7 +578,7 @@ CR_n^r = \binom{n + r - 1}{r}
 \]
 
 \subsection*{Example: Cookies}
-How many ways are there to distribute 6 cookies out of for types?
+How many ways are there to distribute 6 cookies out of four types?
 
 \[
 CR_4^6 = \binom{4 + 6 - 1}{6} = \binom{9}{6} = 84
@@ -1668,7 +1668,7 @@ We need the coefficient of $x^{11}$:
 (1 - x^5)^7 = 1 - 7x^5 + 21x^{10} - \dots
 \]
 \[
-\frac{1}{1 - x}^7 = \sum_{n = 0}^{\infty} \binom{n + 6}{n} x^n = \binom{6}{0} + \binom{7}{1}x + \dots + \binom{12}{6}x^6 + \dots + \binom{17}{11}x^{11} + \dots
+\left(\frac{1}{1 - x}\right)^7 = \sum_{n = 0}^{\infty} \binom{n + 6}{n} x^n = \binom{6}{0} + \binom{7}{1}x + \dots + \binom{12}{6}x^6 + \dots + \binom{17}{11}x^{11} + \dots
 \]
 So the coefficient of $x^{11}$ is:
 \[
@@ -1704,12 +1704,12 @@ a_n = 2^n
 \subsection*{Example:}
 Given the recurrence relation:
 \[
-a_{n+2} = 2a_{n+1} + a_n = 2^n, \quad a_0 = 1, \quad a_1 = 2
+a_{n+2} - 2a_{n+1} + a_n = 2^n, \quad a_0 = 1, \quad a_1 = 2
 \]
 
 Multiplying both sides by \( x^n \) and summing over all \( n \):
 \[
-\sum_{n=0}^{\infty} a_{n+2} x^n = 2 \sum_{n=0}^{\infty} a_{n+1} x^n + \sum_{n=0}^{\infty} a_n x^n + \sum_{n=0}^{\infty} 2^n x^n
+\sum_{n=0}^{\infty} a_{n+2} x^n - 2 \sum_{n=0}^{\infty} a_{n+1} x^n + \sum_{n=0}^{\infty} a_n x^n = \sum_{n=0}^{\infty} 2^n x^n
 \]
 
 Defining the generating function:
@@ -1756,7 +1756,7 @@ a_n = 2^n
 
 For (i)
 \[
-P_5 + V(5,1) + V(5,3) + V(5,2) + V(5,1)
+P_5 + V(5,4) + V(5,3) + V(5,2) + V(5,1)
 \]
 \[
 \frac{5!}{0!} + \frac{5!}{4!} + \frac{5!}{2!} + \frac{5!}{3!} + \frac{5!}{4!}
@@ -1778,7 +1778,7 @@ P_2 + 3 P_3 + \binom{3}{2} P_4 + P_5
 \]
 
 \subsection*{Example:}
-A soccer team has 3 Goalkeepers, 8 Defenders, 6 Midfielders, and 4 Forwards. The coach wants to pick up a team with 1 Goalkeeper, 5 Defenders, 3 Midfielders, and 2 Forwards. However, he does not want players M and A to play together. 
+A soccer team has 3 Goalkeepers, 8 Defenders, 6 Midfielders, and 4 Forwards. The coach wants to pick up a team with 1 Goalkeeper, 5 Defenders, 3 Midfielders, and 2 Forwards. However, he does not want players MA and FB to play together. 
 
 \vspace{0.5cm}
 Total Teams:
