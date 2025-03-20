@@ -152,7 +152,7 @@ This property generalizes to multiple sets:
 How many numbers between 5000 and 10000 can be formed without repeating digits?
 
 \[
-\text{Choices for the first digit: } 5 \quad \text{(only 5 works)}.
+\text{Choices for the first digit: } 5 \quad \text{(Take } 5, 6, 7, 8 \text{ or 9).}
 \]
 \[
 \text{Choices for the second digit: } 9 \quad (0 \text{ and remaining digits except }5).
@@ -285,12 +285,15 @@ Furthermore, suppose $p_i \leq p \quad \forall i, \quad$ then
 How many passwords can be formed with lengths 6 through 8, with letters and digits, when passwords must include at least one digit?
 
 \[
-P = P_6 + P_7 + P_8, \quad \text{With restrictions}
+P = P_6 + P_7 + P_8, \quad \text{with restrictions}
 \]
 
 \[
-26 \text{ letters} + 10 \text{ digits: } \\
+26 \text{ letters} + 10 \text{ digits} -\\
 \text{Only letters: } P_6 = 36^6 - 26^6, \quad P_7 = 36^7 - 26^7, \quad P_8 = 36^8 - 26^8
+\]
+\[
+P = (36^6 - 26^6) + (36^7 - 26^7) + (36^8 - 26^8) = 2684483063360
 \]
 
 \section{Substraction rule (Inclusion-exclusion principle)}
@@ -320,7 +323,7 @@ How many bit strings of length 8 are there that begin with 1 or end with 00?
 \end{itemize}
 
 \subsection{Permutations}
-Let $A \neq \emptyset$ be a set of $n$ elements. A permutation of $A$ is a bijetion:
+Let $A \neq \emptyset$ be a set of $n$ elements. A permutation of $A$ is a bijection:
 \[
 \phi: \{1,2,\dots ,n\} \rightarrow A
 \]
@@ -356,13 +359,13 @@ The number of ways to partition a set of $n$ elements into $k$ disjoint subsets 
 \]
 
 \subsection*{Example: Multinomial Coefficients}
-Suppose $n, k \in \mathbb{N}$ and $n = 2^k$. Prove that $\frac{n!}{2^k} \in \mathbb{N}$.
+Suppose $n, k \in \mathbb{N}$ and $n = 2k$. Prove that $\frac{n!}{2^k} \in \mathbb{N}$.
 
 \[
 \text{Let } A = \{x_1, x_1, x_2, x_2, \dots, x_k, x_k\} \\
 \]
 \[
-\text{where } |A| = n = 2^k 
+\text{where } |A| = n = 2k 
 \]
 \[
 \text{Number of ways to arrange the elements of } A = \frac{n!}{2^k}
@@ -522,7 +525,7 @@ What is the coefficient of $x^{12} y^{13}$ in the expansion of $(2x - 3y)^{25}$?
 \binom{25}{k} \cdot (2x)^{k} \cdot (-3y)^{25-k}
 \]
 \[
-k = 12 \rightarrow \binom{25}{12} \cdot 2^{12} \cdot (-3)^{13}
+k = 13 \rightarrow \binom{25}{13} \cdot 2^{12} \cdot (-3)^{13}
 \]
 
 \subsection{Pascal's Identity}
@@ -569,6 +572,9 @@ n=8&1&&8&&28&&56&&70&&56&&28&&8&&1\\
 
 \subsection*{Example: Fruits}
 4 fruits are to be chosen from a group of apples, oranges, and bananas. How many ways are there to choose the fruits?
+\[
+CR_3^4 = \binom{3 + 4 - 1}{4} = \binom{6}{4} = 15
+\]
 
 \subsection*{Example: Coins and Bills}
 How many ways are there to select five bills from a cash containing \$1, \$5, \$10, \$20, \$50, and \$100 bills?
@@ -624,7 +630,7 @@ a_1, a_2, a_3, \dots, a_n
 \text{If } a_{n - 1} < a_n, \text{ then exchange } a_n \text{ and } a_{n - 1}
 \]
 \[
-\text{If } a_{n - 1} > a_n, \text{then} a_{n - 2} < a_{n - 1} < a_n, \text{exchange } a_n \text{ and } a_{n - 2}
+\text{If } a_{n - 1} > a_n, \text{ then } a_{n - 2} < a_{n - 1} < a_n, \text{ exchange } a_n \text{ and } a_{n - 2}
 \]
 
 \renewcommand{\arraystretch}{2.5} % Increase row height
@@ -634,7 +640,7 @@ a_1, a_2, a_3, \dots, a_n
 \begin{center}
     \begin{tabular}{|>{\centering\arraybackslash}m{2.5cm}|>{\centering\arraybackslash}m{3.5cm}|>{\centering\arraybackslash}m{3.5cm}|>{\centering\arraybackslash}m{3.5cm}|}
     \hline
-     & \textbf{At most 1 per box} & \textbf{Any numbers per box} & \textbf{Exactly one per box} \\
+     & \textbf{At most 1 per box} & \textbf{Any number per box} & \textbf{Exactly one per box} \\
     \hline
     \textbf{k labeled balls} & $k \leq n, V_n^k \text{ or } P(n,k)$ & $\displaystyle\frac{k!}{k_1! k_2! \dots k_n!}$ & \cellcolor{gray!50} N/A \\  
     \hline
@@ -679,7 +685,7 @@ Then:
     &\text{Let } x \in U \text{ be an element of the universe, such that } P_i(x) \text{ is false } \forall i. \\
     &\text{Then } x \in S_i^c \forall i \implies x \in \bigcap_{i=1}^{n} S_i^C. \quad \implies \text{Counts 1 in the left-hand side.} \\
     &\text{In the right-hand side, } \left| U \right| \text{ is counted once, and 0 in all other terms.} \\
-    &\text{x is part of } r S_i \text{ sets, } 0 \leq r \leq n. \quad \implies \text{Counts 0 in the left-hand side.} \\
+    &\text{x is part of } r \space S_i \text{ sets, } 0 \leq r \leq n. \quad \implies \text{Counts 0 in the left-hand side.} \\
     &\text{In the right-hand side, } \left| U \right| \text{ is counted once, and 1 for every intersection } S_{i_1} \cap S_{i_2} \cap \dots \cap S_{i_k} \\
     &\text{as long as all the indices } i_1, i_2, \dots, i_k \text{ match some of the } r \text{ sets to which } x \text{ belongs.} \\
 \end{align*}
@@ -1203,7 +1209,7 @@ r^2 - 6r + 9 = 0 \quad \rightarrow r = 3 \text{ with multiplicity } 2
 
 For $F(n) = 3^n$:
 \[
-p_n = d n^2 3^n
+p_n = d_0 n^2 3^n
 \]
 
 For $F(n) = n 3^n$:
@@ -1329,9 +1335,9 @@ a_k = \binom{n}{k} \quad \rightarrow \quad G(x) = (1 + x)^n = \sum_{k=0}^{n} \bi
 
 \subsection{Applications of generating functions}
 \subsection*{Example:}
-Find the number of integer solutions of $x_1 + x_2 + x_3 = 17$ when $2 \leq x_1 \leq 5$, $3 \leq x_2 \leq 6$, and $3 \leq x_4 \leq 7$.
+Find the number of integer solutions of $x_1 + x_2 + x_3 = 17$ when $2 \leq x_1 \leq 5$, $3 \leq x_2 \leq 6$, and $3 \leq x_3 \leq 7$.
 \[
-G(x) = (x^2 + x^3 + x^4 + x^5)(x^3 + x^4 + x^5 + x^6)(x^4 + x^5 + x^6 + x^7) =
+G(x) = (x^2 + x^3 + x^4 + x^5)(x^3 + x^4 + x^5 + x^6)(x^3 + x^4 + x^5 + x^6 + x^7)
 \]
 We look for the coefficient of $x^{17}$ in $G(x)$.
 \[
