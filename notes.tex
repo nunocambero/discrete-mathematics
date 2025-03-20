@@ -571,10 +571,13 @@ n=8&1&&8&&28&&56&&70&&56&&28&&8&&1\\
 4 fruits are to be chosen from a group of apples, oranges, and bananas. How many ways are there to choose the fruits?
 
 \subsection*{Example: Coins and Bills}
-How many ways are there to select fine bills from a cash containing \$1, \$5, \$10, \$20, \$50, and \$100 bills?
+How many ways are there to select five bills from a cash containing \$1, \$5, \$10, \$20, \$50, and \$100 bills?
 
 \[
 CR_n^r = \binom{n + r - 1}{r}
+\]
+\[
+CR_6^5 = \binom{6 + 5 - 1}{5} = \binom{10}{5} = 252
 \]
 
 \subsection*{Example: Cookies}
@@ -1091,7 +1094,7 @@ Where $a_n^{(h)}$ is the general solution of the homogeneous case, with $F(n) = 
 
 \subsection*{Example:}
 \[
-a_n = 3 a_{n-1} + 2 a_{n-2} + 2n, \quad a_1 = 3
+a_n = 3 a_{n-1} + 2n, \quad a_1 = 3
 \]
 \[
 \text{Homogeneous: } \quad r - 3 = 0 \quad \rightarrow r = 3
@@ -1215,7 +1218,7 @@ p_n = (d_2 n^2 + d_1 n + d_0) 2^n
 
 For $F(n) = (1 + n) 2^n$:
 \[
-p_n = n^2 (d_2 n^2 d_1 n + d_0) 3^n
+p_n = (d_1 n + d_0) 2^n
 \]
 
 \subsection{The $r = 1$ case}
