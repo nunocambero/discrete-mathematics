@@ -6,6 +6,7 @@
 \usepackage{booktabs}
 \usepackage{tikz}
 \usepackage{xcolor, colortbl, tikz}
+\usepackage{float}
 \usetikzlibrary{patterns}
 
 % Page Layout
@@ -2690,7 +2691,243 @@ Let $A = \{a,b,c,d\}$ and $R = \{(a,a), (a,b), (a,c), (b,b), (b,c)\}$. Add eleme
     \item \textbf{Transitive:} $(a,b), (b,c) \implies (a,c)$, which is already in $R$
 \end{enumerate}
 
+\subsection*{Example:}
+Consider the correspondence $R \subseteq \mathbb{N} \times \mathbb{N}$:
+\[
+(m,n) R (p,q) \Longleftrightarrow m + q = n + p
+\]
 
+\begin{enumerate}
+    \item Proof that $R$ is an equivalence relation.
+    \item Find the equivalence classes of $(1,1)$, $(2,1)$, $(3,1)$, $(1,2)$ and $(1,3)$.
+    \item Find the quotient set $\mathbb{N} \times \mathbb{N}/R$ and try to identify it with a known set.
+\end{enumerate}
+
+\begin{enumerate}
+    \item \textbf{Reflexive:} $m + n = n + m$
+    \item \textbf{Symmetric:} $m + q = n + p \implies n + p = m + q$
+    \item \textbf{Transitive:} $m + q = n + p, \quad n + p = r + s \implies m + q = r + s$
+\end{enumerate}
+
+\[
+(1,1) R (n,n) \implies [1,1] = \{(1,1), (2,2), (3,3), \ldots\}
+\]
+\[
+(2,1) R (n+1,n) \implies [2,1] = \{(2,1), (3,2), (4,3), \ldots\}
+\]
+\[
+(3,1) R (n+2,n) \implies [3,1] = \{(3,1), (4,2), (5,3), \ldots\}
+\]
+\[
+(1,2) R (n-1,n) \implies [1,2] = \{(1,2), (2,3), (3,4), \ldots\}
+\]
+\[
+(1,3) R (n-2,) \implies [1,3] = \{(1,3), (2,4), (3,5), \ldots\}
+\]
+
+\[
+\mathbb{N} \times \mathbb{N}/R = \{[n,n+k], \quad \forall k \in \mathbb{Z}, \quad k > (-n)\} = [k] = \mathbb{Z}
+\]
+
+\subsection*{Example:}
+Let $A$ be a set and let $R$ be a relation given by:
+\[
+\begin{pmatrix}
+    1 & 1 & 1 & 1 & 0 \\
+    0 & 1 & 1 & 1 & 0 \\
+    0 & 0 & 1 & 1 & 0 \\
+    0 & 0 & 0 & 1 & 0 \\
+    0 & 0 & 1 & 1 & 1
+\end{pmatrix}
+\]
+
+\begin{enumerate}
+    \item Prove that $R$ is an order relation in $A$.
+    \item Find the domain and range of $R$.
+    \item Draw the Hasse diagram of $R$.
+    \item Find a topological order that contains $R$.
+\end{enumerate}
+
+\begin{enumerate}
+    \item \textbf{Reflexive:} We have 1s in the diagonal, so it is reflexive.
+    \item \textbf{Antisymmetric:} For every 1 in the matrix, there is a 0 in the symmetric position and vice versa, so it is antisymmetric.
+    \item \textbf{Transitive:} By enumerating the elements, we can see that it is transitive.
+\end{enumerate}
+
+\[
+\text{Domain: } \{a,b,c,d,e\}, \quad \text{Range: } \{a,b,c,d,e\}
+\]
+
+\[
+\text{Minimals: } a \text{ and } e, \quad \text{Maximals: } c \text{ and } e
+\]
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 2, 0) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (2, 4, 0) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (2, 6, 0) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (4, 0, 0) {e};
+
+        % Lines
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (3) -- (5);
+    \end{tikzpicture}
+    \caption{Hasse diagram for the set $A = \{a,b,c,d,e\}$ with the relation $R$.}
+    \label{fig:hasse_relation}
+\end{figure}
+
+\[
+\text{Topological order: } e \preceq a \preceq b \preceq c \preceq d
+\]
+
+\subsection*{Example:}
+Let $A = \{2,3,5,6,10,30\}$ with the order relation $n \leq m$ if $n$ divides $m$. 
+\begin{enumerate}
+    \item Is $A$ totally ordered?
+    \item Hasse diagram of $A$.
+    \item Find the maximum, minimum, supremum and infimum of $A \subset \mathbb{N}$.
+\end{enumerate}
+
+An order is total if for every pair of elements $n, m \in A$, $n \leq m$ or $m \leq n$.
+\[
+2 \nmid 3, \quad 3 \nmid 2 \implies \text{ not totally ordered}
+\]
+
+\[
+\text{Maximals: } 30, \quad \text{Minimals: } 2, 3, 5
+\]
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (0, 0, 0) {2};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (2, 0, 0) {3};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (4, 0, 0) {5};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (1, 2, 0) {6};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (10) at (3, 2, 0) {10};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (30) at (2, 4, 0) {30};
+
+        % Lines
+        \draw[-] (2) -- (6);
+        \draw[-] (2) -- (10);
+        \draw[-] (3) -- (6);
+        \draw[-] (5) -- (10);
+        \draw[-] (6) -- (30);
+        \draw[-] (10) -- (30);
+    \end{tikzpicture}
+    \caption{Hasse diagram for the set $A = \{2,3,5,6,10,30\}$ with the division order.}
+    \label{fig:hasse_division}
+\end{figure}
+
+\[
+\text{Supremum and maximum: } 30, \quad \text{Infimum but not minimum: } 1
+\]
+
+\subsection*{Example:}
+Find the maximals, minimals, maximum and minimum of:
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \begin{tikzpicture}
+            % Nodes
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (3, 4.5, 0) {a};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (1, 3, 0) {b};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (5, 3, 0) {c};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0, 1, 0) {d};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (2, 1, 0) {e};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (4, 0, 0) {f};
+
+            % Lines
+            \draw[-] (1) -- (2);
+            \draw[-] (1) -- (3);
+            \draw[-] (2) -- (4);
+            \draw[-] (2) -- (5);
+            \draw[-] (3) -- (6);
+            \draw[-] (5) -- (6);
+        \end{tikzpicture}
+        \caption{Hasse diagram for the set $A = \{a,b,c,d,e,f\}$ with the relation $R$.}
+        \label{fig:hasse_relation2}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \begin{tikzpicture}
+            % Nodes
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (1, 4, 0) {a};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (3, 4, 0) {b};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (0, 0, 0) {c};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (2, 0, 0) {d};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (4, 0, 0) {e};
+
+
+            % Lines
+            \draw[-] (1) -- (4);
+            \draw[-] (1) -- (3);
+            \draw[-] (2) -- (4);
+            \draw[-] (2) -- (5);
+        \end{tikzpicture}
+        \caption{Another Hasse diagram for a different set $B = \{a,b,c,d,e\}$.}
+        \label{fig:hasse_relation3}
+    \end{minipage}
+\end{figure}
+
+For the first diagram:
+\[
+\text{Maximals and maximum: } a, \quad \text{Minimals: } d, f
+\]
+
+For the second diagram:
+\[
+\text{Maximals: } a, b, \quad \text{Minimals: } c, d, e
+\]
+
+\subsection*{Example:}
+Find the upper bounds, lower bounds, supremum and infimum of the set $B = \{4,5,6\}$.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 4, 0) {1};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 4, 0) {2};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (1, 3, 0) {3};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0, 2, 0) {4};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (2, 2, 0) {5};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (1, 1, 0) {6};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (3, 1, 0) {7};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (2, 0, 0) {8};
+
+
+        % Lines
+        \draw[-] (1) -- (3);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (3) -- (5);
+        \draw[-] (4) -- (6);
+        \draw[-] (5) -- (7);
+        \draw[-] (6) -- (8);
+        \draw[-] (7) -- (8);
+        \draw[-] (5) -- (6);
+    \end{tikzpicture}
+    \caption{Hasse diagram for the set $B = \{4,5,6\}$ with the relation $R$.}
+    \label{fig:hasse_relation4}
+\end{figure}
+
+\[
+\text{Upper bounds: } 1,2,3 \quad \text{Lower bounds: } 8,6
+\]
+\[
+\text{Supremum but not maximum (does not belong to } B \text{): } 3, \quad \text{Infimum and minimum: } 6
+\]
 
 
 \end{document}
