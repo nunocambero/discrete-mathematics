@@ -2929,5 +2929,529 @@ Find the upper bounds, lower bounds, supremum and infimum of the set $B = \{4,5,
 \text{Supremum but not maximum (does not belong to } B \text{): } 3, \quad \text{Infimum and minimum: } 6
 \]
 
+\section{Graph theory}
+A graph is a set of vertices $V$ and a set of edges $E \subseteq V \times V$. An edge is a pair of vertices.
+
+\begin{center}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+            % Nodes
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0, 0) {$V_1$};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 3, 0) {$V_2$};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (2, 1, 0) {$V_3$};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (4, 0, 0) {$V_4$};
+    
+            % Lines
+            \draw[-] (1) -- (3);
+            \draw[-, in = 200, out = 340, looseness = ] (1) to (4);
+            \draw[-] (2) -- (4);
+        \end{tikzpicture}
+        \caption{Graph with vertices $V = \{V_1, V_2, V_3, V_4\}$ and edges $E = \{(V_1, V_3), (V_1, V_4), (V_2, V_4)\}$.}
+    \end{figure}
+\end{center}
+
+\subsection{Directed graphs}
+In a directed graph, the edges have a direction. We use the notation of the cartesian product $(v_i, v_j)$ to indicate that there is an edge from $v_i$ to $v_j$.
+
+\subsubsection{Social networks}
+\begin{center}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+            % Nodes
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (2, 2, 0) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (0, 1, 0) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (1, 0, 0) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (3, 1, 0) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (1, 3, 0) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (3, 3, 0) {};
+    
+            % Lines
+            \draw[->] (1) -- (2);
+            \draw[->] (3) -- (1);
+            \draw[->] (2) -- (3);
+            \draw[->] (1) -- (4);
+            \draw[->] (1) -- (5);
+            \draw[->] (5) -- (6);
+            \draw[->] (6) -- (1);
+            
+        \end{tikzpicture}
+        \caption{Directed graph representing a social network.}
+    \end{figure}
+\end{center}
+
+\subsection{Multigraphs}
+A multigraph allows for multiple edges between the same pair of vertices and loops (edges that start and end at the same vertex).
+
+\subsection{Weighted graphs}
+In a weighted graph, each edge has a weight associated with it.
+
+\begin{center}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+            % Nodes
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0, 0) {$V_1$};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 3, 0) {$V_2$};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (2, 1, 0) {$V_3$};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (4, 0, 0) {$V_4$};
+    
+            % Lines
+            \draw[-] (1) -- (3);
+            \draw[-, in = 220, out = 130, looseness = 5] (1) to (1);
+            \draw[-, in = 200, out = 340] (1) to (4);
+            \draw[-] (2) -- (4) node[pos=0.4, left] {50 kV};
+            \draw[-, in = 90, out = 0, looseness = 1] (2) to (4);
+            \node at (4.5, 2.5, 0) {100 kV};
+        \end{tikzpicture}
+        \caption{Graph with vertices $V = \{V_1, V_2, V_3, V_4\}$ and edges $E = \{(V_1, V_3), (V_1, V_4), (V_2, V_4)\}$.}
+    \end{figure}
+\end{center}
+
+\subsubsection{Signed graphs}
+In a signed graph, each edge has a weight that equals 1 or -1.
+
+\subsection{Basic terminology and results}
+\[
+G(V,E), \quad \text{where } V = \{v_1, v_2, \ldots, v_n\}, \quad E = \{(v_i, v_j) \mid v_i, v_j \in V\}
+\]
+
+Two vertices $v_i, v_j \in G$ are adjacent (neighbors) if there is an edge between them (they form a pair). In a directed graph, we say that $v_i$ is adjacent to $v_j$ if there is an edge from $v_i$ to $v_j$.
+
+Given a vertex $v_i \in V$, $G = (V,E)$ an undirected graph, the set of neighbors of $v$ is called the neighborhood of $v$ and is denoted by $N(v)$.
+\[
+A \subseteq V, \quad N(A) = \bigcup_{i = 1}^k N(v_i)
+\]
+\[
+A = \{v_1, v_2, v_3\}
+\]
+
+The degree of a vertex $v_i$ is the number of edges incident to $v_i$. In a directed graph, we have the in-degree and out-degree of a vertex.
+\[
+\text{deg}(v) = |N(v)|
+\]
+
+\begin{center}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+            % Nodes
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0, 0) {a};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 2, 0) {b};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (2, 0, 0) {c};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (4, 2, 0) {d};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (4, 0, 0) {e};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (6, 2, 0) {f};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (6, 0, 0) {g};
+    
+            % Lines
+            \draw[-] (1) -- (3);
+            \draw[-] (1) -- (2);
+            \draw[-] (2) -- (4);
+            \draw[-] (3) -- (5);
+            \draw[-] (4) -- (6);
+            \draw[-] (2) -- (5);
+            \draw[-] (3) -- (4);
+            \draw[-] (2) -- (3);
+            \draw[-] (4) -- (5);
+        \end{tikzpicture}
+        \caption{Graph with vertices $V = \{a,b,c,d,e,f,g\}$ and edges \\ $E = \{(a,c), (a,b), (b,d), (c,e), (d,f), (b,e), (c,d), (b,c), (d,e)\}$.}
+    \end{figure}
+\end{center}
+
+$a$ is adjacent to $b$ and $c$, so $N(a) = \{b,c\}$.
+
+Taking $A = \{b,c,e\}$, $N(A) = \{a,b,c,d,e\}$.
+
+Taking $B = \{a,f\}$, $N(B) = \{b,c,d,e\}$.
+\[
+\text{deg}(a) = 2, \quad \text{deg}(b) = 4, \quad \text{deg}(c) = 3, \quad \text{deg}(d) = 3, \quad \text{deg}(e) = 3, \quad \text{deg}(f) = 1, \quad \text{deg}(g) = 0
+\]
+
+$f$ is called a leaf vertex, or a pendant node (a vertex with degree 1).
+
+\subsection{Handshaking theorem}
+Let $G = (V,E)$ be a graph. The sum of the degrees of all vertices is equal to twice the number of edges.
+\[
+\sum_{v \in V} \text{deg}(v) = 2|E|
+\]
+
+\subsubsection{Theorem}
+Every undirected graph has an even number of vertices with odd degree.
+\[
+\sum_{v \in V} \text{deg}(v) = \sum_{v \in V_{\text{even}}} \text{deg}(v) + \sum_{v \in V_{\text{odd}}} \text{deg}(v) = 2|E| \implies \text{odd} + \text{even} = \text{even}
+\]
+
+For a directed graph, the sum of the in-degrees is equal to the sum of the out-degrees, where the in-degree (deg$^-$) of $v_i$ is the number of nodes that $v_i$ is adjacent from and the out-degree (deg$^+$) is the number of nodes that $v_i$ is adjacent to.
+
+\subsubsection{Handshaking theorem for directed graphs}
+\[
+\sum_{v \in V} \text{deg}^-(v) = \sum_{v \in V} \text{deg}^+(v) = |E|
+\]
+
+\subsection{Special graphs (undirected)}
+\begin{enumerate}
+    \item \textbf{Complete graph ($K_n$):} A graph where every pair of vertices is adjacent. They are also called cliques.
+    \[
+    \text{Set of vertices } V, \quad |V| = n, \quad E = V \times V
+    \]
+
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[scale=0.8]
+            % K_1
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (k1) at (0, 0) {};
+
+            % K_2
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (k2a) at (3, 0) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (k2b) at (3, 2) {};
+            \draw[-] (k2a) -- (k2b);
+
+            % K_3
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (k3a) at (6, 0) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (k3b) at (5, 2) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (k3c) at (7, 2) {};
+            \draw[-] (k3a) -- (k3b);
+            \draw[-] (k3b) -- (k3c);
+            \draw[-] (k3c) -- (k3a);
+
+            % K_4
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (k4a) at (10, 0) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (k4b) at (9, 1) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (k4c) at (11, 1) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (k4d) at (10, 2) {};
+            \draw[-] (k4a) -- (k4b);
+            \draw[-] (k4b) -- (k4c);
+            \draw[-] (k4c) -- (k4a);
+            \draw[-] (k4a) -- (k4d);
+            \draw[-] (k4b) -- (k4d);
+            \draw[-] (k4c) -- (k4d);
+        \end{tikzpicture}
+        \caption{Complete graphs $K_1$, $K_2$, $K_3$, and $K_4$ aligned horizontally.}
+        \label{fig:complete_graphs}
+    \end{figure}
+    \item \textbf{Cycle graph ($C_n, n \geq 3$):} A graph where the vertices form a cycle.
+    \[
+    V = \{v_1, v_2, \ldots, v_n\}, \quad E = \{(v_1, v_2), (v_2, v_3), \ldots, (v_{n-1}, v_n), (v_n, v_1)\}
+    \]
+
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[scale=1.5]
+            % Nodes
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 1) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (0.71, 0.71) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (1, 0) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0.71, -0.71) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (0, -1) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (-0.71, -0.71) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (-1, 0) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (-0.71, 0.71) {};
+
+            % Edges
+            \draw[-] (1) -- (2);
+            \draw[-] (2) -- (3);
+            \draw[-] (3) -- (4);
+            \draw[-] (4) -- (5);
+            \draw[-] (5) -- (6);
+            \draw[-] (6) -- (7);
+            \draw[-] (7) -- (8);
+            \draw[-] (8) -- (1);
+        \end{tikzpicture}
+        \caption{Cycle graph $C_8$ representing an octagon.}
+        \label{fig:octagon_cycle}
+    \end{figure}
+    \item \textbf{Wheel graph ($W_n$):} A cycle graph with an additional vertex that is adjacent to all other vertices.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}[scale=1.5]
+            % W_4
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (w4c) at (0, 0) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (w4a) at (-1, 1) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (w4b) at (1, 1) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (w4d) at (1, -1) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (w4e) at (-1, -1) {};
+            \draw[-] (w4a) -- (w4b);
+            \draw[-] (w4b) -- (w4d);
+            \draw[-] (w4d) -- (w4e);
+            \draw[-] (w4e) -- (w4a);
+            \draw[-] (w4c) -- (w4a);
+            \draw[-] (w4c) -- (w4b);
+            \draw[-] (w4c) -- (w4d);
+            \draw[-] (w4c) -- (w4e);
+
+            % W_5 (Regular pentagon with center node)
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (w5c) at (4, 0) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (w5a) at (4, 1.5) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (w5b) at (5.43, 0.46) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (w5d) at (4.87, -1.21) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (w5e) at (3.13, -1.21) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (w5f) at (2.57, 0.46) {};
+            \draw[-] (w5a) -- (w5b);
+            \draw[-] (w5b) -- (w5d);
+            \draw[-] (w5d) -- (w5e);
+            \draw[-] (w5e) -- (w5f);
+            \draw[-] (w5f) -- (w5a);
+            \draw[-] (w5c) -- (w5a);
+            \draw[-] (w5c) -- (w5b);
+            \draw[-] (w5c) -- (w5d);
+            \draw[-] (w5c) -- (w5e);
+            \draw[-] (w5c) -- (w5f);    
+        \end{tikzpicture}
+        \caption{Wheel graphs $W_4$ and $W_5$.}
+        \label{fig:wheel_graphs}
+    \end{figure}
+    \item \textbf{Hypercube graph ($Q_n$):} A graph where each vertex represents a binary string of length $n$ and two vertices are adjacent if their binary strings differ in exactly one bit.
+    \[
+    E = \{(s_i, s_j) \mid s_i, s_j \in V, \text{ and } s_i, s_j \text{ differ in exactly one bit (position)}\}
+    \]
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+        % Q2 (Hypercube graph with n=2)
+        \node[circle, draw, fill=gray!20, minimum size=0.4cm] (q2a) at (0, 0) {00};
+        \node[circle, draw, fill=gray!20, minimum size=0.4cm] (q2b) at (2, 0) {01};
+        \node[circle, draw, fill=gray!20, minimum size=0.4cm] (q2c) at (0, 2) {10};
+        \node[circle, draw, fill=gray!20, minimum size=0.4cm] (q2d) at (2, 2) {11};
+        \draw[-] (q2a) -- (q2b);
+        \draw[-] (q2a) -- (q2c);
+        \draw[-] (q2b) -- (q2d);
+        \draw[-] (q2c) -- (q2d);
+
+        % Q3 (Hypercube graph with n=3, represented as a cube)
+        \node (q3a) at (5, 0) {000};
+        \node (q3b) at (7, 0) {001};
+        \node (q3c) at (5, 2) {010};
+        \node (q3d) at (7, 2) {011};
+        \node (q3e) at (6, 1) {100};
+        \node (q3f) at (8, 1) {101};
+        \node (q3g) at (6, 3) {110};
+        \node (q3h) at (8, 3) {111};
+        \draw[-] (q3a) -- (q3b);
+        \draw[-] (q3a) -- (q3c);
+        \draw[-] (q3b) -- (q3d);
+        \draw[-] (q3c) -- (q3d);
+        \draw[-] (q3e) -- (q3f);
+        \draw[-] (q3e) -- (q3g);
+        \draw[-] (q3f) -- (q3h);
+        \draw[-] (q3g) -- (q3h);
+        \draw[-] (q3a) -- (q3e);
+        \draw[-] (q3b) -- (q3f);
+        \draw[-] (q3c) -- (q3g);
+        \draw[-] (q3d) -- (q3h);
+        \end{tikzpicture}
+        \caption{Hypercube graphs $Q_2$ and $Q_3$.}
+        \label{fig:hypercube_graphs}
+    \end{figure}
+\end{enumerate}
+
+\subsection{Bipartite graphs (undirected)}
+A graph $G = (V,E)$ is bipartite if the set of vertices can be partitioned into two disjoint sets $V_1$ and $V_2$ such that every edge connects a vertex in $V_1$ to a vertex in $V_2$.
+\[
+V = V_1 \cup V_2, \quad V_1 \cap V_2 = \emptyset, \quad \forall (v_i, v_j) \in E, \quad v_i \in V_1, \quad v_j \in V_2
+\]
+
+\begin{figure}[H]
+    \centering
+        \begin{tikzpicture}
+            % Nodes
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 2) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (2, 0) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (4, 2) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (4, 0) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (6, 2) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (6, 0) {};
+    
+            % Edges
+            \draw[-] (1) -- (2);
+            \draw[-] (2) -- (3);
+            \draw[-] (4) -- (5);
+            \draw[-] (5) -- (6);
+            
+            % Dotted line dividing the two parts
+            \draw[dashed] (-1, 1) -- (7, 1);
+            \node at (-1, 1.5) {V1};
+            \node at (-1, 0.5) {V2};
+        \end{tikzpicture}
+    \caption{Bipartite graph with vertices $V = \{1,2,3,4,5,6,7\}$ and edges \\ $E = \{(1,2), (2,3), (4,5), (5,6)\}$.}
+\end{figure}
+
+\subsubsection{Theorem}
+A graph is bipartite if and only if every vertex can be assigned one of two colors such that no two adjacent vertices have the same color.
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.5]
+        % Nodes
+        \node[circle, draw, fill=red!20, minimum size=0.6cm] (1) at (0, 1) {};
+        \node[circle, draw, fill=blue!20, minimum size=0.6cm] (2) at (0.71, 0.71) {};
+        \node[circle, draw, fill=red!20, minimum size=0.6cm] (3) at (1, 0) {};
+        \node[circle, draw, fill=blue!20, minimum size=0.6cm] (4) at (0.71, -0.71) {};
+        \node[circle, draw, fill=red!20, minimum size=0.6cm] (5) at (0, -1) {};
+        \node[circle, draw, fill=blue!20, minimum size=0.6cm] (6) at (-0.71, -0.71) {};
+        \node[circle, draw, fill=red!20, minimum size=0.6cm] (7) at (-1, 0) {};
+        \node[circle, draw, fill=blue!20, minimum size=0.6cm] (8) at (-0.71, 0.71) {};
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (5);
+        \draw[-] (5) -- (6);
+        \draw[-] (6) -- (7);
+        \draw[-] (7) -- (8);
+        \draw[-] (8) -- (1);
+
+        % Labels
+    \end{tikzpicture} \quad \quad \quad
+    \begin{tikzpicture}[scale=1.5]
+        % Nodes
+        \node[circle, draw, fill=red!20, minimum size=0.6cm] (1) at (0, 2) {};
+        \node[circle, draw, fill=blue!20, minimum size=0.6cm] (2) at (0, 0) {};
+        \node[circle, draw, fill=red!20, minimum size=0.6cm] (3) at (1, 2) {};
+        \node[circle, draw, fill=blue!20, minimum size=0.6cm] (4) at (1, 0) {};
+        \node[circle, draw, fill=red!20, minimum size=0.6cm] (5) at (2, 2) {};
+        \node[circle, draw, fill=blue!20, minimum size=0.6cm] (6) at (2, 0) {};
+        \node[circle, draw, fill=red!20, minimum size=0.6cm] (7) at (3, 2) {};
+        \node[circle, draw, fill=blue!20, minimum size=0.6cm] (8) at (3, 0) {};
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (5);
+        \draw[-] (5) -- (6);
+        \draw[-] (6) -- (7);
+        \draw[-] (7) -- (8);
+        \draw[-] (8) -- (1);
+
+        % Labels
+    \end{tikzpicture}
+    \caption{Bipartite graph $C_8$ (octagon) and alternative representation with colored vertices.}
+\end{figure}
+
+$K_{n,m}$  is the complete bipartite graph with $n$ vertices in $V_1$, $m$ vertices in $V_2$ and all possible edges between $V_1$ and $V_2$.
+% K_{2,3} (Complete bipartite graph with 2 vertices in V1 and 3 in V2)
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.5]
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0.5, 2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (1.5, 2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (0, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (1, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (2, 0) {};
+        
+        % Edges
+        \draw[-] (1) -- (3);
+        \draw[-] (1) -- (4);
+        \draw[-] (1) -- (5);
+        \draw[-] (2) -- (3);    
+        \draw[-] (2) -- (4);
+        \draw[-] (2) -- (5);
+
+
+        % Labels
+        \draw[dashed] (-0.5, 1) -- (3.5, 1);
+        \node at (-0.5, 1.5) {$V_1$};
+        \node at (-0.5, 0.5) {$V_2$};
+    \end{tikzpicture}
+    \begin{tikzpicture}[scale=1.5]
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0.5, 2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (1.5, 2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (2.5, 2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (1, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (2, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (3, 0) {};
+
+        % Edges
+        \draw[-] (1) -- (4);
+        \draw[-] (1) -- (5);
+        \draw[-] (1) -- (6);
+        \draw[-] (2) -- (4);
+        \draw[-] (2) -- (5);
+        \draw[-] (2) -- (6);
+        \draw[-] (3) -- (4);
+        \draw[-] (3) -- (5);
+        \draw[-] (3) -- (6);
+        \draw[-] (3) -- (7);
+        \draw[-] (2) -- (7);
+        \draw[-] (1) -- (7);
+
+        % Labels
+        \draw[dashed] (-0.5, 1) -- (3.5, 1);
+        \node at (-0.5, 1.5) {$V_1$};
+        \node at (-0.5, 0.5) {$V_2$};
+    \end{tikzpicture}
+    \caption{Complete bipartite graphs $K_{2,2}$ and $K_{3,3}$.}
+\end{figure}
+
+\subsubsection{Matching}
+A matching in a bipartite graph is a subset of edges such that no two edges share a common vertex.
+
+
+        \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.5]
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0.5, 2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (1.5, 2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (2.5, 2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (3.5, 2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (0, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (1, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (2, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (3, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (9) at (4, 0) {};
+
+        % Edges (Complete graph)
+        \draw[-] (1) -- (5);
+        \draw[-] (1) -- (6);
+        \draw[-] (1) -- (7);
+        \draw[-] (1) -- (8);
+        \draw[-] (1) -- (9);
+        \draw[-] (2) -- (5);
+        \draw[-] (2) -- (6);
+        \draw[-] (2) -- (7);
+        \draw[-] (2) -- (8);
+        \draw[-] (2) -- (9);
+        \draw[-] (3) -- (5);
+        \draw[-] (3) -- (6);
+        \draw[-] (3) -- (7);
+        \draw[-] (3) -- (8);
+        \draw[-] (3) -- (9);
+        \draw[-] (4) -- (5);
+        \draw[-] (4) -- (6);
+        \draw[-] (4) -- (7);
+        \draw[-] (4) -- (8);
+        \draw[-] (4) -- (9);
+
+        % Matching (highlighted edges)
+        \draw[thick, red] (1) -- (5);
+        \draw[thick, red] (2) -- (6);
+        \draw[thick, red] (3) -- (7);
+        \draw[thick, red] (4) -- (8);
+
+        \draw[dashed] (-0.5, 1) -- (4.5, 1);
+        \node at (-0.5, 1.5) {$V_1$};
+        \node at (-0.5, 0.5) {$V_2$};
+    \end{tikzpicture}
+    \caption{Complete bipartite graph with a matching highlighted in red.}
+\end{figure}
+
+The maximum matching is the matching with the maximum number of edges. The complete matching is the matching where all vertices in $V_1$ have an edge.
+
+
+        
+
+
+
+
+
+
+
 
 \end{document}
