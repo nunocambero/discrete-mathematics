@@ -2732,6 +2732,7 @@ Consider the correspondence $R \subseteq \mathbb{N} \times \mathbb{N}$:
 \subsection*{Example:}
 Let $A$ be a set and let $R$ be a relation given by:
 \[
+    \renewcommand{\arraystretch}{1} % Adjust this value as needed
 \begin{pmatrix}
     1 & 1 & 1 & 1 & 0 \\
     0 & 1 & 1 & 1 & 0 \\
@@ -3444,8 +3445,515 @@ A matching in a bipartite graph is a subset of edges such that no two edges shar
 
 The maximum matching is the matching with the maximum number of edges. The complete matching is the matching where all vertices in $V_1$ have an edge.
 
+\section{Graph Operations}
+\subsection{Subgraph}
+A subgraph of a graph $G = (V,E)$ is a graph $G' = (V',E')$ such that $V' \subseteq V$ and $E' \subseteq E$. We call the subgraph proper if $V' \neq V$ and $E' \neq E$. 
 
-        
+\[
+G = (V,E), \quad \text{Subgraph induced by } V' \subseteq V \text{ is } G' = (V',E'), \quad E' = \{(u,v) \in E \mid u,v \in V'\}
+\]
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=0.8]
+        % K_5 (Pentagon)
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (k5a) at (0, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (k5b) at (2, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (k5c) at (2.5, 1.73) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (k5d) at (1, 3) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (k5e) at (-0.5, 1.73) {};
+        \draw[-] (k5a) -- (k5b);
+        \draw[-] (k5b) -- (k5c);
+        \draw[-] (k5c) -- (k5d);
+        \draw[-] (k5d) -- (k5e);
+        \draw[-] (k5e) -- (k5a);
+        \draw[-] (k5a) -- (k5c);
+        \draw[-] (k5a) -- (k5d);
+        \draw[-] (k5b) -- (k5d);
+        \draw[-] (k5b) -- (k5e);
+        \draw[-] (k5c) -- (k5e);
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}[scale=0.8]
+        % Induced graph (Triangle)
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (i1) at (0, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (i2) at (2, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (i3) at (0, 2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (i4) at (2, 2) {};
+        \draw[-] (i1) -- (i2);
+        \draw[-] (i1) -- (i3);
+        \draw[-] (i2) -- (i3);
+        \draw[-] (i1) -- (i4);
+        \draw[-] (i2) -- (i4);
+        \draw[-] (i3) -- (i4);
+    \end{tikzpicture}
+    \caption{Complete graph $K_5$ and its induced graph.}
+    \label{fig:K5_induced}
+\end{figure}
+
+\subsection{Other operations}
+\begin{enumerate}
+    \item \textbf{Remaining a single edge: } $G = (V,E) \implies G' = (V,E')$, where $E' = E - \{e\}$, $e \in E$.
+    \item \textbf{Adding an edge: } $G = (V,E) \implies G' = (V,E')$, where $E' = E \cup \{e\}$, $e \notin E$. This is not a subgraph.
+    
+    Some operations can be done for more than one edge:
+    \[
+    (V,E) \implies (V,E') \text{ where } E' = E - \{e_1, e_2, \ldots, e_k\} \text{ or } E' = E \cup \{e_1, e_2, \ldots, e_k\}
+    \]
+
+    \item \textbf{Edge contractions: } removing an edge $e = (u,v)$ and merging the vertices $u$ and $v$ into a single vertex $w$. The new graph is denoted as $G' = (V',E')$, where $V' = V - \{u,v\} \cup \{w\}$ and $E'$ contains all edges from $E$ except for those incident to $u$ and $v$.
+    \begin{center}
+        \begin{figure}[H]
+            \centering
+            \begin{tikzpicture}
+                % Original graph
+                \node[circle, draw, fill=gray!20, minimum size=0.6cm] (u) at (0, 0) {a};
+                \node[circle, draw, fill=gray!20, minimum size=0.6cm] (v) at (2, 0) {b};
+                \node[circle, draw, fill=gray!20, minimum size=0.6cm] (w) at (4, 0) {c};
+                \node[circle, draw, fill=gray!20, minimum size=0.6cm] (x) at (6, 0) {d};
+                \node[circle, draw, fill=gray!20, minimum size=0.6cm] (y) at (3, -2) {e};
+
+                \draw[-] (u) -- (v);
+                \draw[-] (v) -- (w);
+                \draw[-] (w) -- (x);
+                \draw[-] (v) -- (y);
+                \draw[-] (w) -- (y);
+            \end{tikzpicture}
+            \hspace{1cm}
+            % Contracted graph
+            \begin{tikzpicture}
+                % Contracted graph
+                \node[circle, draw, fill=gray!20, minimum size=0.6cm] (u) at (0, 0) {a};
+                \node[circle, draw, fill=gray!20, minimum size=0.6cm] (v) at (2, 0) {b};
+                \node[circle, draw, fill=gray!20, minimum size=0.6cm] (w) at (4, 0) {c};
+                \node[circle, draw, fill=gray!20, minimum size=0.6cm] (x) at (6, 0) {d};
+                \node[circle, draw, fill=gray!20, minimum size=0.6cm] (y) at (3, -2) {e};
+
+                \draw[-] (u) -- (v);
+                \draw[-] (w) -- (x);
+                \draw[-] (v) -- (y);
+                \draw[-] (w) -- (y);
+            \end{tikzpicture}
+            \end{figure}
+            \begin{figure}[H]
+            \begin{tikzpicture}
+                \node[circle, draw, fill=gray!20, minimum size=0.6cm] (u) at (0, 0) {a};
+                \node[circle, draw, fill=gray!20, minimum size=0.6cm] (v) at (2, 0) {b};
+                \node[circle, draw, fill=gray!20, minimum size=0.6cm] (w) at (4, 0) {c};
+                \node[circle, draw, fill=gray!20, minimum size=0.6cm] (x) at (6, 0) {d};
+                \node[circle, draw, fill=gray!20, minimum size=0.6cm] (y) at (3, -2) {e};
+
+                \draw[-] (u) -- (v);
+                \draw[-] (v) -- (w);
+                \draw[-] (w) -- (x);
+                \draw[-] (v) -- (y);
+                \draw[-] (w) -- (y);
+                \draw[-] (x) -- (y);
+            \end{tikzpicture}
+            \hspace{1cm}
+            % Contracted graph with new edge
+            \begin{tikzpicture}
+                % Contracted graph with new edge
+                \node[circle, draw, fill=gray!20, minimum size=0.6cm] (u) at (0, 0) {a};
+                \node[circle, draw, fill=gray!20, minimum size=0.6cm] (v) at (3, 0) {f};
+                \node[circle, draw, fill=gray!20, minimum size=0.6cm] (x) at (6, 0) {d};
+                \node[circle, draw, fill=gray!20, minimum size=0.6cm] (y) at (3, -2) {e};
+
+                \draw[-] (u) -- (v);
+                \draw[-] (v) -- (x);
+                \draw[-] (v) -- (y);
+            \end{tikzpicture}
+            \caption{Operations on a graph: edge contraction and adding and removing edges.}
+            \label{fig:edge_contraction}
+        \end{figure}
+    \end{center}
+\end{enumerate}
+
+\subsection{Graph representation}
+\begin{enumerate}
+    \item \textbf{Incidence list:} List vertices and for each vertex, list the edges incident to it.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+            % Nodes
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {b};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (-1, -2) {c};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (1, -3) {d};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (3, -2) {e};
+
+            % Edges
+            \draw[-] (1) -- (3);
+            \draw[-] (1) -- (4);
+            \draw[-] (3) -- (5);
+            \draw[-] (4) -- (2);
+            \draw[-] (2) -- (5);
+        \end{tikzpicture}
+        \hspace{1cm}
+        \begin{tabular}{c|c}
+            Vertex & Neighbors \\
+            \hline
+            a & (c,d) \\
+            b & (d,e) \\
+            c & (a,e) \\
+            d & (a,b) \\
+            e & (b,c) \\
+        \end{tabular}
+        \caption{Graph representation using incidence list. Useful for sparse graphs.}
+        \label{fig:incidence_list}
+    \end{figure}
+    This representation is also useful for directed graphs, where the edges are directed from one vertex to another:
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+            % Nodes
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (-1, -1) {b};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (1, -2) {c};
+            % Edges
+            \draw[->] (3) -- (1);
+            \draw[->] (1) -- (2);
+        \end{tikzpicture}
+        \hspace{1cm}
+        \begin{tabular}{c|c}
+            Initial Vertex & Terminal Vertex \\
+            \hline
+            a & b \\
+            b & - \\
+            c & a \\
+        \end{tabular}
+        \caption{Directed graph representation using incidence list.}
+        \label{fig:directed_incidence_list}
+    \end{figure}
+    \item \textbf{Adjacency matrix:} A square matrix where the element at row $i$ and column $j$ indicates whether there is an edge between vertex $i$ and vertex $j$.
+    \[
+    (A)_{ij} = \begin{cases}
+        1 & \text{if there is an edge between } i \text{ and } j \\
+        0 & \text{otherwise}
+    \end{cases}
+    \]
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+            % Nodes
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {b};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (-1, -2) {c};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (1, -3) {d};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (3, -2) {e};
+
+            % Edges
+            \draw[-] (1) -- (3);
+            \draw[-] (1) -- (4);
+            \draw[-] (3) -- (5);
+            \draw[-] (4) -- (2);
+            \draw[-] (2) -- (5);
+        \end{tikzpicture}
+        \hspace{1cm}
+        \renewcommand{\arraystretch}{1} % Adjust this value as needed
+        $A = \begin{pmatrix}
+            0 & 1 & 1 & 0 & 0 \\
+            0 & 0 & 0 & 1 & 1 \\
+            1 & 0 & 0 & 0 & 1 \\
+            1 & 1 & 0 & 0 & 0 \\
+            0 & 1 & 1 & 0 & 0 \\
+        \end{pmatrix}$
+        \caption{Graph representation using adjacency matrix. Useful for dense graphs.}
+        \label{fig:adjacency_matrix}
+    \end{figure}
+
+    For directed graphs, the adjacency matrix is not symmetric. The element at row $i$ and column $j$ indicates whether there is a directed edge \textbf{from} vertex $i$ to vertex $j$.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+            % Nodes
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (-1, -1) {b};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (1, -2) {c};
+            % Edges
+            \draw[->] (3) -- (1);
+            \draw[->] (1) -- (2);
+        \end{tikzpicture}
+        \hspace{1cm}
+        \renewcommand{\arraystretch}{1} % Adjust this value as needed
+        $A = \begin{pmatrix}
+            0 & 1 & 0 \\
+            0 & 0 & 0 \\
+            1 & 0 & 0 \\
+        \end{pmatrix}$
+        \caption{Directed graph representation using adjacency matrix.}
+        \label{fig:directed_adjacency_matrix}
+    \end{figure}
+
+    For multigraphs, the adjacency matrix can be modified to account for multiple edges between vertices. The element at row $i$ and column $j$ indicates the number of edges between vertex $i$ and vertex $j$.
+
+    \item \textbf{Incidence matrix:} A matrix where the rows represent edges and the columns represent vertices. The element at row $i$ and column $j$ indicates whether edge $i$ is incident to vertex $j$. For undirected graphs, the element is 1 if the edge is incident to the vertex, and 0 otherwise. For directed graphs, the element is 1 if the edge is directed towards the vertex, -1 if it is directed away from the vertex, and 0 otherwise.
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+            % Nodes
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (-1, -2) {b};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (1, -2) {c};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (2, 0) {d};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (-2, 0) {e};
+
+            % Edges
+            \draw[-] (1) -- (3) node[midway, above] {4};
+            \draw[-] (1) -- (4) node[midway, above] {2};
+            \draw[-] (1) -- (5) node[midway, above] {1};
+            \draw[-] (1) -- (2) node[midway, above] {3};
+            \draw[-, in = 270, out = 0, looseness = 1.5] (4) to (2); 
+            \node at (2, -2) {7};
+            \draw[-] (2) -- (3) node[midway, below] {6};
+            \draw[->] (3) -- (4) node[midway, below] {5};
+
+        \end{tikzpicture}
+        \hspace{0.5cm}
+        \renewcommand{\arraystretch}{1} % Adjust this value as needed
+        $I = \begin{pmatrix}
+            1 & 1 & 1 & 1 & 0 & 0 & 0 \\
+            0 & 0 & 1 & 0 & 0 & 1 & 1 \\
+            0 & 0 & 0 & 1 & -1 & 1 & 0 \\
+            0 & 1 & 0 & 0 & 1 & 0 & 1 \\
+            1 & 0 & 0 & 0 & 0 & 0 & 1 \\
+            \end{pmatrix}$
+        \caption{Graph representation using incidence matrix.}
+        \label{fig:incidence_matrix}
+    \end{figure}
+\end{enumerate}
+
+\subsection{Graph isomorphism}
+Two graphs $G_1 = (V_1,E_1)$ and $G_2 = (V_2,E_2)$ are isomorphic if there exists a bijection $f: V_1 \to V_2$ such that $(u,v) \in E_1 \iff (f(u),f(v)) \in E_2$. This means that the two graphs have the same structure, even if their representations are different. Then, $f$ is called an isomorphism.
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Graph 1
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (0, -2) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (2, -2) {d};
+
+        \draw[-] (1) -- (3);
+        \draw[-] (1) -- (4);
+        \draw[-] (2) -- (3);
+        \draw[-] (2) -- (4);
+
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}
+        % Graph 2
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {4};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {3};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0, -2) {1};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (2, -2) {2};
+
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (1);
+    \end{tikzpicture}
+    \caption{Two isomorphic graphs.}
+    \label{fig:isomorphic_graphs}
+\end{figure}
+
+The isomorphism can be represented as a mapping between the vertices of the two graphs. For example, in the above graphs, we can have the following mapping:
+\begin{align*}
+    a & \mapsto 1 \\
+    b & \mapsto 3 \\
+    c & \mapsto 4 \\
+    d & \mapsto 2 \\
+\end{align*}
+
+\subsection{Graph invariants}
+A graph invariant is a property of a graph that remains unchanged under isomorphism. Some common graph invariants include:
+\begin{itemize}
+    \item Number of vertices and edges
+    \item Degree sequence (the list of degrees of the vertices)
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Graph 1
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (4, 0) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (6, 0) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (8, 0) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (4, 2) {f};
+
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (5);
+        \draw[-] (3) -- (6);
+
+        \end{tikzpicture}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+        % Graph 2
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (4, 0) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (6, 0) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (8, 0) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (2, 2) {f};
+
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (5);
+        \draw[-] (2) -- (6);
+
+        \end{tikzpicture}
+        \caption{Two non-isomorphic graphs with the same number of vertices and edges, but different degree sequences.}
+        \label{fig:non_isomorphic_graphs}
+\end{figure}
+
+If we try to find an isomorphism between the two graphs in Figure \ref{fig:non_isomorphic_graphs}, we will find that the degree sequence of the vertices is different. For example, vertex $c$ has two neighbors of degree 2 and one neighbor of degree 1 on the left graph, while on the right graph, vertex $c$ has two neighbors of degree 1 and one neighbor of degree 2. This means that the two graphs are not isomorphic.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Graph 1
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (4, 0) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (4, -4) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0, -4) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (1, -1) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (3, -1) {f};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (3, -3) {g};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (1, -3) {h};
+
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (1);
+        \draw[-] (5) -- (6);
+        \draw[-] (6) -- (7);
+        \draw[-] (7) -- (8);
+        \draw[-] (8) -- (5);
+        \draw[-] (2) -- (6);
+        \draw[-] (4) -- (8);
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}
+        % Graph 2
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {s};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (4, 0) {t};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (4, -4) {u};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0, -4) {v};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (1, -1) {w};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (3, -1) {x};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (3, -3) {y};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (1, -3) {z};
+
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (1);
+        \draw[-] (5) -- (6);
+        \draw[-] (6) -- (7);
+        \draw[-] (7) -- (8);
+        \draw[-] (8) -- (5);
+        \draw[-] (1) -- (5);
+        \draw[-] (4) -- (8);
+    \end{tikzpicture}
+    \caption{Two non-isomorphic graphs.}
+    \label{fig:isomorphic_graphs_2}
+\end{figure}
+In the above example, by listing the vertices and their neighbors, we can see that the two graphs don't have the same degree sequences:
+\begin{align*}
+    a & : 2 & \quad & s : 3 \\
+    b & : 3 & \quad & t : 2 \\
+    c & : 2 & \quad & u : 2 \\
+    d & : 3 & \quad & v : 3 \\
+    e & : 2 & \quad & w : 3 \\
+    f & : 3 & \quad & x : 2 \\
+    g & : 2 & \quad & y : 2 \\
+    h & : 3 & \quad & z : 3 \\
+\end{align*}
+
+The degree sequences are different, so the two graphs are not isomorphic. We can also see that the two graphs have cycles of different lengths. The first graph has a cycle of length 4, while the second graph has a cycle of length 3. This is another indication that the two graphs are not isomorphic.
+
+\subsection{Adjacency matrix and isomorphism}
+Two graphs are isomorphic if their adjacency matrices can be transformed into each other by permuting the rows and columns. This means that the two graphs have the same structure, even if their representations are different.
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Graph 1
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (4, 0) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (4, -3) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0, -3) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (1, -1.5) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (3, -1.5) {f};
+
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (1);
+        \draw[-] (5) -- (6);
+        \draw[-] (4) -- (5);
+        \draw[-] (2) -- (6);
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}
+        % Graph 2
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a'};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (1.5, 0) {b'};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (4, 0) {c'};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (4, -3) {d'};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (0, -3) {e'};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (3, -1.5) {f'};
+
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (5);
+        \draw[-] (5) -- (1);
+        \draw[-] (6) -- (5);
+        \draw[-] (6) -- (3);
+    \end{tikzpicture}
+    \caption{Two isomorphic graphs.}
+    \label{fig:isomorphic_graphs_3}
+\end{figure}
+The adjacency matrices of the two graphs are:
+\renewcommand{\arraystretch}{1} % Adjust this value as needed
+
+\begin{align*}
+    A_1 &= \begin{pmatrix}
+        0 & 1 & 0 & 1 & 0 & 0 \\
+        1 & 0 & 1 & 0 & 0 & 1 \\
+        0 & 1 & 0 & 1 & 0 & 0 \\
+        1 & 0 & 1 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1 & 0 & 1 \\
+        0 & 1 & 0 & 0 & 1 & 0 \\
+    \end{pmatrix} &
+    A_2 &= \begin{pmatrix}
+        1 & 0 & 0 & 0 & 1 & 0 \\
+        1 & 0 & 1 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 1 & 0 & 1 \\
+        0 & 0 & 1 & 0 & 1 & 0 \\
+        1 & 0 & 0 & 1 & 0 & 1 \\
+        0 & 0 & 1 & 0 & 1 & 0 \\
+    \end{pmatrix}
+\end{align*}
+
+The adjacency matrices of the two graphs are not the same, but they can be transformed into each other by permuting the rows and columns. This means that the two graphs are isomorphic.
+\[
+A_2 = P A_1 P^T
+\]
+where $P$ is a permutation matrix that permutes the rows and columns of $A_1$ to obtain $A_2$.
+\[
+P = P_{16} P_{23} P_{34} P_{45} P_{51} P_{62}
+\]
+where $P_{ij}$ is the permutation matrix that swaps the $i$-th and $j$-th rows and columns of a matrix. The permutation matrix $P$ can be obtained by applying the following permutations to the rows and columns of $A_1$:
+This means that the two graphs have the same structure, even if their representations are different.
+   
 
 
 
