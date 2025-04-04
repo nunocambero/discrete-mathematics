@@ -3954,8 +3954,384 @@ P = P_{16} P_{23} P_{34} P_{45} P_{51} P_{62}
 where $P_{ij}$ is the permutation matrix that swaps the $i$-th and $j$-th rows and columns of a matrix. The permutation matrix $P$ can be obtained by applying the following permutations to the rows and columns of $A_1$:
 This means that the two graphs have the same structure, even if their representations are different.
    
+\subsection{Paths}
+A path in a graph is a sequence of vertices such that each vertex is connected to the next vertex by an edge. The length of a path is the number of edges in the path. A path is simple if it does not traverse any edge more than once.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {$x_1$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 1) {$x_2$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (4, 1) {$x_3$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (3.5, -1) {$x_4$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (2, -2) {$x_5$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (3.5, -3) {$x_6$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (5, -1) {$x_7$};
 
 
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (5);
+        \draw[-] (5) -- (6);
+        \draw[-] (2) -- (4);
+        \draw[-] (2) -- (5);
+
+        % Highlighted path
+        \draw[thick, red] (1) -- (2);
+        \draw[thick, red] (2) -- (3);
+        \draw[thick, red] (3) -- (4);
+        \draw[thick, red] (4) -- (7);
+
+    \end{tikzpicture}
+    \caption{Graph with a marked path. The path is highlighted in red.}
+    \label{fig:marked_path}
+\end{figure}
+
+In directed graphs, edges have to be be from beggining to end. 
+
+\subsection{Connected graphs}
+A graph is connected if there is a path between every pair of vertices. 
+
+\paragraph{Theorem:} This path can be chosen simple.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {$u$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (4, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0,-2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (2,-2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (4,-2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (2,-4) {}; 
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (4,-4) {$v$};  
+
+
+        % Edges
+        \draw[-, thick, red] (1) -- (2);
+        \draw[-, thick, red] (2) -- (5);
+        \draw[-, thick, red] (5) -- (7);
+        \draw[-, thick, red] (7) -- (8);
+        \draw[-] (6) -- (5);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (6);
+        \draw[-] (4) -- (5);
+        \draw[-] (6) -- (8);
+
+    \end{tikzpicture}
+    \caption{Graph with a marked path. The path is highlighted in red.}
+    \label{fig:marked_path_connected}
+\end{figure}
+
+\subsubsection{Connected components}
+A connected component of a graph is any connected subgraph that is not a proper subgraph of any other connected subgraph. In other words, a connected component is a "piece" in which you can break a graph. A graph can have multiple connected components.
+
+\subsubsection{Vertex and Edge cuts}
+In a connected graph, a vertex or an edge is a cut if removing it disconnects the graph. 
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {$x$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (4, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0,-2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (2,-2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (4,-2) {};
+
+
+        % Edges
+        \draw[dashed] (1) -- (2);
+        \draw[dashed] (2) -- (3);
+        \draw[dashed] (2) -- (5);
+        \draw[-] (3) -- (6);
+        \draw[-] (1) -- (4);
+        \draw[-] (4) -- (5);
+        \draw[-] (5) -- (6);
+
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, -1) {$x$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (4, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0,-2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (4,-2) {};
+
+
+        % Edges
+        \draw[-] (1) -- (4);
+        \draw[-] (3) -- (5);
+        \draw[dashed] (1) -- (2);
+        \draw[dashed] (2) -- (3);
+        \draw[dashed] (2) -- (5);
+        \draw[dashed] (4) -- (2);
+        \end{tikzpicture}
+    \caption{Graphs showing a vertex cut. The vertex $x$ is not a cut vertex in the first graph, as removing it does not disconnect the graph. In the second graph, removing $x$ disconnects the graph.}
+    \label{fig:marked_cut}
+\end{figure}
+
+\subsubsection{Vertex and Edge connectivity}
+The vertex $\kappa (G)$ or edge $\lambda (G)$ connectivity of a graph is the minimum number of vertices or edges that need to be removed to disconnect the graph. 
+\[
+\kappa (G) \leq \lambda (G)
+\]
+
+For the connected graph in Figure \ref{fig:marked_cut}, the vertex connectivity is 2, as removing the vertex $x$ is not enough to disconnect the graph. The edge connectivity is 2, as removing any single edge does not disconnect the graph. For the second graph, the vertex connectivity is 1, as removing the vertex $x$ disconnects the graph. The edge connectivity is 2 as well, as removing any one edge does not disconnect the graph.
+\[
+\kappa (G_1) = 2 \quad \lambda (G_1) = 2 \quad \kappa (G_2) = 1 \quad \lambda (G_2) = 2
+\]
+
+For the complete graph $K_n$, the vertex and edge connectivity are both $n-1$.
+\[
+\kappa (K_n) = n-1 \quad \lambda (K_n) = n-1
+\]
+
+\paragraph{Theorem:} Let $G = (V,E)$ be a connected graph. Then, $|V| = n \implies |E| \leq n-1$.
+If $|E| < n-1$, then $G$ can not be connected.
+
+\subsection*{Example}
+Provide an example of:
+\begin{itemize}
+    \item A regular bipartite graph.
+    \item A regular graph of degree 3 with 9 vertices.
+    \item A graph with $n$ vertices and $\dfrac{(n-1)(n-2)}{2}$ edges.
+    \item A graph which is isomorphic to its complement.
+\end{itemize}
+
+\textbf{Note: } A regular graph is a graph where every vertex has the same degree.
+
+\textbf{Note: } Given a graph $G$, the complement of $G$ is a graph $\bar{G}$ with the same vertices as $G$, but with edges that are not in $G$. In other words, if $(u,v) \in E(G)$, then $(u,v) \notin E(\bar{G})$ and vice versa.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (4, 0) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0, -2) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (2, -2) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (4, -2) {f};
+
+        % Edges
+        \draw[-] (1) -- (4);
+        \draw[-] (2) -- (4);
+        \draw[-] (3) -- (4);
+        \draw[-] (1) -- (5);
+        \draw[-] (2) -- (5);
+        \draw[-] (3) -- (5);
+        \draw[-] (1) -- (6);
+        \draw[-] (2) -- (6);
+        \draw[-] (3) -- (6);
+
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 1) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (4, 0) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0, -2) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (2, -2) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (4, -2) {f};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (1, -1) {g};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (3, -1) {h};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (9) at (2, -3) {i};
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (1) -- (4);
+        \draw[-] (1) -- (7);
+        \draw[-] (3) -- (8);    
+        \draw[-] (3) -- (6);
+        \draw[-] (1) -- (7);
+        \draw[-] (2) -- (7);
+        \draw[-] (4) -- (5);
+        \draw[-] (5) -- (8);
+        \draw[-] (6) -- (8);
+        \draw[-] (4) -- (9);
+        \draw[-] (5) -- (9);
+        \draw[-] (6) -- (9);
+        \draw[-] (7) -- (8);
+
+    \end{tikzpicture}
+    \caption{A regular bipartite graph and an attempt of a regular graph of degree 3 with 9 vertices. The second graph is not regular, as the vertex $h$ has degree 4. It is not possible to create a regular graph of degree 3 with 9 vertices.}
+    \label{fig:regular_bipartite_graph}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (4, 0) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0,-2) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (2,-2) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (4,-2) {f};
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (5);
+        \draw[-] (5) -- (6);
+        \draw[-] (1) -- (4);
+        \draw[-] (1) -- (5);
+        \draw[-] (1) -- (6);
+        \draw[-] (3) -- (6);
+        \draw[-] (3) -- (5);
+
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (0,-2) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (2,-2) {d};
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (3) -- (4);
+        \draw[-] (1) -- (3);
+
+        \end{tikzpicture}
+    \caption{A graph with $n = 6$ vertices and $\dfrac{(n-1)(n-2)}{2} = 10$ edges and a graph which is isomorphic to its complement.}
+    \label{fig:complete_graph}
+\end{figure}
+
+\subsection*{Example}
+Calculae the number of vertices of:
+\begin{itemize}
+    \item A regular graph of degree 2 with 9 edges.
+    \item A regular graph with 6 edges.
+    \item A graph with 10 edges, 2 vertices of degree 4 and the rest of degree 3.
+\end{itemize}
+
+By the handshaking lemma, we know that the sum of the degrees of all vertices is equal to twice the number of edges. This means that if we have a graph with $n$ vertices then:
+\[
+\sum_{i=1}^{n} d(v_i) = 2 |E| 
+\]
+where $d(v_i)$ is the degree of vertex $i$.
+
+So we can establish the following equation for a regular graph of degree $d$:
+\[
+|V| = \frac{2 |E|}{d}
+\]
+
+For the first case, we have:
+\[
+|V| = \frac{9 \cdot 2}{2} = 9
+\]
+
+For the second case, we have:
+\[
+|V| = \frac{6 \cdot 2}{d} \implies d = 3 \text{ or } 2 \implies |V| = 4 \text{ or } 3
+\]
+
+For the third case, we have:
+\[
+20 = 2 \cdot 4 + (n-2) \cdot 3 \implies 20 = 8 + 3n - 6 \implies n = 6  
+\]
+
+\subsection*{Example}
+Prove that the number of nodes of a self-complementary graph is either $4k$ or $4k + 1$ for some integer $k$.
+
+\textbf{Proof:} Let $G$ be a self-complementary graph with $n$ vertices. Then, the number of edges in $G$ is equal to the number of edges in its complement $\bar{G}$. This means that:
+\[
+|E| + |\bar{E}| = \binom{n}{2} \implies 2 |E| = \binom{n}{2} \implies |E| = \frac{n(n-1)}{4}
+\]
+
+If $n$ is even, then $n(n-1)$ is divisible by 4. If $n$ is odd, then $n(n-1)$ is divisible by 2, but not by 4. This means that $n$ must be of the form $4k$ or $4k + 1$ for some integer $k$.
+
+\subsection*{Example}
+Conclude wether the following graphs are isomorphic or not:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Graph 1
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (-1, -2) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (1, -2) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (-2, -4) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (-0.5, -4) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (0.5, -4) {f};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (2, -4) {g};
+
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (2) -- (4);
+        \draw[-] (3) -- (4);
+        \draw[-] (1) -- (5);
+        \draw[-] (6) -- (5);
+        \draw[-] (5) -- (7);
+
+        \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {p};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (0, -1) {q};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (-1, -2) {r};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (1, -2) {s};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (0, -3) {t};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (-1, -4) {u};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (1, -4) {v};
+
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);    
+        \draw[-] (2) -- (4);
+        \draw[-] (2) -- (5);
+        \draw[-] (5) -- (6);
+        \draw[-] (5) -- (7);
+        \draw[-] (7) -- (6);
+    \end{tikzpicture}
+    \caption{Two graphs.}
+    \label{fig:isomorphic_graphs_1}
+\end{figure}
+
+The two graphs are not isomorphic. We can see this by looking at the degree sequences of the vertices in each graph and realising that they are different.
+
+If we consider the following graph:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Graph 1
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {p};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (-2, -1) {q};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (-3, -2) {r};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (-1, -2) {s};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (0, -3) {t};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (-1, -4) {u};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (1, -4) {v};
+
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);    
+        \draw[-] (2) -- (4);
+        \draw[-] (1) -- (5);
+        \draw[-] (5) -- (6);
+        \draw[-] (5) -- (7);
+        \draw[-] (7) -- (6);
+
+        \end{tikzpicture}
+\end{figure}
+
+We can see that the first graph is isomorphic to this one. We can see this by looking at the degree sequences of the vertices in each graph and mapping their vertices in the following way:
+\begin{align*}
+    a & \mapsto p & \quad & e  \mapsto q \\
+    b & \mapsto t & \quad & f  \mapsto r \\
+    c & \mapsto u & \quad & g  \mapsto s \\
+    d & \mapsto v & \quad & 
+\end{align*}
 
 
 
