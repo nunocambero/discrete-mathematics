@@ -8,6 +8,8 @@
 \usepackage{xcolor, colortbl, tikz}
 \usepackage{float}
 \usetikzlibrary{patterns}
+\usetikzlibrary{decorations.pathmorphing}
+
 
 % Page Layout
 \geometry{a4paper, margin=1in}
@@ -4210,7 +4212,7 @@ Provide an example of:
 \end{figure}
 
 \subsection*{Example}
-Calculae the number of vertices of:
+Calculate the number of vertices of:
 \begin{itemize}
     \item A regular graph of degree 2 with 9 edges.
     \item A regular graph with 6 edges.
@@ -4333,7 +4335,314 @@ We can see that the first graph is isomorphic to this one. We can see this by lo
     d & \mapsto v & \quad & 
 \end{align*}
 
+\subsection{Paths in directed graphs}
+A directed graph is strongly connected if for every pair of vertices $a$ and $b$, there is a directed path from $a$ to $b$ and a directed path from $b$ to $a$. 
 
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Graph 1
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (2, -2) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0,-2) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (3, -1) {e};
+
+        % Edges
+        \draw[->] (1) -- (2);
+        \draw[->] (2) -- (3);
+        \draw[->] (3) -- (4);
+        \draw[->] (4) -- (1);
+        \draw[->] (2) -- (5);
+        \draw[->] (5) -- (3);
+
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}
+        % Graph 2
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (2, -2) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0,-2) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (3, -1) {e};
+
+        \draw[->] (2) -- (1);
+        \draw[->] (3) -- (2);
+        \draw[->] (3) -- (4);
+        \draw[->] (4) -- (1);
+        \draw[->] (2) -- (5);
+        \draw[->] (5) -- (3);
+
+    \end{tikzpicture}
+    \caption{Two directed graphs, the first one is strongly connected and the second one is weakly connected.}
+    \label{fig:strongly_connected_graphs}
+\end{figure}
+The first graph is strongly connected, as there is a directed path from every vertex to every other vertex. The second graph is weakly connected, as there is a directed path from $a$ to $b$, but not from $b$ to $a$.
+
+\subsection{Strong Connected Components}
+A strongly connected component of a directed graph is a maximal strongly connected subgraph. In other words, a strongly connected component is a "piece" in which you can break a directed graph. A directed graph can have multiple strongly connected components.
+
+For example, in the second directed graph in Figure \ref{fig:strongly_connected_graphs}, the strongly connected components are:
+\[
+\{a\}, \quad \{d\}, \quad \{b,c,e\}
+\]
+
+\subsection{Paths and Isomorphisms}
+Paths and cycles are another invariant under isomorphisms:
+
+\begin{figure}[H]
+    \centering
+        \begin{tikzpicture}
+            % Hexagon
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 2) {a};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (1.73, 1) {b};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (1.73, -1) {c};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0, -2) {d};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (-1.73, -1) {e};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (-1.73, 1) {f};
+
+            % Edges
+            \draw[-] (1) -- (2);
+            \draw[-] (2) -- (3);
+            \draw[-] (3) -- (4);
+            \draw[-] (4) -- (5);
+            \draw[-] (5) -- (6);
+            \draw[-] (6) -- (1);
+            \draw[-] (5) -- (2);
+            \draw[-] (6) -- (3);
+        \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}
+        % Hexagon
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 2) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (1.73, 1) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (1.73, -1) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0, -2) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (-1.73, -1) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (-1.73, 1) {f};
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (5);
+        \draw[-] (5) -- (6);
+        \draw[-] (6) -- (1);
+        \draw[-] (5) -- (3);
+        \draw[-] (6) -- (2);
+    \end{tikzpicture}
+    \caption{Two non-isomorphic graphs. The first graph does not have any cycle of length 3, while the second graph has a cycle of length 3.}
+\end{figure}
+
+Cycles and paths should be preserved under isomorphisms. This means that if two graphs are isomorphic, then they should have the same number of cycles and paths of the same length.
+
+\subsection{Theorem: Counting vertices in paths}
+Let $G = (V,E)$ be a graph and $A$ be its adjacency matrix with respect to the ordering $\{v_1, v_2, \ldots, v_n\}$. Then, the number of paths of length $k$ from vertex $v_i$ to vertex $v_j$ is given by the $(i,j)$-th entry of the matrix $A^k$.
+
+\textbf{Proof by induction:} The theorem is obviously true for $k = 1$. Now, let us assume that the theorem is true for $k = n$. Then, we have: 
+\[
+A^n = \begin{pmatrix}
+    a_{11} & a_{12} & \ldots & a_{1n} \\
+    a_{21} & a_{22} & \ldots & a_{2n} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    a_{n1} & a_{n2} & \ldots & a_{nn}
+\end{pmatrix}
+\]
+now let us consider $A^{n+1}$:
+\[
+A^{n+1} = A^n \cdot A, \quad \text{notation: } A^n_{ij} = b_{ij} \text{ and } A_{ij} = a_{ij}
+\]
+
+\[
+A^{n+1}_{ij} = \sum_{m=1}^{n} b_{im} a_{mj},\quad \text{where } a_{mj} \text{ equals 1 if there is an edge from } m \text{ to } j \text{ and 0 otherwise.}
+\]
+This means that $A^{n+1}_{ij}$ counts the number of paths of length $n+1$ from vertex $i$ to vertex $j$.
+
+\subsection*{Example}
+Consider $C_4$:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {$x_1$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {$x_2$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (2,-2) {$x_3$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0,-2) {$x_4$};
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (1);
+        
+        \end{tikzpicture}
+    \hspace{1cm}
+    \caption{Graph $C_4$.}
+    \label{fig:C4}
+\end{figure}
+\[
+A = \begin{pmatrix}
+    0 & 1 & 0 & 1 \\
+    1 & 0 & 1 & 0 \\
+    0 & 1 & 0 & 1 \\
+    1 & 0 & 1 & 0
+\end{pmatrix}, \quad
+A^2 = \begin{pmatrix}
+    2 & 0 & 2 & 0 \\
+    0 & 2 & 0 & 2 \\
+    2 & 0 & 2 & 0 \\
+    0 & 2 & 0 & 2
+\end{pmatrix}, \quad A^3 = \begin{pmatrix}
+    0 & 4 & 0 & 4 \\
+    4 & 0 & 4 & 0 \\
+    0 & 4 & 0 & 4 \\
+    4 & 0 & 4 & 0
+\end{pmatrix}
+\]
+
+One can observe that entries in the matrix $A^2$ are equal to the number of paths of length 2 from vertex $i$ to vertex $j$. For example, the entry $A^2_{12} = 0$, which means that there is no path of length 2 from vertex $x_1$ to vertex $x_2$. The entry $A^3_{12} = 4$, which means that there are two paths of length 3 from vertex $x_1$ to vertex $x_2$.
+
+$A^3$ has all 0s in the diagonal, which means that there are no paths of length 3 from vertex $x_i$ to itself. This is because $C_4$ is a cycle and the only way to return to the same vertex is to go through all other vertices.
+
+\section{Euler and Hamilton paths}
+Euler paths are paths that visit every edge of a graph. A Hamiltonian path is a path that visits every vertex of a graph. Euler graphs mark the beggining of graph theory, as they were the first graphs to be studied. In 1735, Euler studied the Seven Bridges of Königsberg problem, which asked if it was possible to walk through the city of Königsberg and cross each of its seven bridges exactly once. Euler proved that it was not possible to do so, as the graph representing the city was not connected. This is a graph representation of the problem:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.5, line width=1pt]
+
+        % Background land
+        \fill[green!40!black!30, decorate, decoration={random steps, segment length=4pt, amplitude=1pt}]
+            (-1,2) rectangle (4,-0.4);
+
+        % River
+        \fill[blue!30, decorate, decoration={random steps, segment length=4pt, amplitude=1pt}]
+            (-1,1.2) .. controls (0,1.5) and (3,1.5) .. (4,1.2)
+            .. controls (4.2,1) and (4.2,0.7) .. (4,0.5)
+            .. controls (3.2,0) and (0.8,0) .. (-1,0.5)
+            .. controls (-1.2,0.7) and (-1.2,1) .. (-1,1.2) -- cycle;
+
+        % Islands
+        \fill[green!40!black!30, decorate, decoration={random steps, segment length=3pt, amplitude=1pt}]
+            (0.5,0.78) ellipse (0.6 and 0.4); % Left island
+        \fill[green!40!black!30, decorate, decoration={random steps, segment length=3pt, amplitude=1pt}]
+            (2.7,0.8) ellipse (1.2 and 0.3); % Right island
+
+        % Bridges with adjusted positions (bigger)
+        \foreach \i/\x/\y/\angle in {
+            1/0.2/1.25/110,      % A to C
+            2/0.2/0.3/70,       % B to C
+            3/0.95/0.3/110,      % B to C
+            4/0.9/1.25/60,        % A to C
+            5/1.3/0.8/0,         % C to D
+            6/3/1.2/60,        % A to D
+            7/2.8/0.35/100        % B to D
+        } {
+            \begin{scope}[rotate around={\angle:(\x,\y)}]
+                % Sketchy bridge rectangle
+                \fill[orange!80!brown] (\x-0.25,\y-0.05) rectangle (\x+0.25,\y+0.05);
+                \draw[black, decorate, decoration={random steps, segment length=2pt, amplitude=0.8pt}]
+                    (\x-0.25,\y-0.05) -- (\x+0.25,\y-0.05) --
+                    (\x+0.25,\y+0.05) -- (\x-0.25,\y+0.05) -- cycle;
+            \end{scope}
+        }
+
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {A};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (0, -4) {B};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (0, -2) {C};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (2,-2) {D};
+
+        % Edges
+        \draw[-, out=240, in=120, looseness=1] (1) to (3);
+        \draw[-, out=240, in=120, looseness=1] (3) to (2);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (1);
+        \draw[-] (4) -- (2);
+        \draw[-, out=300, in=60, looseness=1] (1) to (3);
+        \draw[-, out=300, in=60, looseness=1] (3) to (2);
+
+        \end{tikzpicture}
+    \caption{Königsberg bridges and its graph representation.}
+    \label{fig:konigsberg_bridges}
+\end{figure}
+
+\subsection{Eulerian cycles}
+An Eulerian cycle is a cycle that visits every edge of a graph exactly once. 
+
+\paragraph{Theorem:} An eulerian cycle exists in a multigraph if and only if all vertices have even degree and the graph is connected. An Eulerian path exists in a multigraph if and only if exactly 2 vertices have odd degree and the graph is connected.
+
+\subsection*{Example}
+Consider the following graph:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (4, 0) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0,-2) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (2,-2) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (4,-2) {f};
+
+        \draw[->] (1) -- (2);
+        \draw[->] (2) -- (3);
+        \draw[->] (2) -- (5);
+        \draw[->] (4) -- (5);
+        \draw[->] (5) -- (6);
+        \draw[->] (5) -- (1);
+        \draw[->] (1) -- (4);
+        \draw[->] (3) -- (6);
+        \draw[->] (6) -- (2);
+        \draw[->, in=45, out=45, looseness=2] (6) to (1);
+
+        \end{tikzpicture}
+    \caption{A graph with an Eulerian cycle.}
+    \label{fig:graph_1} 
+\end{figure}
+
+\subsection{Hamiltonian cycles}
+A graph has a Hamiltonian cycle if there is a cycle that visits every vertex of the graph exactly once. A Hamiltonian path is a path that visits every vertex of the graph exactly once.
+
+A graph with leaves (vertices with degree 1) can not have a Hamiltonian cycle. This is because a Hamiltonian cycle must visit every vertex of the graph, and if there are leaves, then it is not possible to return to the starting vertex.
+
+For example, $K_n$ has a Hamiltonian cycle, as it is a complete graph and every vertex is connected to every other vertex. Consider $K_5$:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 2) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (1.9, 0.6) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (1.2, -1.6) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (-1.2, -1.6) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (-1.9, 0.6) {e};
+
+        % Edges
+        \draw[->] (1) -- (2);
+        \draw[->] (2) -- (3);
+        \draw[->] (3) -- (4);
+        \draw[->] (4) -- (5);
+        \draw[->] (5) -- (1);
+        \draw[->] (1) -- (3);
+        \draw[->] (4) -- (1);
+        \draw[->] (2) -- (4);
+        \draw[->] (5) -- (2);
+        \draw[->] (3) -- (5);
+
+    \end{tikzpicture}
+    \caption{The complete graph $K_5$ with an Eulerian cycle and actually 2 Hamiltonian cycles.}
+    \label{fig:graph_k5}
+\end{figure}
+
+\subsection{Dirac's theorem}
+Let $G = (V,E)$ be a simple graph with $|V| \geq 3$. Then, if $\text{deg}(v_i) \geq \frac{n}{2}$ for every vertex $v_i \in V$, then $G$ has a Hamiltonian cycle.
+
+\subsection{Ore's theorem}
+Let $G = (V,E)$ be a simple graph with $|V| \geq 3$. Then, if $\text{deg}(v_i) + \text{deg}(v_j) \geq n$ for every non-adjacent pair of vertices $v_i, v_j \in V$, then $G$ has a Hamiltonian cycle.
+
+Vertices of degree 2 in a Hamiltonian graph must have their two edges included in the Hamiltonian cycle. This is because if we remove the edge from the Hamiltonian cycle, then we can not return to the starting vertex. This means that if a graph has a Hamiltonian cycle, then it must have at least one vertex of degree 3 or more.
 
 
 
