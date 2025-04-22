@@ -1,5 +1,6 @@
 \documentclass[11pt]{article}
 \usepackage{amsmath, amssymb, amsthm}
+\usepackage{enumitem} % Added for custom enumerate labels
 \usepackage{graphicx}
 \usepackage{geometry}
 \usepackage{array}
@@ -4644,7 +4645,880 @@ Let $G = (V,E)$ be a simple graph with $|V| \geq 3$. Then, if $\text{deg}(v_i) +
 
 Vertices of degree 2 in a Hamiltonian graph must have their two edges included in the Hamiltonian cycle. This is because if we remove the edge from the Hamiltonian cycle, then we can not return to the starting vertex. This means that if a graph has a Hamiltonian cycle, then it must have at least one vertex of degree 3 or more.
 
+\section{Shortest paths}
+\subsection{Dijkstra's algorithm}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 2) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (2,-2) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (6, 2) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (6,-2) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (8,0) {f};
 
+        % Edges
+        \draw[-] (1) -- (2) node[midway, above] {4};
+        \draw[-] (1) -- (3) node[midway, right] {2};
+        \draw[-] (2) -- (3) node[midway, right] {1};
+        \draw[-] (2) -- (4) node[midway, above] {5};
+        \draw[-] (3) -- (5) node[midway, below] {10};
+        \draw[-] (4) -- (5) node[midway, right] {2};
+        \draw[-] (4) -- (6) node[midway, above] {6};
+        \draw[-] (5) -- (6) node[midway, below] {3};
+        \draw[-] (3) -- (4) node[midway, below] {8};
+
+        \end{tikzpicture}
+    \caption{A graph with weights.}
+    \label{fig:weighted_graph}
+\end{figure}
+
+Dijkstra's algorithm is a greedy algorithm that finds the shortest path from a source vertex to all other vertices in a weighted graph. The algorithm works by maintaining a set of vertices whose shortest distance from the source is known, and repeatedly adding the vertex with the smallest distance to this set until all vertices have been added.
+In this case, for finding the shortest distance between $a$ and $f$, the algorithm works as follows:
+\begin{enumerate}
+    \item $a, 0$, other vertices are at an infinite distance.
+    \item We have the following vertices: $(b, 4, a)$, $(c, 2, a)$. We choose the one with the smallest distance, which is $c$.
+    \item Look for the vertex with the smallest distance (greedy algorithm), we list available vertices: $(b,3, c)$, $(d, 10, c)$ and $(e, 12, c)$ and choose the one with the smallest distance, which is $b$.
+    \item Now we add $(d,8,b)$.
+    \item We have the following vertices: $(e, 10, d)$ and $(f, 14, d)$. We choose $e$.
+    \item Now we add $(f, 13, e)$.
+\end{enumerate}
+
+In the end the shortest path from $a$ to $f$ is $a \to c \to b \to d \to e \to f$ with a total distance of 13.
+
+Now consider the following variation of the graph:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 2) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (2,-2) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (6, 2) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (6,-2) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (8,0) {f};
+
+        % Edges
+        \draw[-] (1) -- (2) node[midway, above] {4};
+        \draw[-] (1) -- (3) node[midway, right] {2};
+        \draw[-] (2) -- (4) node[midway, above] {5};
+        \draw[-] (3) -- (5) node[midway, below] {10};
+        \draw[-] (4) -- (5) node[midway, right] {2};
+        \draw[-] (4) -- (6) node[midway, above] {6};
+        \draw[-] (5) -- (6) node[midway, below] {3};
+        \draw[-] (3) -- (4) node[midway, below] {8};
+
+        \end{tikzpicture}
+    \caption{A graph with weights.}
+    \label{fig:weighted_graph2}
+\end{figure}
+
+In this case, the algorithm works as follows:
+\begin{enumerate}
+    \item $a, 0$, other vertices are at an infinite distance.
+    \item We have the following vertices: $(b, 4, a)$, $(c, 2, a)$. We choose the one with the smallest distance, which is $c$.
+    \item Look for the vertex with the smallest distance (greedy algorithm), we list available vertices: $(d, 10, c)$ and $(e, 12, c)$ and choose the one with the smallest distance, which is $b$.
+    \item Now we add $(d,9,b)$.
+\end{enumerate}
+
+\subsection{Planar graphs}
+A graph is planar if it can be drawn on a plane without any edges crossing.
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (0, -2) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (2, -2) {d};
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (1) -- (3);
+        \draw[-] (1) -- (4);
+        \draw[-] (2) -- (3);
+        \draw[-] (2) -- (4);
+        \draw[-] (3) -- (4);
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (0, -2) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (2, -2) {d};
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (1) -- (3);
+        \draw[-] (1) -- (4);
+        \draw[-] (3) -- (4);
+        \draw[-] (2) -- (4);
+        \draw[-, out = 120, in = 150, looseness=2.5] (2) to (3);
+        \end{tikzpicture}
+    \caption{Complete graph $K_4$ and its planar representation.}
+    \label{fig:k4}
+\end{figure}
+
+\subsection*{Example}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[ draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[ draw, fill=gray!20, minimum size=0.6cm] (2) at (3, 0) {b};
+        \node[ draw, fill=gray!20, minimum size=0.6cm] (3) at (6, 0) {c};
+        \node[draw, fill=gray!20, minimum size=0.6cm] (4) at (0, -3) {Gas (d)};
+        \node[ draw, fill=gray!20, minimum size=0.6cm] (5) at (3, -3) {Electricity (e)};
+        \node[ draw, fill=gray!20, minimum size=0.6cm] (6) at (6, -3) {Water (f)};
+
+        % Edges
+        \draw[-] (1) -- (4);
+        \draw[-] (1) -- (5);
+        \draw[-] (1) -- (6);
+        \draw[-] (2) -- (4);
+        \draw[-] (2) -- (5);
+        \draw[-] (2) -- (6);
+        \draw[-] (3) -- (4);
+        \draw[-] (3) -- (5);
+        \draw[-] (3) -- (6);
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2.5, -2.5) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (4, -4) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (1, -1) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (4, 0) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (0, -4) {f};
+
+        % Edges
+        \draw[-] (1) -- (5);
+        \draw[-] (1) -- (6);
+        \draw[-] (2) -- (5);
+        \draw[-] (2) -- (6);
+        \draw[-] (3) -- (5);
+        \draw[-] (3) -- (6);
+        \end{tikzpicture}
+    \caption{There is no planar representation of $K_{3,3}$.} 
+    \label{fig:k3_3}
+\end{figure}
+
+\subsection{Euler's formula}
+Let $G = (V,E)$ be a connected planar graph with $v = |V|$ vertices and $e = |E|$ edges, that divides the plane in $r$ regions. Then, the following equation holds:
+\begin{equation*}
+    v - e + r = 2
+\end{equation*}
+This formula is used to calculate the number of regions in a planar graph. For example, consider the following graph:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (3, 0) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (6, 0) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0, -3) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (3, -3) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (6, -3) {f};
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (1) -- (4);
+        \draw[-] (2) -- (4);
+        \draw[-] (2) -- (5);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (6);
+        \draw[-] (6) -- (5);
+        \draw[-] (5) -- (3);
+        \node at (1, -1) {$R_1$};
+        \node at (4, -1) {$R_2$};
+        \node at (5, -2) {$R_3$};
+        \node at (2, -2) {$R_4$};
+    \end{tikzpicture}
+    \caption{A planar graph with 3 regions.} 
+    \label{fig:planar_graph}
+\end{figure}
+
+In this case, we have $v = 6$, $e = 8$ and $r = 4$. We can see that the graph is connected and planar, so we can apply Euler's formula:
+\begin{equation*}
+    6 - 8 + 4 = 2
+\end{equation*}
+This means that the graph has 4 regions. We can see that the graph is divided into 4 regions: $R_1$, $R_2$, $R_3$ and $R_4$.
+
+\subsubsection{Proof of Euler's formula}
+Proof by induction on the number of edges. Let $G_k$ be a subgraph of $G = (V,E)$ obtained by adding one edge to $G_{k-1}$. Then, we have:
+\[
+G_0: \quad \begin{tikzpicture}
+    \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {};
+    \end{tikzpicture}, \quad 
+    G_1: \quad \begin{tikzpicture}
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (1, 0) {};
+        \draw[-] (1) -- (2);
+    \end{tikzpicture}, \quad \text{where } v = 2, e = 1, r = 1 \implies 2 - 1 + 1 = 2
+\]
+
+Assume that this is true for $G_k$. Now, prove for $G_{k+1}$. Let $G_{k+1}$ be obtained from $G_k$ by adding an edge $e$. Then, we have:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (1, 0.5) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (2.5, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (4, -0.5) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (5, -1) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (-1, -1) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (0.5, -2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (2, -1.5) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (9) at (3.5, -2) {};
+
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (5);
+        \draw[-] (1) -- (6);
+        \draw[-] (6) -- (7);
+        \draw[-] (7) -- (8);
+        \draw[-] (8) -- (9);
+        \draw[-] (3) -- (8);
+        \draw[-] (4) -- (9);
+
+        \end{tikzpicture}
+    \caption{A planar graph with 3 regions.}
+    \label{fig:planar_graph2}
+\end{figure}
+
+From this, we have two corollaries:
+\begin{enumerate}
+    \item If $G$ is a connected planar graph with $v \geq 3$, then $e \leq 3v - 6$.
+    \item $G$ has a vertex with degree not larger than 5. This is because of (1).
+    \[
+    v \geq 3 \implies e \leq 3v -6. \text{ Let us assume that } \text{deg}(v_i) \geq 6 \quad \forall v_i \in V. \text{ Then, we have:}
+    \]
+    \[
+    2e \geq 6v \implies e \geq 3v \implies 3v - 6 \geq 3v \implies -6 \geq 0, \text{ which is a contradiction.}
+    \]
+    \item If $v \geq 3$ and there are no cycles of length 3, then $e \leq 2v - 4$.
+\end{enumerate}
+
+\subsection{Kuratowski's theorem}
+Let $G = (V,E)$ be a graph. Then, $G$ is non-planar if and only if it contains a subgraph that is homeomorphic to $K_{3,3}$ or $K_5$.
+
+\subsubsection{Elementary subdivision of a graph}
+An elementary subdivision of a graph is obtained by removing an edge and adding a vertex in its place and adding edges to the new vertex. For example, consider the following graph:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (2, -2) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0,-2) {d};
+
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (1);
+
+        \end{tikzpicture}
+    $\quad \longrightarrow \quad$
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (2, -2) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0,-2) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (1,-3) {e};
+
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (5);
+        \draw[-] (5) -- (4);
+        \draw[-] (4) -- (1);
+        \draw[dashed] (3) -- (4);
+
+    \end{tikzpicture}
+    \caption{A graph with an elementary subdivision.}
+    \label{fig:elementary_subdivision}
+\end{figure}
+
+Two graphs are homeomorphic if they can be obtained from the same graph by a sequence of elementary subdivisions.
+
+\subsection{Peterson graphs}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.5]
+        % Outer cycle
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (90:2) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (162:2) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (234:2) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (306:2) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (18:2) {e};
+
+        % Inner cycle
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (90:1) {f};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (162:1) {g};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (234:1) {h};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (9) at (306:1) {i};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (10) at (18:1) {j};
+
+        % Edges of the outer cycle
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (5);
+        \draw[-] (5) -- (1);
+
+        % Edges of the inner cycle
+        \draw[-] (6) -- (9);
+        \draw[-] (7) -- (9);
+        \draw[-] (7) -- (10);
+        \draw[-] (8) -- (10);
+        \draw[-] (8) -- (6);
+
+        % Edges connecting the outer and inner cycles
+        \draw[-] (1) -- (6);
+        \draw[-] (2) -- (7);
+        \draw[-] (3) -- (8);
+        \draw[-] (4) -- (9);
+        \draw[-] (5) -- (10);
+    \end{tikzpicture} \hspace{0.5cm} \begin{tikzpicture}[scale=1]
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (3, 3) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (2, 1) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (0, -1) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (0, 1) {f};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (3,0) {g};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (4, -1) {h};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (9) at (2, -1) {i};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (10) at (4, 1) {j};
+
+        % Edges
+        \draw[-] (1) -- (6);
+        \draw[-] (1) -- (5);
+        \draw[-] (5) -- (4);
+        \draw[-] (4) -- (9);
+        \draw[-] (4) -- (3);
+        \draw[-, in = 60, out = 330] (3) to (8);
+        \draw[-] (9) -- (7);    
+        \draw[-] (7) -- (10);
+        \draw[-] (10) -- (8);
+        \draw[-, in = 50, out = 60, looseness=2.7] (6) to (8);
+        \draw[-] (6) to (9);
+        \end{tikzpicture}
+    \caption{Peterson graph and a subgraph of it}
+    \label{fig:peterson_graph}
+\end{figure}
+
+\subsection{Graph coloring}
+A coloring of a graph $G = (V,E)$ is the assignment of a color to each vertex in $V$ such that no two adjacent vertices have the same color. 
+
+The chromatic number of a graph is the minimum number of colors needed to color the graph.
+
+\subsubsection{Theorem:} The chromatic number $\chi (G)$ of a planar graph is at most 4. This means that any planar graph can be colored with at most 4 colors such that no two adjacent vertices have the same color.
+
+\subsection{Scheduling}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=blue!20, minimum size=0.6cm] (1) at (0, 0) {};
+        \node[circle, draw, fill=red!20, minimum size=0.6cm] (2) at (2, 2) {};
+        \node[circle, draw, fill=green!20, minimum size=0.6cm] (3) at (5, 1.5) {};
+        \node[circle, draw, fill=blue!20, minimum size=0.6cm] (4) at (6, -1) {};
+        \node[circle, draw, fill=orange!20, minimum size=0.6cm] (5) at (4, -0.5) {};
+        \node[circle, draw, fill=red!20, minimum size=0.6cm] (6) at (3.5, -2) {};
+        \node[circle, draw, fill=blue!20, minimum size=0.6cm] (7) at (2, 0) {};
+        \node[circle, draw, fill=red!20, minimum size=0.6cm] (8) at (0, -2) {};
+
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (5);
+        \draw[-] (3) -- (5);
+        \draw[-] (5) -- (6);
+        \draw[-] (6) -- (7);
+        \draw[-] (7) -- (8);
+        \draw[-] (8) -- (1);
+        \draw[-, in = 130, out = 100] (1) to (3);
+        \draw[-, in = 180, out = 60] (8) to (3);
+        \draw[-] (2) -- (5);
+        \draw[-] (2) -- (7);
+        \draw[-] (7) -- (5);
+        \draw[-] (6) -- (4);
+        \end{tikzpicture}
+    \caption{A graph with 4 colors.}
+    \label{fig:graph_coloring}
+\end{figure}
+
+\subsection*{Example}
+Consider the following graphs:
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {$v_1$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {$v_2$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (2, -2) {$v_3$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0,-2) {$v_4$};
+
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (1);
+        \draw[-] (1) -- (3);
+
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {$v_1$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {$v_2$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (2, -2) {$v_3$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (1,-1) {$v_4$};
+
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (2);
+        \draw[-, in = 180, out = 270] (1) to (3);
+    \end{tikzpicture}
+    \caption{Graphs $G_1$ and $G_2$.}
+    \label{fig:graph_coloring_example}
+\end{figure}
+
+\[
+A_2 = P A_1 P ^T, \text{ where }
+\]
+\[
+A_1 = \begin{pmatrix}
+    0 & 1 & 1 & 1 \\
+    1 & 0 & 1 & 0 \\
+    1 & 1 & 0 & 1 \\
+    1 & 0 & 1 & 0
+\end{pmatrix}, \quad A_2 = \begin{pmatrix}
+    0 & 1 & 1 & 0 \\
+    1 & 0 & 1 & 1 \\
+    1 & 1 & 0 & 1 \\
+    0 & 1 & 1 & 0
+\end{pmatrix}
+\]
+
+We can establish the following mapping:
+\begin{align*}
+    v_1 & \to v_2 \\
+    v_2 & \to v_1 \\
+    v_3 & \to v_4 \\
+    v_4 & \to v_3 \\
+\end{align*}
+
+Now we can obtain $P$:
+\[
+P = \begin{pmatrix}
+    0 & 1 & 0 & 0 \\
+    1 & 0 & 0 & 0 \\
+    0 & 0 & 1 & 0 \\
+    0 & 0 & 0 & 1
+\end{pmatrix}
+\]
+
+\subsection*{Example}
+Consider the following graphs and determine if they are Eulerian or Hamiltonian.:
+\begin{figure}[H]
+    \centering
+        \begin{tikzpicture}
+            % Nodes
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (3, 1.63) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (4, 0) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (6, 0) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (0,-3) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (2,-3) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (3,-4.63) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (9) at (4,-3) {};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (10) at (6,-3) {};
+
+            % Edges
+            \draw[-] (1) -- (2);
+            \draw[-] (2) -- (3);
+            \draw[-] (3) -- (4);
+            \draw[-] (4) -- (5);
+            \draw[-] (2) -- (6);
+            \draw[-] (1) -- (7);
+            \draw[-] (6) -- (7);
+            \draw[-] (7) -- (8);
+            \draw[-] (8) -- (9);
+            \draw[-] (9) -- (10);
+            \draw[-] (9) -- (5);
+            \draw[-] (10) -- (4);
+            \draw[-] (2) -- (4);
+            \draw[-] (7) -- (9);
+        \end{tikzpicture}
+        \caption{A graph with 10 vertices.}
+        \label{fig:graph_10_vertices}
+    \end{figure}
+
+The graph is Eulerian because it has 10 vertices and 12 edges. The degree of each vertex is even, so we can find an Eulerian cycle. However, it is not Hamiltonian.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (2, -2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0,-2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (4, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (6,0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (6, -2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (4,-2) {};
+ 
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (1);
+        \draw[-] (5) -- (6);
+        \draw[-] (6) -- (7);
+        \draw[-] (7) -- (8);
+        \draw[-] (8) -- (5);
+        \end{tikzpicture}
+    \caption{A graph with 8 vertices.}
+    \label{fig:graph_8_vertices}
+\end{figure}
+
+The graph is disconnected so we inmediately know that it is not Eulerian nor Hamiltonian.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (4, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (-1,-2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (5,-2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (0,-4) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (2,-4) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (4,-4) {};
+
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (8);
+        \draw[-] (4) -- (2);
+        \draw[-] (1) -- (6);
+        \draw[-] (6) -- (7);
+        \draw[-] (7) -- (8);
+        \draw[-] (7) -- (5);
+        \draw[-] (5) -- (2);
+        \draw[-] (7) -- (4);
+    \end{tikzpicture}
+    \caption{A graph with 8 vertices.}
+    \label{fig:graph_8_vertices2}
+\end{figure}
+
+The graph is Eulerian because it has 8 vertices and 10 edges. The degree of each vertex is even, so we can find an Eulerian cycle. However, it is not Hamiltonian.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Regular octagon
+        % Nodes
+        \foreach \i in {1,...,8} {
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (\i) at ({360/8 * (\i - 1)}:2) {};
+        }
+
+        % Edges
+        \foreach \i [evaluate=\i as \j using {int(mod(\i,8)+1)}] in {1,...,8} {
+            \draw[-] (\i) -- (\j);
+        }
+
+        \draw[-] (1) -- (5);
+        \draw[-] (2) -- (6);
+        \draw[-] (1) -- (6);
+        \draw[-] (2) -- (5);
+    \end{tikzpicture}
+    \caption{A graph with 8 vertices.}
+    \label{fig:graph_8_vertices3}
+\end{figure}
+
+The graph is Eulerian because it has 8 vertices and 12 edges. The degree of each vertex is even, so we can find an Eulerian cycle. It is also Hamiltonian because it has a cycle that visits all vertices once.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (4, 0) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0,-2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (2,-2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (4,-2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (0,-4) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (2,-4) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (9) at (4,-4) {};
+
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (6);
+        \draw[-] (4) -- (5);
+        \draw[-] (5) -- (6);
+        \draw[-] (6) -- (9);
+        \draw[-] (7) -- (8);
+        \draw[-] (8) -- (9);
+        \draw[-] (1) -- (4);
+        \draw[-] (2) -- (5);
+        \draw[-] (4) -- (7);
+        \draw[-] (5) -- (8);
+        \draw[-] (2) -- (4);
+        \draw[-] (2) -- (6);
+        \draw[-] (4) -- (8);
+        \draw[-] (8) -- (6);
+    \end{tikzpicture}
+    \caption{A graph with 9 vertices.}
+    \label{fig:graph_9_vertices}
+\end{figure}
+
+The graph is Eulerian because it has 9 vertices and 12 edges. The degree of each vertex is even, so we can find an Eulerian cycle. It is not Hamiltonian.
+
+\subsection*{Example}
+\begin{enumerate} [label=\alph*)]
+    \item Prove that cycles in bipartite graphs are even in length.
+    \item Prove that no bipartite graph with an odd number of vertices can be Hamiltonian.
+    \item Use the above to prove that the following graph is not Hamiltonian: \\
+    \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+            % Nodes
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 2) {b};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (6, 2) {c};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (8,-0) {d};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (6,-2) {e};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (2,-2) {f};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (3,-1) {g};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (5,-1) {h};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (9) at (6,0) {i};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (10) at (5,1) {j};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (11) at (3,1) {k};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (12) at (2,0) {l};
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (13) at (4,0) {m};
+
+
+            % Edges
+            \draw[-] (1) -- (2);
+            \draw[-] (2) -- (3);
+            \draw[-] (3) -- (4);
+            \draw[-] (4) -- (5);
+            \draw[-] (5) -- (6);
+            \draw[-] (6) -- (1);
+            \draw[-] (2) -- (11);
+            \draw[-] (11) -- (10);
+            \draw[-] (10) -- (3);
+            \draw[-] (10) -- (9);
+            \draw[-] (9) -- (8);
+            \draw[-] (8) -- (7);
+            \draw[-] (7) -- (6);
+            \draw[-] (7) -- (12);
+            \draw[-] (12) -- (1);
+            \draw[-] (11) -- (12);
+            \draw[-] (11) -- (13);
+            \draw[-] (13) -- (7);
+            \draw[-] (13) -- (9);
+            \draw[-] (9) -- (4);
+            \draw[-] (5) -- (8);
+        \end{tikzpicture}
+        \caption{A graph with an odd number of vertices.}
+        \label{fig:bipartite_graph}
+    \end{figure}
+\end{enumerate}
+
+To prove (a), coming back to the starting vertex requires to the other subset of vertices. This means that the cycle must have an even number of vertices.
+To prove (b), we can use the fact that a bipartite graph with an odd number of vertices cannot have a cycle of odd length. Since a Hamiltonian cycle must visit all vertices, it cannot exist in a bipartite graph with an odd number of vertices.
+
+Now for (c), we can write the graph as a bipartite graph with 13 vertices. Since it has an odd number of vertices, it cannot be Hamiltonian:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (0, -3) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (2, 0) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (8,-3) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (6,0) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (2,-3) {f};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (8,0) {g};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (10,-3) {h};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (9) at (10,0) {i};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (10) at (12,-3) {j};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (11) at (4,0) {k};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (12) at (4,-3) {l};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (13) at (6,-3) {m};
+
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (5);
+        \draw[-] (5) -- (6);
+        \draw[-] (6) -- (1);
+        \draw[-] (2) -- (11);
+        \draw[-] (11) -- (10);
+        \draw[-] (10) -- (3);
+        \draw[-] (10) -- (9);
+        \draw[-] (9) -- (8);
+        \draw[-] (8) -- (7);
+        \draw[-] (7) -- (6);
+        \draw[-] (7) -- (12);
+        \draw[-] (12) -- (1);
+        \draw[-] (11) -- (12);
+        \draw[-] (11) -- (13);
+        \draw[-] (13) -- (7);
+        \draw[-] (13) -- (9);
+        \draw[-] (9) -- (4);
+        \draw[-] (5) -- (8);
+    \end{tikzpicture}
+    \caption{A bipartite graph with 13 vertices.}
+    \label{fig:bipartite_graph_13_vertices}
+\end{figure}
+
+\subsection*{Example}
+Find the shortest path from vertex $a$ to vertex $d$ in the following graph:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 1.5) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (2, -1.5) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (5,1.5) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (5,-1.5) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (7,0) {f};
+
+        % Edges
+        \draw[-] (1) -- (2) node[pos=0.5, above] {3};
+        \draw[-] (2) -- (3) node[pos=0.5, left] {5};
+        \draw[-] (3) -- (4) node[pos=0.75, below right] {7};
+        \draw[-] (4) -- (5) node[pos=0.5, right] {1};
+        \draw[-] (5) -- (6) node[pos=0.5, below] {6};
+        \draw[-] (1) -- (3) node[pos=0.5, below] {4};
+        \draw[-] (2) -- (5) node[pos=0.25, above] {2};
+        \draw[-] (4) -- (6) node[pos=0.5, above] {8};
+        \draw[-] (2) -- (4) node[pos=0.5, above] {4};
+        \draw[-] (3) -- (5) node[pos=0.5, below] {17};
+    \end{tikzpicture}
+    \caption{A graph with 6 vertices.}
+    \label{fig:shortest_path_graph}
+\end{figure}
+
+\begin{align*}
+    \mathbf{a(-,0)} & \to & a(-,0) \\
+    \mathbf{b(a,3)} & \to & b(a,3) \\
+    c(a,4) & \to & \mathbf{c(a,4)} \\
+    d(-, \infty) & \to & d(b, 7) & \to & \mathbf{d(e,6)}\\
+    e(-, \infty) & \to & \mathbf{e(b, 5)} & \to & e(b,5)\\
+    f(-, \infty) & \to & f(-, \infty) & \to & f(e, 11) & \to & \mathbf{f(e, 11)} \\
+\end{align*}
+
+So the shortest path from vertex $a$ to vertex $d$ is:
+\[
+a \to b \to e \to f, \quad \text{ with a total length of } 11.
+\]
+
+\subsection*{Example}
+A connected planar graph has 30 edges and a planar representation of the graph divides the plane in 20 regions. What is the number of vertices in the graph?
+\[
+v - 30 + 20 = 2 \implies v = 12.
+\]
+
+\subsection*{Example}
+A connected graph has 8 vertices, each of degree 3. How many regions does a planar representation of the graph have?
+\[
+\sum_{i = 1}^{v} d(v_i) = 2e \implies 3 \cdot 8 = 2e \implies e = 12.
+\]
+\[
+v - e + r = 2 \implies 8 - 12 + r = 2 \implies r = 6.
+\]
+
+\subsection*{Example}
+How many colors are needed to color the vertices of the following graph?
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[draw, circle, minimum size=0cm, inner sep=0pt] (1) at (0, 0) {};
+          \node[draw, circle, minimum size=0cm, inner sep=0pt] (2) at (0, -1) {};
+          \node[draw, circle, minimum size=0cm, inner sep=0pt] (3) at (2, -6) {};
+          \node[draw, circle, minimum size=0cm, inner sep=0pt] (4) at (-5, -5) {};
+          \node[draw, circle, minimum size=0cm, inner sep=0pt] (5) at (-0.5, -2) {};
+          \node[draw, circle, minimum size=0cm, inner sep=0pt] (6) at (-1, -2.5) {};
+          \node[draw, circle, minimum size=0cm, inner sep=0pt] (7) at (-2.5, -3.5) {};
+          \node[draw, circle, minimum size=0cm, inner sep=0pt] (8) at (-4, -4.5) {};
+          \node[draw, circle, minimum size=0cm, inner sep=0pt] (9) at (-3, -1.5) {};
+          \node[draw, circle, minimum size=0cm, inner sep=0pt] (10) at (-3, -2.5) {};
+
+        \draw[-, out = 0, in = 30] (1) to (3);
+        \draw[-, out = 280, in = 80] (1) to (2);
+        \draw[-, out = 260, in = 50] (2) to (5);
+        \draw[-, out = 210, in = 300] (3) to (4);
+        \draw[-, out = 110, in = 180] (4) to (1);
+        \draw[-, out = 240, in = 40] (5) to (6);
+        \draw[-, out = 200, in = 50] (6) to (7);
+        \draw[-, out = 240, in = 20] (7) to (8);
+        \draw[-, out = 200, in = 30] (8) to (4);
+        \draw[-, out = 0, in = 100] (2) to (3);
+        \draw[-, out = 330, in = 310, looseness = 2] (5) to (8);
+        \draw[-, out = 300, in = 330, looseness = 2] (6) to (7);
+        \draw[-, out = 0, in = 0, looseness = 2] (9) to (10);
+        \draw[-, out = 180, in = 180, looseness = 2] (10) to (9);
+
+        \node at (-1, -1) {A};
+        \node at (-1.5, -3.2) {B};
+        \node at (-1, -4.2) {C};
+        \node at (-1, -6) {D};
+        \node at (2, -2) {E};
+        \node at (-3, -2) {F};
+    \end{tikzpicture}
+    \caption{A graph with 6 regions.}
+    \label{fig:graph_6_regions}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[draw, circle, fill=blue!20] (1) at (0, 0) {A};
+        \node[draw, circle, fill=red!20] (2) at (2, 0) {B};
+        \node[draw, circle, fill=green!20] (3) at (4, 0) {C};
+        \node[draw, circle, fill=red!20] (4) at (0,-3) {D};
+        \node[draw, circle, fill=green!20] (5) at (2,-3) {E};
+        \node[draw, circle, fill=red!20] (6) at (4,-3) {F};
+
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (5);
+        \draw[-] (1) -- (6);
+        \draw[-] (1) -- (5);
+        \draw[-, out = 45, in = 135] (1) to (3);
+        \draw[-] (1) -- (4);
+
+        \end{tikzpicture}
+    \caption{A representation of the graph.}
+    \label{fig:graph_6_vertices}
+\end{figure}
+
+In the end we need 3 colors to color the graph.
+        
 
 
 \end{document}
