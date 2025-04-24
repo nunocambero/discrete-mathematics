@@ -3390,7 +3390,7 @@ $K_{n,m}$  is the complete bipartite graph with $n$ vertices in $V_1$, $m$ verti
         \node at (-0.5, 1.5) {$V_1$};
         \node at (-0.5, 0.5) {$V_2$};
     \end{tikzpicture}
-    \caption{Complete bipartite graphs $K_{2,2}$ and $K_{3,3}$.}
+    \caption{Complete bipartite graphs $K_{2,3}$ and $K_{3,4}$.}
 \end{figure}
 
 \subsubsection{Matching}
@@ -3655,7 +3655,7 @@ G = (V,E), \quad \text{Subgraph induced by } V' \subseteq V \text{ is } G' = (V'
         \hspace{1cm}
         \renewcommand{\arraystretch}{1} % Adjust this value as needed
         $A = \begin{pmatrix}
-            0 & 1 & 1 & 0 & 0 \\
+            0 & 0 & 1 & 1 & 0 \\
             0 & 0 & 0 & 1 & 1 \\
             1 & 0 & 0 & 0 & 1 \\
             1 & 1 & 0 & 0 & 0 \\
@@ -3690,7 +3690,7 @@ G = (V,E), \quad \text{Subgraph induced by } V' \subseteq V \text{ is } G' = (V'
 
     For multigraphs, the adjacency matrix can be modified to account for multiple edges between vertices. The element at row $i$ and column $j$ indicates the number of edges between vertex $i$ and vertex $j$.
 
-    \item \textbf{Incidence matrix:} A matrix where the rows represent edges and the columns represent vertices. The element at row $i$ and column $j$ indicates whether edge $i$ is incident to vertex $j$. For undirected graphs, the element is 1 if the edge is incident to the vertex, and 0 otherwise. For directed graphs, the element is 1 if the edge is directed towards the vertex, -1 if it is directed away from the vertex, and 0 otherwise.
+    \item \textbf{Incidence matrix:} A matrix where the columns represent edges and the rows represent vertices. The element at row $i$ and column $j$ indicates whether edge $j$ is incident to vertex $i$. For undirected graphs, the element is 1 if the edge is incident to the vertex, and 0 otherwise. For directed graphs, the element is 1 if the edge is directed towards the vertex, -1 if it is directed away from the vertex, and 0 otherwise.
     \begin{figure}[H]
         \centering
         \begin{tikzpicture}
@@ -3880,7 +3880,7 @@ In the above example, by listing the vertices and their neighbors, we can see th
     h & : 3 & \quad & z : 3 \\
 \end{align*}
 
-The degree sequences are different, so the two graphs are not isomorphic. We can also see that the two graphs have cycles of different lengths. The first graph has a cycle of length 4, while the second graph has a cycle of length 3. This is another indication that the two graphs are not isomorphic.
+The degree sequences are different, so the two graphs are not isomorphic. We can also see that the two graphs have cycles of different lengths. 
 
 \subsection{Adjacency matrix and isomorphism}
 Two graphs are isomorphic if their adjacency matrices can be transformed into each other by permuting the rows and columns. This means that the two graphs have the same structure, even if their representations are different.
@@ -3993,7 +3993,7 @@ A path in a graph is a sequence of vertices such that each vertex is connected t
     \label{fig:marked_path}
 \end{figure}
 
-In directed graphs, edges have to be be from beggining to end. 
+In directed graphs, edges have to be traversed from beggining to end. 
 
 \subsection{Connected graphs}
 A graph is connected if there is a path between every pair of vertices. 
@@ -4378,7 +4378,7 @@ A directed graph is strongly connected if for every pair of vertices $a$ and $b$
     \caption{Two directed graphs, the first one is strongly connected and the second one is weakly connected.}
     \label{fig:strongly_connected_graphs}
 \end{figure}
-The first graph is strongly connected, as there is a directed path from every vertex to every other vertex. The second graph is weakly connected, as there is a directed path from $a$ to $b$, but not from $b$ to $a$.
+The first graph is strongly connected, as there is a directed path from every vertex to every other vertex. The second graph is weakly connected, as there is a directed path from $b$ to $a$, but not from $a$ to $b$.
 
 \subsection{Strong Connected Components}
 A strongly connected component of a directed graph is a maximal strongly connected subgraph. In other words, a strongly connected component is a "piece" in which you can break a directed graph. A directed graph can have multiple strongly connected components.
@@ -4643,7 +4643,7 @@ Let $G = (V,E)$ be a simple graph with $|V| \geq 3$. Then, if $\text{deg}(v_i) \
 \subsection{Ore's theorem}
 Let $G = (V,E)$ be a simple graph with $|V| \geq 3$. Then, if $\text{deg}(v_i) + \text{deg}(v_j) \geq n$ for every non-adjacent pair of vertices $v_i, v_j \in V$, then $G$ has a Hamiltonian cycle.
 
-Vertices of degree 2 in a Hamiltonian graph must have their two edges included in the Hamiltonian cycle. This is because if we remove the edge from the Hamiltonian cycle, then we can not return to the starting vertex. This means that if a graph has a Hamiltonian cycle, then it must have at least one vertex of degree 3 or more.
+Vertices of degree 2 in a Hamiltonian graph must have their two edges included in the Hamiltonian cycle. This is because if we remove the edge from the Hamiltonian cycle, then we can not return to the starting vertex. 
 
 \section{Shortest paths}
 \subsection{Dijkstra's algorithm}
@@ -5288,7 +5288,7 @@ The graph is Eulerian because it has 8 vertices and 12 edges. The degree of each
     \label{fig:graph_9_vertices}
 \end{figure}
 
-The graph is Eulerian because it has 9 vertices and 12 edges. The degree of each vertex is even, so we can find an Eulerian cycle. It is not Hamiltonian.
+The graph is not Eulerian because the degree of more than 2 vertices is odd, so we can't find an Eulerian cycle. It is not Hamiltonian.
 
 \subsection*{Example}
 \begin{enumerate} [label=\alph*)]
