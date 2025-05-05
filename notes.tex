@@ -5518,7 +5518,375 @@ How many colors are needed to color the vertices of the following graph?
 \end{figure}
 
 In the end we need 3 colors to color the graph.
-        
+
+\section{Trees}
+A tree is an undirected connected graph with no circuits.
+
+\paragraph{Theorem} 
+A connected, undirected graph is a tree if there is a unique path between any pair of nodes.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (-0.4, 0.3) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (1, -1) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (-1, -1) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0, -2.6) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (2, -2.2) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (3, -1) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (2, 0.7) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (5, -0.5) {};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (9) at (5, -2) {};
+
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (2) -- (4);
+        \draw[-] (4) -- (5);
+        \draw[-] (8) -- (6);
+        \draw[-] (6) -- (7);
+        \draw[-] (8) -- (9);
+        \draw[-] (2) -- (6);
+
+
+        \end{tikzpicture}
+    \caption{A tree.}
+    \label{fig:tree_example}
+\end{figure}
+
+\subsection{Rooted trees}
+A rooted tree is a tree with a distinguished vertex called the root. The vertices of the tree are divided into levels, where the root is at level 0, its children are at level 1, and so on.
+
+The previous tree can be represented as a rooted tree as follows:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {A};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (-1.5, -1) {B};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (1.5, -1) {C};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (-2.5, -2) {D};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (-0.5,-2) {E};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (3,-2) {F};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (1,-3) {G};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (-1,-4) {H};
+
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (1) -- (3);
+        \draw[-] (2) -- (4);
+        \draw[-] (2) -- (5);
+        \draw[-] (3) -- (6);
+        \draw[-] (3) -- (7);
+        \draw[-] (7) -- (8);
+
+    \end{tikzpicture}
+    \caption{A rooted tree.}
+    \label{fig:rooted_tree_example}
+\end{figure}
+
+In this case, the root is vertex A, C is a child of A and a parent of F and G. D and E are siblings. H is a leaf, which means it has no children. The rest of the vertices are internal nodes.
+
+A rooted tree is $m$-ary if each internal node has at most $m$ children. A rooted tree is full $m$-ary if each internal node has exactly $m$ children. A binary tree is a full 2-ary tree.
+
+In ordered rooted trees, the order is given from up to down and left to right. In unordered rooted trees, the order is not important.
+
+\subsection{Properties of trees}
+\paragraph{Theorem}
+A tree with $n$ vertices has $n - 1$ edges.
+\paragraph{Proof}
+We can prove this by induction. For the base case, a tree with 1 vertex has 0 edges. Now, assume that a tree with $k$ vertices has $k - 1$ edges. A tree with $k + 1$ vertices has at least 1 leaf, connected by one edge to the rest of the tree. By removing the leaf, we have a tree with $k$ vertices and $k - 1$ edges. Adding the leaf back gives us $k$ edges. Therefore, a tree with $k + 1$ vertices has $k$ edges.
+
+\paragraph{Theorem}
+A full $m$-ary tree contains $n = mi + 1$ vertices, where $i$ is the number of internal nodes. 
+
+\paragraph{Theorem}
+A full $m$-ary tree with $n$ vertices has $i = \dfrac{n - 1}{m}$ internal nodes and $l = \dfrac{(m - 1)n + 1}{m}$ leaves. If a tree has $i$ internal nodes, it has $l = (m - 1)i + 1$ leaves and if it has $l$ leaves, it has $i = \dfrac{l - 1}{m - 1}$ internal nodes and $n = \dfrac{ml + 1}{m - 1}$ vertices.
+
+\subsubsection{Height}
+The height of a full $m$-ary tree is the length of the longest path from the root to a leaf. The maximum number of leaves in a tree with height $h$ is $m^h$. 
+
+A tree:
+\begin{enumerate}
+  \item is connected
+  \item has no cycles
+  \item has a unique path between any two edges
+  \item has $n - 1$ edges
+\end{enumerate}
+
+To show that a graph is a tree, we only need to prove two of properties 1-3.
+
+\subsection{Spanning trees}
+Given a graph $G = (V, E)$, a spanning tree of $G$ is a subgraph of $G$ that is a tree and contains all vertices.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {1};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {2};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (0, -2) {3};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (2, -2) {4};
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (1) -- (3);
+        \draw[-] (1) -- (4);
+        \draw[-] (2) -- (3);
+        \draw[-] (2) -- (4);
+        \draw[-] (3) -- (4);
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {1};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {2};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (0, -2) {3};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (2, -2) {4};
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (4);
+        \draw[-] (3) -- (4);
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {1};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {2};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (0, -2) {3};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (2, -2) {4};
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (1) -- (3);
+        \draw[-] (1) -- (4);
+    \end{tikzpicture}
+    \caption{Complete graph $K_4$ and its spanning trees.}
+    \label{fig:k4b}
+\end{figure}
+
+\paragraph{Theorem}
+A simple graph is connected if and only if it has a spanning tree. A spanning tree connects all vertices, so there exists a path between any two vertices. Therefore, it is connected. 
+
+In order to find a spanning tree, we first check if it is a tree. If it is, then it is a spanning tree. If it is not, remove an edge and check again. 
+
+\subsection{Depth-first search}
+Consider the following graph:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {$a$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (-1, -1.5) {$b$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (1, -0.5) {$c$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (2, -2) {$d$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (3, -1) {$e$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (4, 0) {$f$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (5, 1) {$g$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (5.5, -1) {$h$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (9) at (6, -0) {$i$};
+
+        \draw[-] (1) -- (2);
+        \draw[-] (1) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (3) -- (5);
+        \draw[-] (3) -- (6);
+        \draw[-] (6) -- (7);
+        \draw[-] (6) -- (8);
+        \draw[-] (8) -- (9);
+        \draw[-] (2) -- (3);
+        \draw[-] (5) -- (6);
+        \draw[-] (7) -- (8);
+        \draw[-] (7) -- (9);
+
+        \end{tikzpicture}
+    \caption{A graph.}
+    \label{fig:graph_example}
+\end{figure}
+We can use depth-first search to find a spanning tree. Starting from vertex $a$, we visit its neighbors in the following order: $b$, $c$, $d$, $e$, $f$, $g$, $h$, and $i$. The resulting spanning tree is shown below:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (-2, 0) {$a$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (-1, -1.5) {$b$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (1, -0.5) {$c$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (2, -2) {$d$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (3, -1) {$e$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (4, 0) {$f$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (5, 1) {$g$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (6.5, 0) {$h$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (9) at (8, -0) {$i$};
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (3) -- (5);
+        \draw[-] (5) -- (6);
+        \draw[-] (6) -- (7);
+        \draw[-] (7) -- (8);
+        \draw[-] (8) -- (9);
+    \end{tikzpicture}
+    \caption{A spanning tree of the graph in Figure~\ref{fig:graph_example}.}
+    \label{fig:spanning_tree_example}
+\end{figure}
+
+\subsection{Breadth-first search}
+Breadth-first search is another algorithm for finding a spanning tree. It starts from a vertex and explores all its neighbors before moving on to the next level of neighbors. The resulting spanning tree is shown below:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (-2, 0) {$a$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (-1, -1.5) {$b$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (1, -0.5) {$c$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (2, -2) {$d$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (3, -1) {$e$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (4, 0) {$f$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (5, 1) {$g$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (6.5, -1) {$h$};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (9) at (6.5, 0.5) {$i$};
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (1) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (3) -- (5);
+        \draw[-] (3) -- (6);
+        \draw[-] (6) -- (7);
+        \draw[-] (7) -- (8);
+        \draw[-] (7) -- (9);
+    \end{tikzpicture}
+    \caption{A spanning tree found using breadth-first search.}
+    \label{fig:bfs_spanning_tree_example}
+\end{figure}
+
+\subsection{Minimum spanning trees}
+For weighted graphs, the minimum spanning tree is the one with the lowest sum of weights.
+
+\subsubsection{Prim algorithm}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (-2, -2) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0, -2) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (2,-2) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (4,-2) {f};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (-2,-4) {g};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (2,-4) {h};
+
+
+        % Edges
+        \draw[-] (1) -- (2) node[pos=0.5, above] {3};
+        \draw[-] (3) -- (7) node[pos=0.5, left] {2};
+        \draw[-] (3) -- (4) node[pos=0.5, below] {2};
+        \draw[-] (4) -- (5) node[pos=0.5, below] {3};
+        \draw[-] (5) -- (6) node[pos=0.5, below] {2};
+        \draw[-] (4) -- (1) node[pos=0.5, left] {4};
+        \draw[-] (2) -- (5) node[pos=0.5, right] {3};
+        \draw[-] (7) -- (5) node[pos=0.5, below] {1};
+        \draw[-] (5) -- (8) node[pos=0.5, left] {2};
+        \draw[-] (8) -- (6) node[pos=0.5, below] {1};
+        \draw[-] (2) -- (4) node[pos=0.5, below] {1};
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (-2, -2) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0, -2) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (2,-2) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (4,-2) {f};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (-2,-4) {g};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (2,-4) {h};
+
+        % Edges
+        \draw[-] (1) -- (2) node[pos=0.5, above] {3};
+        \draw[-] (3) -- (7) node[pos=0.5, left] {2};
+        \draw[-] (5) -- (6) node[pos=0.5, below] {2};
+        \draw[-] (7) -- (5) node[pos=0.5, below] {1};
+        \draw[-] (8) -- (6) node[pos=0.5, below] {1};
+        \draw[-] (2) -- (4) node[pos=0.5, below] {1};
+        \draw[-] (4) -- (3) node[pos=0.5, below] {2};
+    \end{tikzpicture}
+    \caption{A graph with weights on the edges and its minimum spanning graph.}
+    \label{fig:prim_algorithm_example}
+\end{figure}
+
+\begin{enumerate}
+    \item Start with a vertex and add it to the tree.
+    \item Find the edge with the lowest weight that connects a vertex in the tree to a vertex outside the tree.
+    \item Add the edge and the vertex to the tree.
+    \item Repeat until all vertices are included in the tree.
+\end{enumerate}
+
+\subsection{Kruskal algorithm}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (-2, -2) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0, -2) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (2,-2) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (4,-2) {f};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (-2,-4) {g};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (2,-4) {h};
+
+        % Edges
+        \draw[-] (1) -- (2) node[pos=0.5, above] {3};
+        \draw[-] (3) -- (7) node[pos=0.5, left] {2};
+        \draw[-] (3) -- (4) node[pos=0.5, below] {2};
+        \draw[-] (4) -- (5) node[pos=0.5, below] {3};
+        \draw[-] (5) -- (6) node[pos=0.5, below] {2};
+        \draw[-] (4) -- (1) node[pos=0.5, left] {4};
+        \draw[-] (2) -- (5) node[pos=0.5, right] {3};
+        \draw[-] (7) -- (5) node[pos=0.5, below] {1};
+        \draw[-] (5) -- (8) node[pos=0.5, left] {2};
+        \draw[-] (8) -- (6) node[pos=0.5, below] {1};
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (-2, -2) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0, -2) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (2,-2) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (4,-2) {f};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (-2,-4) {g};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (2,-4) {h};
+
+        % Edges
+        \draw[-] (1) -- (2) node[pos=0.5, above] {3};
+        \draw[-] (3) -- (7) node[pos=0.5, left] {2};
+        \draw[-] (5) -- (6) node[pos=0.5, below] {2};
+        \draw[-] (7) -- (5) node[pos=0.5, below] {1};
+        \draw[-] (8) -- (6) node[pos=0.5, below] {1};
+        \draw[-] (2) -- (4) node[pos=0.5, below] {1};
+        \draw[-] (4) -- (3) node[pos=0.5, below] {2};
+    \end{tikzpicture}
+    \caption{A graph with weights on the edges and its minimum spanning graph.}
+    \label{fig:kruskal_algorithm_example}
+\end{figure}
+\begin{enumerate}
+    \item Sort the edges in ascending order of weight.
+    \item Start with an empty tree and add the edges in order, as long as they do not create a cycle.
+    \item Repeat until all vertices are included in the tree.
+\end{enumerate}
+
+
+
+
+
 
 
 \end{document}
