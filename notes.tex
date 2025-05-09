@@ -5883,6 +5883,404 @@ For weighted graphs, the minimum spanning tree is the one with the lowest sum of
     \item Repeat until all vertices are included in the tree.
 \end{enumerate}
 
+\subsection*{Exercise}
+How many vertices does a full 5-ary tree with 100 internal vertices have?
+
+How many leaves does a full 3-ary tree with 100 vertices have?
+
+\[
+n = mi + 1, \quad n_1 = 5 \cdot 100 + 1 = 501
+\]
+
+\[
+l = n - i, \quad i = \frac{n - 1}{m} \implies l = n - \frac{n - 1}{m} = \frac{n(m - 1) + 1}{m}
+\]
+\[
+  l_2 = \frac{100 \cdot 2 + 1}{3} = \frac{201}{3} = 67
+\]
+
+\subsection*{Exercise}
+Each person sends a letter to five people or does not send any letter. Suppose that 10000 people send letters. How many people recieve it and how many do not send it?
+
+We have a fll 5-ary tree:
+\[
+n = 5 \cdot 10000 + 1 \begin{cases}
+50000 & \text{root started the chain} \\
+50001 & \text{root recieved the letter} 
+\end{cases}
+\]
+\[
+l = n - i \implies l = 50000 - 10000 = 40000
+\]
+
+\subsection*{Exercise}
+Show that any tree has chromatic number 2.
+\paragraph{Proof}    
+Any tree can be rooted. Then, nodes at a level are not connected to each other. Therefore, we can color the nodes at even levels with one color and the nodes at odd levels with another color. This way, we can color the tree with 2 colors.
+
+\subsection*{Exercise}
+How many non-isomorphic trees do $K_3$, $K_4$, and $K_5$ have?
+For $K_3$, we have 1 tree:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {1};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {2};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (1,-2) {3};
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (1) -- (3);
+    \end{tikzpicture}
+    \caption{A non-isomorphic tree of $K_3$.}
+    \label{fig:tree_3_vertices}
+\end{figure}
+
+For $K_4$, we have 2 trees:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {1};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (-2, 0) {2};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (1,-1) {3};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (2,-2) {4};
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (1) -- (3);
+        \draw[-] (3) -- (4);
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {1};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {2};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (1,-1) {3};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (2,-2) {4};
+
+        % Edges
+        \draw[-] (1) -- (3);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+    \end{tikzpicture}
+    \caption{Non-isomorphic trees of $K_4$.}
+    \label{fig:tree_4_vertices}
+\end{figure}
+
+For $K_5$, we have 3 trees:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {1};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {2};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (3, -1) {3};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (2.5,-2.5) {4};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (1,-1) {5};
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (2) -- (5);
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {1};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {2};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (1, -1) {3};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (0,-2) {4};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (2,-2) {5};
+
+        % Edges
+        \draw[-] (1) -- (3);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (5);
+        \draw[-] (3) -- (4);
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {1};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (2, 0) {2};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (3, -1) {3};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (2.5,-2.5) {4};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (1,-2) {5};
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (4);
+        \draw[-] (4) -- (5);
+    \end{tikzpicture}
+    \caption{Non-isomorphic trees of $K_5$.}
+    \label{fig:tree_5_vertices}
+\end{figure}
+
+\subsection*{Exercise}
+Find a spanning tree of the following graph using both depth-first search and breadth-first search:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture} [scale=0.7]
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (1, 1) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (3, 1) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (5, 1) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (7, 1) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (9, 1) {f};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (1, -1) {g};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (3, -1) {h};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (9) at (5, -1) {i};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (10) at (7, -1) {j};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (11) at (9, -1) {k};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (12) at (1, -3) {l};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (13) at (3, -3) {m};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (14) at (7, -3) {n};
+
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (4) -- (5);
+        \draw[-] (5) -- (6);
+        \draw[-] (1) -- (7);
+        \draw[-] (7) -- (8);
+        \draw[-] (8) -- (9);
+        \draw[-] (9) -- (10);   
+        \draw[-] (10) -- (11);
+        \draw[-] (7) -- (12);
+        \draw[-] (8) -- (13);
+        \draw[-] (9) -- (14);
+        \draw[-] (2) -- (7);
+        \draw[-] (3) -- (8);
+        \draw[-] (4) -- (9);
+        \draw[-] (5) -- (10);
+        \draw[-] (6) -- (11);
+        \draw[-] (5) -- (9);
+        \draw[-] (13) -- (9);
+        \draw[-] (9) -- (14);
+        \draw[-] (14) -- (10);
+
+        \end{tikzpicture}
+    \caption{A graph.}
+    \label{fig:graph_example_2}
+\end{figure}
+
+Starting from vertex $a$, we can find a spanning tree using depth-first search:
+\[
+a \to b \to c \to h \to m \to i \to d \to e \to j \to k \to f 
+\]
+
+but we are missing $g$, $l$ and $n$. So we can add them to the tree:
+\begin{align*}
+a & \to b & \to c & \to h & \to m & \to i & \to d & \to e & \to j & \to k & \to f \\
+& & & & \searrow  g & & & & \searrow n \\
+& & & & & \searrow l \\
+\end{align*}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture} [scale=0.7]
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (1, 1) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (3, 1) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (5, 1) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (7, 1) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (9, 1) {f};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (1, -1) {g};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (3, -1) {h};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (9) at (5, -1) {i};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (10) at (7,-1) {j};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (11) at (9,-1) {k};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (12) at (1,-3) {l};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (13) at (3,-3) {m};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (14) at (7,-3) {n};
+
+        % Edges
+        \draw[-] (1) -- (2);
+        \draw[-] (2) -- (3);
+        \draw[-] (3) -- (8);
+        \draw[-] (8) -- (7);
+        \draw[-] (7) -- (12);
+        \draw[-] (8) -- (13);
+        \draw[-] (13) -- (9);
+        \draw[-] (9) -- (4);
+        \draw[-] (4) -- (5);
+        \draw[-] (5) -- (10);
+        \draw[-] (10) -- (14);
+        \draw[-] (10) -- (11);
+        \draw[-] (11) -- (6);
+
+        \end{tikzpicture}
+    \caption{A spanning tree of the graph in Figure~\ref{fig:graph_example_2}.}
+    \label{fig:spanning_tree_example_2}
+\end{figure}
+
+Now using breadth-first search, we can find a spanning tree starting from vertex $a$:
+ \begin{figure}[H]
+    \centering
+    \begin{tikzpicture} [scale=0.7]
+        % Nodes
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (1) at (0, 0) {a};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (2) at (1, 1) {b};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (3) at (3, 1) {c};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (4) at (5, 1) {d};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (5) at (7, 1) {e};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (6) at (9, 1) {f};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (7) at (1,-1) {g};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (8) at (3,-1) {h};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (9) at (5,-1) {i};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (10) at (7,-1) {j};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (11) at (9,-1) {k};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (12) at (1,-3) {l};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (13) at (3,-3) {m};
+        \node[circle, draw, fill=gray!20, minimum size=0.6cm] (14) at (
+7,-3) {n};
+    
+            % Edges
+            \draw[-] (1) -- (2);
+            \draw[-] (2) -- (3);
+            \draw[-] (1) -- (7);
+            \draw[-] (7) -- (8);
+            \draw[-] (9) -- (4);
+            \draw[-] (5) -- (9);
+            \draw[-] (7) -- (12);
+            \draw[-] (8) -- (13);
+            \draw[-] (9) -- (14);
+            \draw[-] (8) -- (9);
+            \draw[-] (9) -- (10);
+            \draw[-] (10) -- (11);
+            \draw[-] (5) -- (6);
+
+        \end{tikzpicture}
+    \caption{A spanning tree of the graph in Figure~\ref{fig:graph_example_2}.}
+    \label{fig:spanning_tree_example_2_bfs}
+
+ \end{figure}
+
+\subsection*{Exercise}
+Consider the following graph:
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture} [scale=0.66]
+        % Nodes
+        \foreach \x/\y/\label in {0/0/a, 1/0/b, 2/0/c, 3/0/d,
+                                  0/1/e, 1/1/f, 2/1/g, 3/1/h,
+                                  0/2/i, 1/2/j, 2/2/k, 3/2/l,
+                                  0/3/m, 1/3/n, 2/3/o, 3/3/p} {
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (\x\y) at (2*\x, -2*\y) {\label};
+        }
+
+        % Horizontal edges with weights
+        \foreach \x/\y/\weight in {0/0/1, 1/0/2, 2/0/1, 
+                                   0/1/2, 1/1/3, 2/1/2, 
+                                   0/2/3, 1/2/4, 2/2/3, 
+                                   0/3/2, 1/3/2, 2/3/3} {
+            \pgfmathtruncatemacro{\nextx}{\x+1}
+            \draw[-] (\x\y) -- (\nextx\y) node[midway, above] {\weight};
+        }
+
+        % Vertical edges with weights
+        \foreach \x/\y/\weight in {0/0/1, 0/1/2, 0/2/3, 
+                                   1/0/3, 1/1/3, 1/2/4, 
+                                   2/0/3, 2/1/4, 2/2/3, 
+                                   3/0/1, 3/1/3, 3/2/2} {
+            \pgfmathtruncatemacro{\nexty}{\y+1}
+            \draw[-] (\x\y) -- (\x\nexty) node[midway, left] {\weight};
+        }
+
+        % Diagonal edges with weights
+        \draw [-, in = 135, out = 45] (00) to (30); 
+        \draw [-, in = 135, out = 225] (00) to (03);
+        \draw [-, in = -135, out = -45] (03) to (33);
+        \draw [-, in = 45, out = 315] (30) to (33); 
+        \node at (3, 1) {2};
+        \node at (7, -3) {2};
+        \node at (3, -7) {2};
+        \node at (-1, -3) {2};    
+        
+    \end{tikzpicture}
+    \caption{A graph.}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture} [scale=0.7]
+        % Nodes
+        \foreach \x/\y/\label in {0/0/a, 1/0/b, 2/0/c, 3/0/d,
+                                  0/1/e, 1/1/f, 2/1/g, 3/1/h,
+                                  0/2/i, 1/2/j, 2/2/k, 3/2/l,
+                                  0/3/m, 1/3/n, 2/3/o, 3/3/p} {
+            \node[circle, draw, fill=gray!20, minimum size=0.6cm] (\x\y) at (2*\x, -2*\y) {\label};
+        }
+
+        % Horizontal edges with weights
+        \foreach \x/\y/\weight in {0/0/1, 1/0/2, 2/0/1, 
+                                   0/1/2, 2/1/2, 
+                                   0/2/3, 2/2/3, 
+                                   0/3/2, 1/3/2} {
+            \pgfmathtruncatemacro{\nextx}{\x+1}
+            \draw[-] (\x\y) -- (\nextx\y) node[midway, above] {\weight};
+        }
+
+        % Vertical edges with weights
+        \foreach \x/\y/\weight in {0/0/1, 0/1/2, 
+                                   3/0/1, 3/2/2} {
+            \pgfmathtruncatemacro{\nexty}{\y+1}
+            \draw[-] (\x\y) -- (\x\nexty) node[midway, left] {\weight};
+        }
+
+        % Diagonal edges with weights
+        \draw [-, in = 135, out = 225] (00) to (03);
+        \draw [-, in = -135, out = -45] (03) to (33);
+        \node at (3, 1) {2};
+        \node at (7, -3) {2};
+        \node at (3, -7) {2};
+        \node at (-1, -3) {2};    
+        
+    \end{tikzpicture}
+    \hspace{1cm}
+        \begin{tikzpicture} [scale=0.7]
+            % Nodes
+            \foreach \x/\y/\label in {0/0/a, 1/0/b, 2/0/c, 3/0/d,
+                                      0/1/e, 1/1/f, 2/1/g, 3/1/h,
+                                      0/2/i, 1/2/j, 2/2/k, 3/2/l,
+                                      0/3/m, 1/3/n, 2/3/o, 3/3/p} {
+                \node[circle, draw, fill=gray!20, minimum size=0.6cm] (\x\y) at (2*\x, -2*\y) {\label};
+            }
+    
+            % Horizontal edges with weights
+            \foreach \x/\y/\weight in {0/0/1, 2/0/1, 
+                                       0/1/2, 2/1/2, 
+                                       0/3/2, 1/3/2} {
+                \pgfmathtruncatemacro{\nextx}{\x+1}
+                \draw[-] (\x\y) -- (\nextx\y) node[midway, above] {\weight};
+            }
+    
+            % Vertical edges with weights
+            \foreach \x/\y/\weight in {0/0/1, 0/1/2, 
+                                       1/1/3, 
+                                       2/2/3, 
+                                       3/0/1, 3/2/2} {
+                \pgfmathtruncatemacro{\nexty}{\y+1}
+                \draw[-] (\x\y) -- (\x\nexty) node[midway, left] {\weight};
+            }
+    
+            % Diagonal edges with weights
+            \draw [-, in = 135, out = 45] (00) to (30); 
+            \draw [-, in = 135, out = 225] (00) to (03);
+            \draw [-, in = 45, out = 315] (30) to (33); 
+            \node at (3, 1) {2};
+            \node at (7, -3) {2};
+            \node at (3, -7) {2};
+            \node at (-1, -3) {2};    
+            
+        \end{tikzpicture}
+    \caption{Minimum spanning trees of the graph with total weight 28, using Prim's and Kruskal's algorithms.}
+\end{figure}
 
 
 
